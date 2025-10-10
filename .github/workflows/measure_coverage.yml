@@ -54,25 +54,25 @@ jobs:
              ${{ env.COV_HTML_FILE }}
 
   # ----- PUBLISH FULL CODE COVERAGE REPORT
-#  publish:
-#    needs: [coverage]
-#    strategy:
-#      matrix:
-#        os: [ubuntu-latest]
-#    runs-on: ${{ matrix.os }}
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: Access coverage reports
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: poptus-coverage-results
-#          path: ${{ env.CLONE_PATH }}
-#
-#      - name: Upload coverage report to Codecov
-#        uses: codecov/codecov-action@v4
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
-#          files: |
-#            ${{ env.CLONE_PATH }}/${{ env.COV_XML_FILE }}
-#          fail_ci_if_error: true
+  publish:
+    needs: [coverage]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Access coverage reports
+        uses: actions/download-artifact@v4
+        with:
+          name: poptus-coverage-results
+          path: ${{ env.CLONE_PATH }}
+
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: |
+            ${{ env.CLONE_PATH }}/${{ env.COV_XML_FILE }}
+          fail_ci_if_error: true
