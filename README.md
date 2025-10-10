@@ -1,5 +1,8 @@
 # POptUS
 
+[![Measure Code Coverage](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml)
+[![codecov](https://codecov.io/github/poptus/poptus/graph/badge.svg?token=EP8KBI5O04)](https://codecov.io/github/poptus/poptus)
+
 __PROVIDE POptUS INFORMATION AND LINKS__
 
 All code included in POptUS is open source and copyrighted as described in
