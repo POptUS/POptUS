@@ -1,0 +1,78 @@
+name: Measure Code Coverage
+env:
+  CLONE_PATH:    ${{ github.workspace }}
+  POPTUS_PKG:    ${{ github.workspace }}/poptus_pypkg
+  COV_FILE:      coverage
+  COV_XML_FILE:  cobertura.xml
+  COV_HTML_FILE: htmlcov
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  coverage:
+    strategy:
+      # We only need to measure coverage with a single test setup.  Ideally
+      # this will be the latest version of python supported.
+      matrix:
+        os:             [ubuntu-latest]
+        python-version: ["3.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      # -- General setup
+      - name: Checkout POptUS repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup Python with tox
+        run: $CLONE_PATH/.github/workflows/setup_tox_github_action.sh ${{ runner.os }}
+
+      # -- Let's use some tox tasks!
+      - name: Meaure coverage & generate reports
+        run: |
+          pushd $POPTUS_PKG
+          COVERAGE_FILE=$COV_FILE COVERAGE_XML_FILE=$COV_XML_FILE COVERAGE_HTML_FILE=$COV_HTML_FILE tox -r -e coverage,report
+          mv $COV_FILE $CLONE_PATH
+          mv $COV_XML_FILE $CLONE_PATH
+          mv $COV_HTML_FILE $CLONE_PATH
+          popd
+
+      # -- Publish as artifact for users and subsequent jobs
+      - name: Archive coverage results
+        uses: actions/upload-artifact@v4
+        with:
+          name: poptus-coverage-results
+          path: |
+             ${{ env.COV_FILE }}
+             ${{ env.COV_XML_FILE }}
+             ${{ env.COV_HTML_FILE }}
+
+  # ----- PUBLISH FULL CODE COVERAGE REPORT
+#  publish:
+#    needs: [coverage]
+#    strategy:
+#      matrix:
+#        os: [ubuntu-latest]
+#    runs-on: ${{ matrix.os }}
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Access coverage reports
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: poptus-coverage-results
+#          path: ${{ env.CLONE_PATH }}
+#
+#      - name: Upload coverage report to Codecov
+#        uses: codecov/codecov-action@v4
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          files: |
+#            ${{ env.CLONE_PATH }}/${{ env.COV_XML_FILE }}
+#          fail_ci_if_error: true
