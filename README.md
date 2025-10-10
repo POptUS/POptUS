@@ -1,6 +1,7 @@
 # POptUS
 
 [![Check Standard Adherence](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml)
+
 [![Test POptUS Installation](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml)
 [![Measure Code Coverage](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml)
 [![codecov](https://codecov.io/github/poptus/poptus/graph/badge.svg?token=EP8KBI5O04)](https://codecov.io/github/poptus/poptus)
