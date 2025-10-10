@@ -37,7 +37,7 @@ jobs:
       - name: Meaure coverage & generate reports
         run: |
           pushd $POPTUS_PKG
-          COVERAGE_FILE=$COV_FILE COVERAGE_XML_FILE=$COV_XML_FILE COVERAGE_HTML_FILE=$COV_HTML_FILE tox -r -e coverage,report
+          COVERAGE_FILE=$COV_FILE COVERAGE_XML=$COV_XML_FILE COVERAGE_HTML=$COV_HTML_FILE tox -r -e coverage,report
           mv $COV_FILE $CLONE_PATH
           mv $COV_XML_FILE $CLONE_PATH
           mv $COV_HTML_FILE $CLONE_PATH
