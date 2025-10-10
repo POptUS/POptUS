@@ -1,0 +1,5 @@
+**/__pycache__
+
+poptus_pypkg/.coverage_poptus
+poptus_pypkg/coverage.xml
+poptus_pypkg/src/poptus.egg-info/
