@@ -1,5 +1,7 @@
 # POptUS
 
+__NOTE__: This package is presently in the alpha development phase.  It's contents and its programmatic interface are likely to change.
+
 [![Check Standard Adherence](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml)
 
 [![Test POptUS Installation](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml)
