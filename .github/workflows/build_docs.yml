@@ -1,0 +1,47 @@
+name: Build Guides
+env:
+  CLONE_PATH: ${{ github.workspace }}
+  POPTUS_PKG: ${{ github.workspace }}/bfrescox_pypkg
+  HTML_DOCS:  ${{ github.workspace }}/docs/build_html
+  PDF_DOCS:   ${{ github.workspace }}/docs/build_pdf
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build_sphinx:
+    strategy:
+      matrix:
+        os:             [ubuntu-latest]
+        python-version: ["3.13"]
+    runs-on: ${{ matrix.os }}
+    container:
+      image: texlive/texlive:latest
+    steps:
+    ##-- General Setup Steps
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Setup python with tox
+      run: $CLONE_PATH/.github/workflows/install_tox.sh
+
+    - name: Build sphinx docs
+      run: |
+        pushd $POPTUS_PKG
+        tox -r -e pdf,html
+        popd
+
+    ##-- Make documents available as artifacts
+#    - name: Archive POptUS docs
+#      uses: actions/upload-artifact@v4
+#      with:
+#        name: poptus-sphinx-docs
+#        path: |
+#          ${{ env.HTML_DOCS }}
+#          ${{ env.PDF_DOCS }}
