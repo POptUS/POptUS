@@ -30,11 +30,7 @@ send an email to the POptUS development team at
 
 ## Documentation
 
-__TODO__: Add link to RTD page.
-
-## Citation
-
-__TODO__: It's unlikely that we will ask others to cite the use of this.
+[User and Developer Guides](https://POptUS.readthedocs.io) are hosted on ReadTheDocs.
 
 ## Contributing to POptUS
 
