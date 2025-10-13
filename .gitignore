@@ -5,3 +5,6 @@ poptus_pypkg/build
 poptus_pypkg/.coverage_poptus
 poptus_pypkg/coverage.xml
 poptus_pypkg/src/poptus.egg-info/
+
+docs/build_pdf
+docs/build_html
