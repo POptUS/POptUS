@@ -1,6 +1,5 @@
 name: Test POptUS Installation
 env:
-  CLONE_PATH: ${{ github.workspace }}
   POPTUS_PKG: ${{ github.workspace }}/poptus_pypkg
 on:
   push:
@@ -16,8 +15,8 @@ jobs:
   # This also verifies install/test procedures provided in documentation.
   test_sdist:
     strategy:
-      # python-versions must be maintained consistent with associated setup.py
-      # and tox.ini configuration.
+      # python-versions must be maintained consistent with associated
+      # pyproject.toml and tox.ini configuration.
       matrix:
         os:             [ubuntu-24.04]
         python-version: ["3.9"]

@@ -1,3 +1,7 @@
+# IMPORTANT
+# * Please make sure that all dependence/version changes made here are reflected
+#   in the documentation, GitHub actions, tox.ini, and the like.
+
 [build-system]
 # Minimum setuptools* versions suggested by setuptools-scm v9.2.0 docs
 requires = ["setuptools>=80", "setuptools-scm>=8"]
@@ -49,12 +53,18 @@ Repository    = "https://github.com/POptUS/POptUS"
 Documentation = "http://POptUS.readthedocs.io"
 Issues        = "https://github.com/POptUS/POptUS/issues"
 
+# If the package's distributions should contain data files, then they will be
+# included using the package_data specification scheme.
+#
 # Since we are using setuptools-scm, which likes to add everything to
-# distributions, the actual contents should be confirmed directly and
-# MANIFEST.in might beat out specifications here.
+# distributions, the actual distribution contents should be confirmed directly
+# and MANIFEST.in might beat out specifications here.
 [tool.setuptools]
 include-package-data = false
 
 [tool.setuptools.packages.find]
 where      = ["src"]
 namespaces = true
+
+#[tool.setuptools.package-data]
+#"poptus.PkgData" = ["*.txt"]
