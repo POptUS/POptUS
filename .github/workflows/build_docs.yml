@@ -30,6 +30,8 @@ jobs:
 
     - name: Setup Python with tox
       run: |
+        # As a consequence of using a container, we need to setup Python cleanly
+        # in dedicated venv to avoid breaking default Python installation.
         python -m venv $CLONE_PATH/poptus_venv
         . $CLONE_PATH/poptus_venv/bin/activate
         python -m pip install --upgrade pip
@@ -39,6 +41,9 @@ jobs:
 
     - name: Build sphinx docs
       run: |
+        . $CLONE_PATH/poptus_venv/bin/activate
+        pip list
+        which tox
         cd $POPTUS_PKG
         tox -r -e pdf,html
 
