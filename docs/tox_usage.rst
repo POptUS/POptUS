@@ -57,10 +57,19 @@ folder hierarchy
 
   * Report issues if code does not adhere to project-specific standards.
 
+* ``tox -e html``
+
+  * Generate and render documentation in HTML format
+
+* ``tox -e pdf``
+
+  * Generate and render documentation as a PDF file
+  * This task uses ``make`` and requires a LaTeX installation.
+
 Additionally, you can run any combination of the above such as ``tox -e
 report,coverage``.
 
-Note that each task can be run as `tox -r -e <task>` or `tox -e <task>`.
+Note that each task can be run as ``tox -r -e <task>`` or ``tox -e <task>``.
 Developers are responsible for determining which is correct for their current
 situation.
 
