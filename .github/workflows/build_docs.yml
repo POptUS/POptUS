@@ -2,6 +2,7 @@ name: Build Guides
 env:
   CLONE_PATH: ${{ github.workspace }}
   POPTUS_PKG: ${{ github.workspace }}/poptus_pypkg
+  PY_VENV:    ${{ github.workspace }}/poptus_venv
   HTML_DOCS:  ${{ github.workspace }}/docs/build_html
   PDF_DOCS:   ${{ github.workspace }}/docs/build_pdf
 on:
@@ -32,26 +33,24 @@ jobs:
       run: |
         # As a consequence of using a container, we need to setup Python cleanly
         # in dedicated venv to avoid breaking default Python installation.
-        python -m venv $CLONE_PATH/poptus_venv
-        . $CLONE_PATH/poptus_venv/bin/activate
+        python -m venv $PY_VENV
+        . $PY_VENV/bin/activate
         python -m pip install --upgrade pip
         python -m pip install tox
-        pip list
-        which tox
 
     - name: Build sphinx docs
       run: |
-        . $CLONE_PATH/poptus_venv/bin/activate
+        . $PY_VENV/bin/activate
         pip list
         which tox
         cd $POPTUS_PKG
         tox -r -e pdf,html
 
     ##-- Make documents available as artifacts
-#    - name: Archive POptUS docs
-#      uses: actions/upload-artifact@v4
-#      with:
-#        name: poptus-sphinx-docs
-#        path: |
-#          ${{ env.HTML_DOCS }}
-#          ${{ env.PDF_DOCS }}
+    - name: Archive POptUS docs
+      uses: actions/upload-artifact@v4
+      with:
+        name: poptus-sphinx-docs
+        path: |
+          ${{ env.HTML_DOCS }}
+          ${{ env.PDF_DOCS }}
