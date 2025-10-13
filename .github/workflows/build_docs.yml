@@ -1,7 +1,7 @@
 name: Build Guides
 env:
   CLONE_PATH: ${{ github.workspace }}
-  POPTUS_PKG: ${{ github.workspace }}/bfrescox_pypkg
+  POPTUS_PKG: ${{ github.workspace }}/poptus_pypkg
   HTML_DOCS:  ${{ github.workspace }}/docs/build_html
   PDF_DOCS:   ${{ github.workspace }}/docs/build_pdf
 on:
