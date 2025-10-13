@@ -31,7 +31,6 @@ send an email to the POptUS development team at
 ## Documentation
 
 __TODO__: Add link to RTD page.
-__TODO__: Add link to Jupyter book if we need one.
 
 ## Citation
 
