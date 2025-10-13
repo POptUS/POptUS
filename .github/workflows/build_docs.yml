@@ -29,13 +29,18 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Setup Python with tox
-      run: $CLONE_PATH/.github/workflows/setup_tox_github_action.sh ${{ runner.os }}
+      run: |
+        python -m venv $CLONE_PATH/poptus_venv
+        . $CLONE_PATH/poptus_venv/bin/activate
+        python -m pip install --upgrade pip
+        python -m pip install tox
+        pip list
+        which tox
 
     - name: Build sphinx docs
       run: |
-        pushd $POPTUS_PKG
+        cd $POPTUS_PKG
         tox -r -e pdf,html
-        popd
 
     ##-- Make documents available as artifacts
 #    - name: Archive POptUS docs
