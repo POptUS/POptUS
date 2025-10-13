@@ -34,7 +34,7 @@ __TODO__: Add link to RTD page.
 
 ## Citation
 
-__TODO__: Do we really need to be able to cite the use of this package?
+__TODO__: It's unlikely that we will ask others to cite the use of this.
 
 ## Contributing to POptUS
 
