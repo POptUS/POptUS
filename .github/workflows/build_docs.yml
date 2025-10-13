@@ -3,8 +3,7 @@ env:
   CLONE_PATH: ${{ github.workspace }}
   POPTUS_PKG: ${{ github.workspace }}/poptus_pypkg
   PY_VENV:    ${{ github.workspace }}/poptus_venv
-  HTML_DOCS:  ${{ github.workspace }}/docs/build_html
-  PDF_DOCS:   ${{ github.workspace }}/docs/build_pdf
+  DOCS_PATH:  ${{ github.workspace }}/docs
 on:
   push:
     branches: [main]
@@ -52,5 +51,4 @@ jobs:
       with:
         name: poptus-sphinx-docs
         path: |
-          ${{ env.HTML_DOCS }}
-          ${{ env.PDF_DOCS }}
+          ${{ env.DOCS_PATH }}/build_*
