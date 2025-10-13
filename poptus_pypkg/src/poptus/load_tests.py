@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 def load_tests(loader, *_):
     """
     This function implements the ``load_tests`` protocol of the Python unittest

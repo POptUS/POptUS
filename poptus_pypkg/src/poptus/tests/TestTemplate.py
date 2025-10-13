@@ -13,4 +13,4 @@ class TestTemplate(unittest.TestCase):
         pass
 
     def testNothing(self):
-        self.assertTrue(True)
+        self.assertTrue(False)
