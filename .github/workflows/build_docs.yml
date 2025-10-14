@@ -1,6 +1,5 @@
 name: Build Guides
 env:
-  CLONE_PATH: ${{ github.workspace }}
   POPTUS_PKG: ${{ github.workspace }}/poptus_pypkg
   PY_VENV:    ${{ github.workspace }}/poptus_venv
   DOCS_PATH:  ${{ github.workspace }}/docs
@@ -12,6 +11,10 @@ on:
 
 jobs:
   build_sphinx:
+    # Installing LaTeX with apt can yield wildly different download times.  I
+    # have seen as short as ~1 minute and as long as ~30 minutes.  Use official
+    # docker image in the hopes that there is less variation without wasting too
+    # much time downloading/loading the image.
     strategy:
       matrix:
         os:             [ubuntu-latest]

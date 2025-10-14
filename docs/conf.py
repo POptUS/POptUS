@@ -1,6 +1,4 @@
 # -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-
 import json
 
 from poptus import __version__
@@ -17,8 +15,6 @@ version   = __version__
 release   = version
 
 # -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.autosectionlabel',
               'sphinx.ext.todo']
@@ -34,20 +30,14 @@ for key, value in macro_configs.items():
 # Extensions
 autoclass_content = "init"
 autodoc_member_order = "bysource"
-
 autosectionlabel_prefix_document = True
 
 todo_include_todos = True
 
 # -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-
 html_theme = 'sphinx_rtd_theme'
 
 # -- LaTeX configuration -----------------------------------------------------
-# Some of this configuration is from
-# https://stackoverflow.com/questions/9728292/creating-latex-math-macros-within-sphinx
-
 latex_engine = "pdflatex"
 latex_elements = {
     "papersize": "letterpaper",
