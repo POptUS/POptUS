@@ -32,10 +32,10 @@ send an email to the POptUS development team at
 
 [User and Developer Guides](https://POptUS.readthedocs.io) are hosted on ReadTheDocs.
 
-## Contributing to POptUS
-
-__TODO__: Link to info in Developer Guide
-
 ## Installation & Testing
 
-__TODO__: Refer to info in User Guide
+Refer to [Getting Started](https://poptus.readthedocs.io/en/latest/get_started.html) section of User Guide.
+
+## Contributing to POptUS
+
+Refer to the [Developer Guide](https://poptus.readthedocs.io/en/latest/contributing.html).
