@@ -1,0 +1,8 @@
+# ----- LOGGING INFRASTRUCTURE
+# TODO: Add in sphinx documentation for all these?
+LOG_LEVEL_NONE = 0
+LOG_LEVEL_DEFAULT = 1
+LOG_LEVEL_MIN_DEBUG = 2
+LOG_LEVEL_MAX = 3
+
+LOG_LEVELS = list(range(LOG_LEVEL_NONE, LOG_LEVEL_MAX+1))
