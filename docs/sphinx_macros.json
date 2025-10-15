@@ -1,0 +1,9 @@
+{
+    "ie":     "*i.e.,*",
+    "eg":     "*e.g.,*",
+    "via":    "*via*",
+    "etc":    "*etc.*",
+    "pip":    "``pip``",
+    "tox":    "``tox``",
+    "poptus": "POptUS"
+}

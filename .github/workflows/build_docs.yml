@@ -1,0 +1,57 @@
+name: Build Guides
+env:
+  POPTUS_PKG: ${{ github.workspace }}/poptus_pypkg
+  PY_VENV:    ${{ github.workspace }}/poptus_venv
+  DOCS_PATH:  ${{ github.workspace }}/docs
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build_sphinx:
+    # Installing LaTeX with apt can yield wildly different download times.  I
+    # have seen as short as ~1 minute and as long as ~30 minutes.  Use official
+    # docker image in the hopes that there is less variation without wasting too
+    # much time downloading/loading the image.
+    strategy:
+      matrix:
+        os:             [ubuntu-latest]
+        python-version: ["3.13"]
+    runs-on: ${{ matrix.os }}
+    container:
+      image: texlive/texlive:latest
+    steps:
+    ##-- General Setup Steps
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Setup Python with tox
+      run: |
+        # As a consequence of using a container, we need to setup Python cleanly
+        # in dedicated venv to avoid breaking default Python installation.
+        python -m venv $PY_VENV
+        . $PY_VENV/bin/activate
+        python -m pip install --upgrade pip
+        python -m pip install tox
+
+    - name: Build sphinx docs
+      run: |
+        . $PY_VENV/bin/activate
+        pip list
+        which tox
+        cd $POPTUS_PKG
+        tox -r -e pdf,html
+
+    ##-- Make documents available as artifacts
+    - name: Archive POptUS docs
+      uses: actions/upload-artifact@v4
+      with:
+        name: poptus-sphinx-docs
+        path: |
+          ${{ env.DOCS_PATH }}/build_*

@@ -3,6 +3,7 @@
 __NOTE__: This package is presently in the alpha development phase.  It's contents and its programmatic interface are likely to change.
 
 [![Check Standard Adherence](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml)
+[![Build Guides](https://github.com/POptUS/POptUS/actions/workflows/build_docs.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/build_docs.yml)
 
 [![Test POptUS Installation](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml)
 [![Measure Code Coverage](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml)
@@ -29,12 +30,7 @@ send an email to the POptUS development team at
 
 ## Documentation
 
-__TODO__: Add link to RTD page.
-__TODO__: Add link to Jupyter book if we need one.
-
-## Citation
-
-__TODO__: Do we really need to be able to cite the use of this package?
+[User and Developer Guides](https://POptUS.readthedocs.io) are hosted on ReadTheDocs.
 
 ## Contributing to POptUS
 
