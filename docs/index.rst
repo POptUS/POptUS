@@ -18,6 +18,7 @@ could be used by other Python packages within the |poptus| `universe`_.
    :caption: User Guide:
 
    get_started
+   logging
    api
 
 .. toctree::

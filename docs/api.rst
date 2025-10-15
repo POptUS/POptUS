@@ -6,3 +6,7 @@ Programmatic Interface
 Infrastructure
 --------------
 .. autofunction:: poptus.test
+
+Logging
+-------
+.. autofunction:: poptus.create_logger

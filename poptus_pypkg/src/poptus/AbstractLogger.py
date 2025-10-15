@@ -2,7 +2,10 @@ import abc
 
 from numbers import Integral
 
-from . import LOG_LEVELS
+from ._constants import (
+    LOG_LEVELS,
+    POPTUS_LOG_TAG
+)
 
 
 class AbstractLogger(metaclass=abc.ABCMeta):
@@ -28,7 +31,7 @@ class AbstractLogger(metaclass=abc.ABCMeta):
             # Calling code does not have access to the logger for printing the
             # error message.  Log it on their behalf.
             msg = f"Invalid code generation logging level ({self.__level})"
-            self.error("POptUS", msg)
+            self.error(POPTUS_LOG_TAG, msg)
             raise ValueError(msg)
 
     @property
