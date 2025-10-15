@@ -10,3 +10,4 @@ Infrastructure
 Logging
 -------
 .. autofunction:: poptus.create_logger
+.. autofunction:: poptus.create_log_functions
