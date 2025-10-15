@@ -1,9 +1,10 @@
 from ._constants import (
     LOG_LEVEL_DEFAULT,
-    LOG_LEVEL_KEY, LOG_FILENAME_KEY,
+    LOG_LEVEL_KEY, LOG_FILENAME_KEY, LOG_OVERWRITE_KEY,
     POPTUS_LOG_TAG
 )
 from .StandardLogger import StandardLogger
+from .FileLogger import FileLogger
 
 
 def create_logger(configuration=None):
@@ -36,6 +37,21 @@ def create_logger(configuration=None):
     level = configuration[LOG_LEVEL_KEY]
 
     if LOG_FILENAME_KEY in configuration:
-        raise NotImplementedError("Not done yet")
+        if LOG_OVERWRITE_KEY not in configuration:
+            msg = f"{LOG_OVERWRITE_KEY} logger configuration not provided"
+            logger = StandardLogger()
+            logger.error(POPTUS_LOG_TAG, msg)
+            raise ValueError(msg)
+
+        return FileLogger(
+            level,
+            configuration[LOG_FILENAME_KEY],
+            configuration[LOG_OVERWRITE_KEY]
+        )
+    elif LOG_OVERWRITE_KEY in configuration:
+        msg = f"{LOG_OVERWRITE_KEY} logger configuration not required"
+        logger = StandardLogger()
+        logger.error(POPTUS_LOG_TAG, msg)
+        raise ValueError(msg)
 
     return StandardLogger(level)

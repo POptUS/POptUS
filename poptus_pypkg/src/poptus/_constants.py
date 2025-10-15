@@ -15,3 +15,4 @@ POPTUS_LOG_TAG = "POptUS"
 # Keys associated with logger configuration dict
 LOG_LEVEL_KEY = "Level"
 LOG_FILENAME_KEY = "Filename"
+LOG_OVERWRITE_KEY = "Overwrite"

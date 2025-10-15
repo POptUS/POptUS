@@ -5,6 +5,7 @@ Automatic unittest of the create_logger function
 import io
 import unittest
 
+from pathlib import Path
 from contextlib import redirect_stderr
 
 import poptus
@@ -32,6 +33,23 @@ class TestCreateLogger(unittest.TestCase):
     def testBadConfigurations(self):
         MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
 
+        # Confirm good config values
+        good_filename = Path.cwd().joinpath("test.log")
+
+        good_std_config = {
+            poptus._constants.LOG_LEVEL_KEY: poptus.LOG_LEVEL_DEFAULT
+        }
+        logger = poptus.create_logger(good_std_config)
+        self.assertTrue(isinstance(logger, poptus.StandardLogger))
+
+        good_file_config = {
+            poptus._constants.LOG_LEVEL_KEY: poptus.LOG_LEVEL_DEFAULT,
+            poptus._constants.LOG_FILENAME_KEY: good_filename,
+            poptus._constants.LOG_OVERWRITE_KEY: False
+        }
+        logger = poptus.create_logger(good_file_config)
+        self.assertTrue(isinstance(logger, poptus.FileLogger))
+
         # Suppress but check error messages written to stderr
 
         # No level specification
@@ -45,6 +63,22 @@ class TestCreateLogger(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     poptus.create_logger(config)
             self.assertTrue(buffer.getvalue().startswith(MSG_START))
+
+        # Overwrite for standard logger
+        bad_config = good_std_config.copy()
+        bad_config[poptus._constants.LOG_OVERWRITE_KEY] = True
+        with redirect_stderr(io.StringIO()) as buffer:
+            with self.assertRaises(ValueError):
+                poptus.create_logger(bad_config)
+        self.assertTrue(buffer.getvalue().startswith(MSG_START))
+
+        # Missing overwrite for file logger
+        bad_config = good_file_config.copy()
+        del bad_config[poptus._constants.LOG_OVERWRITE_KEY]
+        with redirect_stderr(io.StringIO()) as buffer:
+            with self.assertRaises(ValueError):
+                poptus.create_logger(bad_config)
+        self.assertTrue(buffer.getvalue().startswith(MSG_START))
 
     def testCreateStandardLogger(self):
         VALID_LEVELS = set(poptus.LOG_LEVELS).difference(
@@ -60,7 +94,7 @@ class TestCreateLogger(unittest.TestCase):
             self.assertEqual(level, logger.level)
 
     def testCreateFileLogger(self):
-        FILENAME = "not_important.log"
+        FILENAME = Path.cwd().joinpath("not_important.log")
         VALID_LEVELS = set(poptus.LOG_LEVELS).difference(
             {poptus.LOG_LEVEL_NONE}
         )
@@ -68,7 +102,10 @@ class TestCreateLogger(unittest.TestCase):
         for level in VALID_LEVELS:
             config = {
                 poptus._constants.LOG_LEVEL_KEY: level,
-                poptus._constants.LOG_FILENAME_KEY: FILENAME
+                poptus._constants.LOG_FILENAME_KEY: FILENAME,
+                poptus._constants.LOG_OVERWRITE_KEY: False
             }
-            with self.assertRaises(NotImplementedError):
-                poptus.create_logger(config)
+            logger = poptus.create_logger(config)
+            self.assertTrue(isinstance(logger, poptus.FileLogger))
+            self.assertEqual(level, logger.level)
+            self.assertEqual(FILENAME, logger.filename)

@@ -67,6 +67,8 @@ class TestCreateLogFunctions(unittest.TestCase):
         self.assertTrue(buffer.getvalue().startswith(MSG_START))
 
     def testStandardLogger(self):
+        # Since each concrete logger class is individually tested, it should be
+        # sufficient to just check the log functions with one type of logger.
         VALID_LEVELS = set(poptus.LOG_LEVELS).difference(
             {poptus.LOG_LEVEL_NONE}
         )

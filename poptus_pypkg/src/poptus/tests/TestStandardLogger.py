@@ -16,21 +16,23 @@ class TestStandardLogger(unittest.TestCase):
     def setUp(self):
         self.__tag = "Unittest"
 
-    def testInstantiationErrors(self):
+    def testBadLevels(self):
+        MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
+
         bad_levels = [
             None, [poptus.LOG_LEVEL_DEFAULT], 1.1,
             float(poptus.LOG_LEVEL_DEFAULT),
             min(poptus.LOG_LEVELS) - 1,
             max(poptus.LOG_LEVELS) + 1
         ]
-        for level in bad_levels:
+        for bad in bad_levels:
             # Confirm that logger is emitting error message to stderr before
             # raising an exception and keep error messages out of test's
             # outputs.
             with redirect_stderr(io.StringIO()) as buffer:
                 with self.assertRaises(ValueError):
-                    poptus.StandardLogger(level)
-                self.assertNotEqual("", buffer.getvalue())
+                    poptus.StandardLogger(bad)
+            self.assertTrue(buffer.getvalue().startswith(MSG_START))
 
     def testLevel(self):
         logger = poptus.StandardLogger()
