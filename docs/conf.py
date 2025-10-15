@@ -12,7 +12,7 @@ copyright = (
 )
 author    = "Jeffrey Larson, Matt Menickelly, Jared O'Neal, and Stefan M. Wild"
 version   = __version__
-release   = version
+release   = versio
 
 # -- General configuration ---------------------------------------------------
 extensions = ['sphinx.ext.autodoc',
