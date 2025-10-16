@@ -3,8 +3,8 @@ Logging
 
 |poptus| logging facilities allow for logging to either
 
-1. standard output/standard error or
-2. to a file.
+* standard output/standard error or
+* to a file.
 
 For the former, all warnings are written to standard output and all errors are
 written to standard error.  Depending on the verbosity level of the logger,
@@ -78,6 +78,22 @@ While some |poptus| methods might require passing a logger object as an
 argument, others might require only a configuration data structure and will
 create a logger object on the user's behalf.
 
+Loggers always include the word "WARNING" at the beginning of all warning
+messages and "ERROR" at the beginning of all errors messages.  Therefore, users
+should be able to quickly and effectively identify (|eg| with ``grep``) all
+warning or error messages in log output such as
+
+.. code:: console
+
+    [Model] Debug information level 4 message
+    [Model] General information message
+    [Method] WARNING - message
+    [Model] Debug information level 2 message
+    [Model] WARNING - message
+    [Method] Debug information level 3 message
+    [Model] ERROR - message
+
+
 Method & Model Developers
 -------------------------
 .. _`xSDK requirement`: https://xsdk.info/policies
@@ -86,10 +102,16 @@ The |poptus| logging facilities have been designed so that methods that restrict
 all logging activities to using these facilities will satisy a mandatory `xSDK
 requirement`_.  Therefore, all |poptus| methods should use these logging
 facilities so that |poptus| can qualify for inclusion in the xSDK community.
-This requirement has the additional side effect of providing for users a common
-interface for configuration logging and a common look/feel in logged results.
-Importantly, it should also simplify and aid |poptus| development and
-maintenance.
+This requirement has the side effect of providing for users a common look & feel
+in terms of logging configuration and use.  Importantly, it should also simplify
+and aid |poptus| development and maintenance.
+
+Since |poptus| loggers automatically include the word "WARNING" in all warning
+outputs and "ERROR" in all error outputs, there is no need for developers to
+include either of these words or anything similar in their warning and error
+messages.  It's important that all log and debug messages be chosen to allow for
+users to filter out all warning or error messages correctly without
+accidentally including general or debug messages in their filtered output.
 
 .. todo::
 

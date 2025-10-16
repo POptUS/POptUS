@@ -28,3 +28,4 @@ could be used by other Python packages within the |poptus| `universe`_.
 
    contributing
    tox_usage
+   advanced_api
