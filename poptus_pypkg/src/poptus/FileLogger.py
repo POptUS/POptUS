@@ -1,3 +1,4 @@
+import os
 import sys
 
 from pathlib import Path
@@ -53,6 +54,7 @@ class FileLogger(AbstractLogger):
                 log_and_abort(RuntimeError, msg)
             else:
                 warn(f"Overwriting {self.__filename}")
+                os.remove(self.__filename)
 
         # Base class might need to call the concrete logger's error function to
         # report errors.  Therefore, setup logger as much as possible first.

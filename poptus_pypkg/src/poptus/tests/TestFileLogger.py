@@ -131,7 +131,7 @@ class TestFileLogger(unittest.TestCase):
             self.assertTrue(buffer.getvalue().startswith(MSG_START))
 
     def testOverwrite(self):
-        WARN_START = f"[{poptus._constants.POPTUS_LOG_TAG}] WARN"
+        WARN_START = f"[{poptus._constants.POPTUS_LOG_TAG}] WARNING"
         ERROR_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
 
         # Create the log file & check that we can't overwrite
@@ -140,8 +140,12 @@ class TestFileLogger(unittest.TestCase):
             logger = poptus.FileLogger(poptus.LOG_LEVEL_DEFAULT,
                                        self.__fname, False)
         self.assertEqual("", buffer.getvalue())
-        logger.warn(self.__tag, "That was strange...")
+        msg = "That was strange..."
+        logger.warn(self.__tag, msg)
         self.assertTrue(self.__fname.exists())
+        lines = self._load_log()
+        self.assertEqual(1, len(lines))
+        self.assertEqual(f"[{self.__tag}] WARNING - {msg}\n", lines[0])
 
         with redirect_stderr(io.StringIO()) as buffer:
             with self.assertRaises(RuntimeError):
@@ -150,10 +154,18 @@ class TestFileLogger(unittest.TestCase):
         self.assertTrue(buffer.getvalue().startswith(ERROR_START))
 
         # Warning on overwrite
+        self.assertTrue(self.__fname.exists())
         with redirect_stdout(io.StringIO()) as buffer:
             logger = poptus.FileLogger(poptus.LOG_LEVEL_DEFAULT,
                                        self.__fname, True)
         self.assertTrue(buffer.getvalue().startswith(WARN_START))
+        # Ensure that the file was really overwritten
+        msg += " again?!"
+        logger.warn(self.__tag, msg)
+        self.assertTrue(self.__fname.exists())
+        lines = self._load_log()
+        self.assertEqual(1, len(lines))
+        self.assertEqual(f"[{self.__tag}] WARNING - {msg}\n", lines[0])
 
         # Cannot overwrite folders
         self.assertTrue(self.__dir.is_dir())
