@@ -9,28 +9,24 @@ from .FileLogger import FileLogger
 
 def create_logger(configuration=None):
     """
-    .. todo::
-
-        * Add a section to general docs about using loggers so that users can
-          refer to those docs to determine how to configure their logger?
+    Please refer to the general logging documentation in the User Guide for
+    information on configuring |poptus| loggers.
 
     :param configuration: ``None`` or the full logger configuration specified as
         a ``dict``.
     :return: If ``configuration`` is ``None``, then a :py:class:`StandardLogger`
-        logger with the ``LOG_LEVEL_DEFAULT`` level is returned.  Otherwise, a
-        logger built with the provided configurations is returned.
+        logger with the ``LOG_LEVEL_DEFAULT`` verbosity level is returned.
+        Otherwise, a logger built with the provided configuration is returned.
     """
     if configuration is None:
         return StandardLogger(LOG_LEVEL_DEFAULT)
     elif not isinstance(configuration, dict):
         msg = "Given logger configuration is not a dict"
-        logger = StandardLogger()
-        logger.error(POPTUS_LOG_TAG, msg)
+        StandardLogger().error(POPTUS_LOG_TAG, msg)
         raise TypeError(msg)
     elif LOG_LEVEL_KEY not in configuration:
         msg = f"{LOG_LEVEL_KEY} logger configuration not provided"
-        logger = StandardLogger()
-        logger.error(POPTUS_LOG_TAG, msg)
+        StandardLogger().error(POPTUS_LOG_TAG, msg)
         raise ValueError(msg)
 
     # Assume that logger classes are error checking their arguments
@@ -39,8 +35,7 @@ def create_logger(configuration=None):
     if LOG_FILENAME_KEY in configuration:
         if LOG_OVERWRITE_KEY not in configuration:
             msg = f"{LOG_OVERWRITE_KEY} logger configuration not provided"
-            logger = StandardLogger()
-            logger.error(POPTUS_LOG_TAG, msg)
+            StandardLogger().error(POPTUS_LOG_TAG, msg)
             raise ValueError(msg)
 
         return FileLogger(
@@ -50,8 +45,7 @@ def create_logger(configuration=None):
         )
     elif LOG_OVERWRITE_KEY in configuration:
         msg = f"{LOG_OVERWRITE_KEY} logger configuration not required"
-        logger = StandardLogger()
-        logger.error(POPTUS_LOG_TAG, msg)
+        StandardLogger().error(POPTUS_LOG_TAG, msg)
         raise ValueError(msg)
 
     return StandardLogger(level)

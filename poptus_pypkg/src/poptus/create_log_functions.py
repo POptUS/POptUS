@@ -42,7 +42,7 @@ def create_log_functions(logger, caller):
     :param logger: Concrete logger object derived from
         :py:class:`AbstractLogger` to be used for logging
     :param caller: Name of element performing the logging.  Depending on the
-        logger, this name could appear on each log entry to identify the source
+        logger, this name could appear in each log entry to identify the source
         of the message
     :return: (log, log_debug, warn, log_and_abort) logging functions where
 
@@ -57,18 +57,15 @@ def create_log_functions(logger, caller):
     """
     if not isinstance(logger, AbstractLogger):
         msg = "Invalid logger type"
-        logger = StandardLogger()
-        logger.error(POPTUS_LOG_TAG, msg)
+        StandardLogger().error(POPTUS_LOG_TAG, msg)
         raise TypeError(msg)
     elif not isinstance(caller, str):
         msg = f"Given logger caller is not a string ({caller})"
-        logger = StandardLogger()
-        logger.error(POPTUS_LOG_TAG, msg)
+        StandardLogger().error(POPTUS_LOG_TAG, msg)
         raise TypeError(msg)
     elif caller == "":
-        msg = "Logger caller is an empty string"
-        logger = StandardLogger()
-        logger.error(POPTUS_LOG_TAG, msg)
+        msg = "Given logger caller is an empty string"
+        StandardLogger().error(POPTUS_LOG_TAG, msg)
         raise ValueError(msg)
 
     log_fcn = functools.partial(_log, logger=logger, caller=caller)
