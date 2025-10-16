@@ -86,8 +86,10 @@ class TestCreateLogFunctions(unittest.TestCase):
         self.assertTrue(callable(log_and_abort))
         with self.assertRaises(AssertionError):
             log_debug(self.__log_msg, -1)
-        with self.assertRaises(ValueError):
-            log_debug(self.__log_msg, MAX_DEBUG_LEVEL + 1)
+        with redirect_stderr(io.StringIO()) as buffer:
+            with self.assertRaises(ValueError):
+                log_debug(self.__log_msg, MAX_DEBUG_LEVEL + 1)
+        self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
         # General info
         with redirect_stdout(io.StringIO()) as buffer:
@@ -109,7 +111,7 @@ class TestCreateLogFunctions(unittest.TestCase):
         with redirect_stderr(io.StringIO()) as buffer:
             with self.assertRaises(ValueError):
                 log_and_abort(ValueError, self.__err_msg)
-            self.assertEqual(EXPECTED_ERROR, buffer.getvalue())
+        self.assertEqual(EXPECTED_ERROR, buffer.getvalue())
 
         # Check for some logging
         for level in VALID_LEVELS:
@@ -123,8 +125,10 @@ class TestCreateLogFunctions(unittest.TestCase):
             self.assertTrue(callable(log_and_abort))
             with self.assertRaises(AssertionError):
                 log_debug(self.__log_msg, -1)
-            with self.assertRaises(ValueError):
-                log_debug(self.__log_msg, MAX_DEBUG_LEVEL + 1)
+            with redirect_stderr(io.StringIO()) as buffer:
+                with self.assertRaises(ValueError):
+                    log_debug(self.__log_msg, MAX_DEBUG_LEVEL + 1)
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
             # General info - always logged
             with redirect_stdout(io.StringIO()) as buffer:

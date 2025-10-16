@@ -47,8 +47,10 @@ class TestStandardLogger(unittest.TestCase):
 
         # No point in logging with no logging level
         logger = poptus.StandardLogger()
-        with self.assertRaises(ValueError):
-            logger.log(self.__tag, MSG, poptus.LOG_LEVEL_NONE)
+        with redirect_stderr(io.StringIO()) as buffer:
+            with self.assertRaises(ValueError):
+                logger.log(self.__tag, MSG, poptus.LOG_LEVEL_NONE)
+        self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testLog(self):
         MSG = "I have something rather important to say"
