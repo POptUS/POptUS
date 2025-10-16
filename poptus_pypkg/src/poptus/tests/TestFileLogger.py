@@ -63,12 +63,9 @@ class TestFileLogger(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     poptus.FileLogger(bad, good_filename, good_overwrite)
             self.assertTrue(buffer.getvalue().startswith(MSG_START))
-            self.assertTrue(good_filename.exists())
-
-            # Confirm error message also written to file
-            lines = self._load_log()
-            self.assertEqual(1, len(lines))
-            self.assertTrue(lines[0].startswith(MSG_START))
+            # Error message not written to file because a bad level prevents the
+            # creation of the file logger.
+            self.assertFalse(good_filename.exists())
 
     def testBadFilename(self):
         MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
