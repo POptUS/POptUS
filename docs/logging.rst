@@ -28,7 +28,7 @@ Valid logging levels correspond to logging
 * ``1`` - general information, warnings, and errors
 * ``2`` - general information, minimal debug information, warnings, and errors
 
-Larger levels up to ``4`` more be specified with more debug information being
+Larger levels up to ``4`` may be specified with more debug information being
 logged as the level increases.
 
 When logging to file, all warnings and errors are written to file regardless of
@@ -54,9 +54,9 @@ overwrite if necessary.  The ``Level`` specification is the same as for standard
 output/error logging.
 
 It's possible that an application that uses |poptus| methods might use multiple
-|poptus| loggers, each of which would require separate configurations.  For
-example, an application might require one logger for logging method information
-and a separate logger for logging a model's information.  The code
+|poptus| loggers, each of which might benefit from a separate configuration.
+For example, an application might require one logger for logging method
+information and a separate logger for logging a model's information.  The code
 
 .. code:: python
 
@@ -64,7 +64,7 @@ and a separate logger for logging a model's information.  The code
 
     method_cfg = {
         "Level": 3,
-        "Filename": "method.log",
+        "Filename": "/path/to/method.log",
         "Overwrite": True
     }
     model_logger = poptus.create_logger({"Level": 1})

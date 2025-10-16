@@ -14,9 +14,10 @@ def create_logger(configuration=None):
 
     :param configuration: ``None`` or the full logger configuration specified as
         a ``dict``.
-    :return: If ``configuration`` is ``None``, then a :py:class:`StandardLogger`
-        logger with the ``LOG_LEVEL_DEFAULT`` verbosity level is returned.
-        Otherwise, a logger built with the provided configuration is returned.
+    :return: If ``configuration`` is ``None``, then a standard ouput/standard
+        error logger with the ``LOG_LEVEL_DEFAULT`` verbosity level is
+        returned.  Otherwise, a logger built with the provided configuration is
+        returned.
     """
     if configuration is None:
         return StandardLogger(LOG_LEVEL_DEFAULT)

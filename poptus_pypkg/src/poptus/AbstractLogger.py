@@ -48,7 +48,7 @@ class AbstractLogger(metaclass=abc.ABCMeta):
         indication that the message indicates a warning or an error.
 
         It is a logical error for the given message level to be
-        ``LOG_LEVELS_NONE``.  Concrete loggers derived from this class are
+        ``LOG_LEVEL_NONE``.  Concrete loggers derived from this class are
         responsible for enforcing this.
 
         :param caller: Name of calling code so that concrete logger can include

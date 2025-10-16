@@ -40,7 +40,8 @@ def create_log_functions(logger, caller):
     information, debug information, warnings, and errors.
 
     :param logger: Concrete logger object derived from
-        :py:class:`AbstractLogger` to be used for logging
+        :py:class:`AbstractLogger` to be used for logging.  Typically this will
+        be created with :py:func:`create_logger`.
     :param caller: Name of element performing the logging.  Depending on the
         logger, this name could appear in each log entry to identify the source
         of the message
