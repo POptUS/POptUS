@@ -15,9 +15,9 @@ import poptus
 class TestStandardLogger(unittest.TestCase):
     def setUp(self):
         self.__tag = "Unittest"
+        self.__error_start = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
 
     def testBadLevels(self):
-        MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
 
         bad_levels = [
             None, [poptus.LOG_LEVEL_DEFAULT], 1.1,
@@ -32,7 +32,7 @@ class TestStandardLogger(unittest.TestCase):
             with redirect_stderr(io.StringIO()) as buffer:
                 with self.assertRaises(ValueError):
                     poptus.StandardLogger(bad)
-            self.assertTrue(buffer.getvalue().startswith(MSG_START))
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testLevel(self):
         logger = poptus.StandardLogger()

@@ -15,13 +15,12 @@ import poptus
 class TestCreateLogFunctions(unittest.TestCase):
     def setUp(self):
         self.__tag = "Unittest"
+        self.__error_start = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
         self.__log_msg = "I have something rather important to say"
         self.__warn_msg = "Tread lightly.  For all is not as expected."
         self.__err_msg = "Goodness gracious!  What have you done?"
 
     def testBadLogger(self):
-        MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
-
         # Confirm good arguments
         good_tag = self.__tag
         poptus.create_log_functions(poptus.StandardLogger(), good_tag)
@@ -38,11 +37,9 @@ class TestCreateLogFunctions(unittest.TestCase):
             with redirect_stderr(io.StringIO()) as buffer:
                 with self.assertRaises(TypeError):
                     poptus.create_log_functions(bad, good_tag)
-            self.assertTrue(buffer.getvalue().startswith(MSG_START))
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testBadCaller(self):
-        MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
-
         good_logger = poptus.StandardLogger()
 
         # Confirm good arguments
@@ -59,12 +56,12 @@ class TestCreateLogFunctions(unittest.TestCase):
             with redirect_stderr(io.StringIO()) as buffer:
                 with self.assertRaises(TypeError):
                     poptus.create_log_functions(good_logger, bad)
-            self.assertTrue(buffer.getvalue().startswith(MSG_START))
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
         with redirect_stderr(io.StringIO()) as buffer:
             with self.assertRaises(ValueError):
                 poptus.create_log_functions(good_logger, "")
-        self.assertTrue(buffer.getvalue().startswith(MSG_START))
+        self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testStandardLogger(self):
         # Since each concrete logger class is individually tested, it should be

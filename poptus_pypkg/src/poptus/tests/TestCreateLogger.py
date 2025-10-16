@@ -12,14 +12,15 @@ import poptus
 
 
 class TestCreateLogger(unittest.TestCase):
+    def setUp(self):
+        self.__error_start = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
+
     def testCreateDefault(self):
         logger = poptus.create_logger()
         self.assertTrue(isinstance(logger, poptus.StandardLogger))
         self.assertEqual(poptus.LOG_LEVEL_DEFAULT, logger.level)
 
     def testBadConfigurationType(self):
-        MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
-
         # Suppress but check error messages written to stderr
         bad_configs = [
             1, 1.1, [], [1.1], set(), {1.1}
@@ -28,11 +29,9 @@ class TestCreateLogger(unittest.TestCase):
             with redirect_stderr(io.StringIO()) as buffer:
                 with self.assertRaises(TypeError):
                     poptus.create_logger(config)
-            self.assertTrue(buffer.getvalue().startswith(MSG_START))
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testBadConfigurations(self):
-        MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
-
         # Confirm good config values
         good_filename = Path.cwd().joinpath("test.log")
 
@@ -62,7 +61,7 @@ class TestCreateLogger(unittest.TestCase):
             with redirect_stderr(io.StringIO()) as buffer:
                 with self.assertRaises(ValueError):
                     poptus.create_logger(config)
-            self.assertTrue(buffer.getvalue().startswith(MSG_START))
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
         # Overwrite for standard logger
         bad_config = good_std_config.copy()
@@ -70,7 +69,7 @@ class TestCreateLogger(unittest.TestCase):
         with redirect_stderr(io.StringIO()) as buffer:
             with self.assertRaises(ValueError):
                 poptus.create_logger(bad_config)
-        self.assertTrue(buffer.getvalue().startswith(MSG_START))
+        self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
         # Missing overwrite for file logger
         bad_config = good_file_config.copy()
@@ -78,7 +77,7 @@ class TestCreateLogger(unittest.TestCase):
         with redirect_stderr(io.StringIO()) as buffer:
             with self.assertRaises(ValueError):
                 poptus.create_logger(bad_config)
-        self.assertTrue(buffer.getvalue().startswith(MSG_START))
+        self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testCreateStandardLogger(self):
         VALID_LEVELS = set(poptus.LOG_LEVELS).difference(

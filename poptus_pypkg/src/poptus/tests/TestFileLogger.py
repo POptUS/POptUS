@@ -18,6 +18,8 @@ import poptus
 class TestFileLogger(unittest.TestCase):
     def setUp(self):
         self.__tag = "Unittest"
+        self.__warn_start = f"[{poptus._constants.POPTUS_LOG_TAG}] WARNING"
+        self.__error_start = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
 
         self.__dir = Path.cwd().joinpath("delete_me")
         if self.__dir.exists():
@@ -37,8 +39,6 @@ class TestFileLogger(unittest.TestCase):
         return lines
 
     def testBadLevel(self):
-        MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
-
         # Confirm good values
         good_filename = self.__fname
         good_level = poptus.LOG_LEVEL_DEFAULT
@@ -62,14 +62,12 @@ class TestFileLogger(unittest.TestCase):
             with redirect_stderr(io.StringIO()) as buffer:
                 with self.assertRaises(ValueError):
                     poptus.FileLogger(bad, good_filename, good_overwrite)
-            self.assertTrue(buffer.getvalue().startswith(MSG_START))
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
             # Error message not written to file because a bad level prevents the
             # creation of the file logger.
             self.assertFalse(good_filename.exists())
 
     def testBadFilename(self):
-        MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
-
         # Confirm good values
         good_filename = self.__fname
         good_level = poptus.LOG_LEVEL_DEFAULT
@@ -92,16 +90,14 @@ class TestFileLogger(unittest.TestCase):
             with redirect_stderr(io.StringIO()) as buffer:
                 with self.assertRaises(TypeError):
                     poptus.FileLogger(good_level, bad, good_overwrite)
-            self.assertTrue(buffer.getvalue().startswith(MSG_START))
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
         with redirect_stderr(io.StringIO()) as buffer:
             with self.assertRaises(ValueError):
                 poptus.FileLogger(good_level, "", good_overwrite)
-        self.assertTrue(buffer.getvalue().startswith(MSG_START))
+        self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testBadOverwrite(self):
-        MSG_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
-
         # Confirm good values
         good_filename = self.__fname
         good_level = poptus.LOG_LEVEL_DEFAULT
@@ -125,12 +121,9 @@ class TestFileLogger(unittest.TestCase):
             with redirect_stderr(io.StringIO()) as buffer:
                 with self.assertRaises(TypeError):
                     poptus.FileLogger(good_level, good_filename, bad)
-            self.assertTrue(buffer.getvalue().startswith(MSG_START))
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testOverwrite(self):
-        WARN_START = f"[{poptus._constants.POPTUS_LOG_TAG}] WARNING"
-        ERROR_START = f"[{poptus._constants.POPTUS_LOG_TAG}] ERROR"
-
         # Create the log file & check that we can't overwrite
         self.assertFalse(self.__fname.exists())
         with redirect_stdout(io.StringIO()) as buffer:
@@ -148,14 +141,14 @@ class TestFileLogger(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 logger = poptus.FileLogger(poptus.LOG_LEVEL_DEFAULT,
                                            self.__fname, False)
-        self.assertTrue(buffer.getvalue().startswith(ERROR_START))
+        self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
         # Warning on overwrite
         self.assertTrue(self.__fname.exists())
         with redirect_stdout(io.StringIO()) as buffer:
             logger = poptus.FileLogger(poptus.LOG_LEVEL_DEFAULT,
                                        self.__fname, True)
-        self.assertTrue(buffer.getvalue().startswith(WARN_START))
+        self.assertTrue(buffer.getvalue().startswith(self.__warn_start))
         # Ensure that the file was really overwritten
         msg += " again?!"
         logger.warn(self.__tag, msg)
@@ -170,7 +163,7 @@ class TestFileLogger(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 logger = poptus.FileLogger(poptus.LOG_LEVEL_DEFAULT,
                                            self.__dir, True)
-        self.assertTrue(buffer.getvalue().startswith(ERROR_START))
+        self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testLevel(self):
         for level in poptus.LOG_LEVELS:
@@ -268,7 +261,7 @@ class TestFileLogger(unittest.TestCase):
             self.assertEqual(EXPECTED, lines[0])
 
     def testMixture(self):
-        MSG_START = f"[{self.__tag}] ERROR"
+        ERROR_START = f"[{self.__tag}] ERROR"
         DEBUG_LEVELS = range(poptus.LOG_LEVEL_MIN_DEBUG, poptus.LOG_LEVEL_MAX+1)
 
         # Sanity check that file isn't being recreated with each log action
@@ -297,7 +290,7 @@ class TestFileLogger(unittest.TestCase):
         logger.warn(self.__tag, "Warning 2")
         with redirect_stderr(io.StringIO()) as buffer:
             logger.error(self.__tag, "Error")
-        self.assertTrue(buffer.getvalue().startswith(MSG_START))
+        self.assertTrue(buffer.getvalue().startswith(ERROR_START))
         self.assertTrue(self.__fname.exists())
 
         self.assertEqual(expected, self._load_log())
