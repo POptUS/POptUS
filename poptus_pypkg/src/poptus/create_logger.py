@@ -19,6 +19,13 @@ def create_logger(configuration=None):
         returned.  Otherwise, a logger built with the provided configuration is
         returned.
     """
+    STD_CFG_KEYS = {LOG_LEVEL_KEY}
+    FILE_CFG_KEYS = {
+        LOG_LEVEL_KEY,
+        LOG_FILENAME_KEY,
+        LOG_OVERWRITE_KEY
+    }
+
     if configuration is None:
         return StandardLogger(LOG_LEVEL_DEFAULT)
     elif not isinstance(configuration, dict):
@@ -38,14 +45,20 @@ def create_logger(configuration=None):
             msg = f"{LOG_OVERWRITE_KEY} logger configuration not provided"
             StandardLogger().error(POPTUS_LOG_TAG, msg)
             raise ValueError(msg)
+        elif set(configuration) != FILE_CFG_KEYS:
+            msg = "Extra logger configuration values for file logger ({})"
+            msg = msg.format(set(configuration).difference(FILE_CFG_KEYS))
+            StandardLogger().error(POPTUS_LOG_TAG, msg)
+            raise ValueError(msg)
 
         return FileLogger(
             level,
             configuration[LOG_FILENAME_KEY],
             configuration[LOG_OVERWRITE_KEY]
         )
-    elif LOG_OVERWRITE_KEY in configuration:
-        msg = f"{LOG_OVERWRITE_KEY} logger configuration not required"
+    elif set(configuration) != STD_CFG_KEYS:
+        msg = "Extra logger configuration values for std out/err logger ({})"
+        msg = msg.format(set(configuration).difference(STD_CFG_KEYS))
         StandardLogger().error(POPTUS_LOG_TAG, msg)
         raise ValueError(msg)
 
