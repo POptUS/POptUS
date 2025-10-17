@@ -1,6 +1,7 @@
 |poptus| Python package
 =======================
 .. _universe: https://github.com/POptUS
+.. _`Jupyter book`: https://poptus.github.io/POptUS
 
 |poptus| is a Python package that provides infrastructure and common code that
 could be used by other Python packages within the |poptus| `universe`_.
@@ -29,3 +30,6 @@ could be used by other Python packages within the |poptus| `universe`_.
    contributing
    tox_usage
    advanced_api
+
+Readers interested in studying examples should refer to the |poptus|
+`Jupyter book`_.
