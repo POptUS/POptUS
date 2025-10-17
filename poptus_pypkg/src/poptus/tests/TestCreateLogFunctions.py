@@ -117,11 +117,8 @@ class TestCreateLogFunctions(unittest.TestCase):
             self.assertTrue(callable(log_debug))
             with self.assertRaises(AssertionError):
                 log_debug(MSG, -1)
-            with redirect_stderr(io.StringIO()) as buffer:
-                with self.assertRaises(ValueError):
-                    log_debug(MSG, MAX_DEBUG_LEVEL + 1)
-            # print(level, buffer.getvalue())
-            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
+            with self.assertRaises(AssertionError):
+                log_debug(MSG, MAX_DEBUG_LEVEL + 1)
 
             for msg_level in DEBUG_LEVELS:
                 with redirect_stdout(io.StringIO()) as buffer:
@@ -136,11 +133,8 @@ class TestCreateLogFunctions(unittest.TestCase):
             self.assertTrue(callable(log_debug))
             with self.assertRaises(AssertionError):
                 log_debug(MSG, -1)
-            with redirect_stderr(io.StringIO()) as buffer:
-                with self.assertRaises(ValueError):
-                    log_debug(MSG, MAX_DEBUG_LEVEL + 1)
-            # print(level, buffer.getvalue())
-            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
+            with self.assertRaises(AssertionError):
+                log_debug(MSG, MAX_DEBUG_LEVEL + 1)
 
             to_stdout = [e for e in DEBUG_LEVELS if e <= level]
             for msg_level in to_stdout:

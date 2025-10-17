@@ -1,10 +1,7 @@
 import sys
 
-from numbers import Integral
-
 from ._constants import (
-    LOG_LEVELS, LOG_LEVEL_NONE, LOG_LEVEL_DEFAULT,
-    POPTUS_LOG_TAG
+    LOG_LEVELS, LOG_LEVEL_NONE, LOG_LEVEL_DEFAULT
 )
 from .AbstractLogger import AbstractLogger
 
@@ -35,10 +32,11 @@ class StandardLogger(AbstractLogger):
         :param msg: Message to potentially log
         :param level: Message's log level
         """
-        if (not isinstance(level, Integral)) or (level not in self.__valid):
-            msg = f"Invalid message log level ({level})"
-            self.error(POPTUS_LOG_TAG, msg)
-            raise ValueError(msg)
+        # Since the use of these functions is setup by developers rather than
+        # users, we can keep the error checking minimal and light.  If
+        # developers use a bad level, they should find out immediately and
+        # easily.
+        assert level in self.__valid
 
         if self.level >= level:
             sys.stdout.write(f"[{caller}] {msg}\n")
