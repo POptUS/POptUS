@@ -1,0 +1,13 @@
+format : jb-book
+root   : intro
+options:
+  numbered : true
+parts:
+  - caption: User Examples
+    numbered: 2
+    chapters:
+    - file: notebooks/SimpleUserExample.ipynb
+  - caption: Developer Examples
+    numbered: 2
+    chapters:
+    - file: notebooks/FullDevExample.ipynb
