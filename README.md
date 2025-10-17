@@ -34,6 +34,13 @@ send an email to the POptUS development team at
 
 [User and Developer Guides](https://POptUS.readthedocs.io) are hosted on ReadTheDocs.
 
+Examples for
+
+* configuring and using POptUS infrastructure in applications as a user as well as for
+* integrating and using POptUS infrastructure in methods, models, & tools as a developer
+
+are available in the POptUS [Jupyter book](https://poptus.github.io/POptUS).
+
 ## Installation & Testing
 
 Refer to [Getting Started](https://poptus.readthedocs.io/en/latest/get_started.html) section of User Guide.
