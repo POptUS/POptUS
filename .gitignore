@@ -8,3 +8,5 @@ poptus_pypkg/src/poptus.egg-info/
 
 docs/build_pdf
 docs/build_html
+
+book/_build
