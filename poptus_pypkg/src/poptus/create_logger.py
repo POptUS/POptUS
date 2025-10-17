@@ -52,9 +52,9 @@ def create_logger(configuration=None):
             raise ValueError(msg)
 
         return FileLogger(
-            level,
             configuration[LOG_FILENAME_KEY],
-            configuration[LOG_OVERWRITE_KEY]
+            configuration[LOG_OVERWRITE_KEY],
+            level
         )
     elif set(configuration) != STD_CFG_KEYS:
         msg = "Extra logger configuration values for std out/err logger ({})"
