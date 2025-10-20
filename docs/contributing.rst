@@ -95,8 +95,8 @@ section.
 .. note::
 
     Merge conflicts should **never** be resolved using GitHub's web interface
-    since this can sometimes cause unitended merging of branches that break this
-    workflow.
+    since this can sometimes cause unintended merging of branches that break
+    this workflow.
 
 The creation and management of release branches will be managed on a per-branch
 basis by gatekeepers.  Release branches are to be named ``Release_vX.Y``.
@@ -148,10 +148,10 @@ Ideally git commit messages should follow the common best practices of
   with tools
 * Following with one or more paragraphs that do **not** summarize the changes
   made, but rather provide content that cannot be reverse engineered from the
-  commits ``diff``.  This can include motivations, assumptions, changes to
+  commit's ``diff``.  This can include motivations, assumptions, changes to
   requirements, reasoning, observations, |etc|
 
-To embrace further using messages to capture lab notes, a final paragraph can be
+To embrace using messages to capture lab notes, a final paragraph can be
 appended that describes what efforts were made to verify the correctness of the
 changes.
 
