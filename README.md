@@ -34,7 +34,7 @@ send an email to the POptUS development team at
 
 ## Installation & Testing
 
-Please refer to the [Getting Started](https://poptus.readthedocs.io/en/latest/get_started.html) section of User Guide.
+Please refer to the [Getting Started](https://poptus.readthedocs.io/en/latest/get_started.html) section of the User Guide.
 
 ## Change log
 
