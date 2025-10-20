@@ -1,6 +1,6 @@
 # POptUS
 
-__NOTE__: This package is presently in the alpha development phase.  It's contents and its programmatic interface are likely to change.
+__NOTE__: This package is presently in the alpha development phase.  Its contents and its programmatic interface are likely to change.
 
 [![Check Standard Adherence](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml)
 [![Build Guides](https://github.com/POptUS/POptUS/actions/workflows/build_docs.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/build_docs.yml)
@@ -12,7 +12,7 @@ __NOTE__: This package is presently in the alpha development phase.  It's conten
 __PROVIDE POptUS INFORMATION AND LINKS__
 
 All code included in POptUS is open source and copyrighted as described in
-[LICENSE](/LICENSE).
+[LICENSE](LICENSE).
 
 ## Support
 
@@ -20,9 +20,9 @@ To
 
 * report potential problems with the POptUS package,
 * propose a change to its contents, or
-* request a new feauture,
+* request a new feature,
 
-please check if a related [Issue](https://github.com/POptUS/POptUS/issues)
+please check whether a related [Issue](https://github.com/POptUS/POptUS/issues)
 already exists before creating a new issue.  For all other communication, please
 send an email to the POptUS development team at
 
