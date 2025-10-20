@@ -34,8 +34,12 @@ send an email to the POptUS development team at
 
 ## Installation & Testing
 
-Refer to [Getting Started](https://poptus.readthedocs.io/en/latest/get_started.html) section of User Guide.
+Please refer to the [Getting Started](https://poptus.readthedocs.io/en/latest/get_started.html) section of User Guide.
+
+## Change log
+
+Please refer to the documentation provided with each [release](https://github.com/POptUS/POptUS/releases).
 
 ## Contributing to POptUS
 
-Refer to the [Developer Guide](https://poptus.readthedocs.io/en/latest/contributing.html).
+Please refer to the [Developer Guide](https://poptus.readthedocs.io/en/latest/contributing.html).
