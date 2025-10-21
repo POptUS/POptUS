@@ -4,8 +4,8 @@ __NOTE__: This package is presently in the alpha development phase.  It's conten
 
 [![Check Standard Adherence](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml)
 [![Build Guides](https://github.com/POptUS/POptUS/actions/workflows/build_docs.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/build_docs.yml)
+[![Build & publish Jupyter book](https://github.com/POptUS/POptUS/actions/workflows/publish_book.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/publish_book.yml)
 [![Jupyter book](https://jupyterbook.org/badge.svg)](https://poptus.github.io/POptUS)
-__TODO__: Add in badge for Build & Publish Book on main
 
 [![Test POptUS Installation](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml)
 [![Measure Code Coverage](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml)
