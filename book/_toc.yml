@@ -6,7 +6,9 @@ parts:
   - caption: User Examples
     numbered: 2
     chapters:
-    - file: notebooks/SimpleUserExample.ipynb
+    - file: notebooks/StdLoggerExample.ipynb
+    - file: notebooks/FileLoggerExample.ipynb
+    - file: notebooks/TwoLoggersExample.ipynb
   - caption: Developer Examples
     numbered: 2
     chapters:
