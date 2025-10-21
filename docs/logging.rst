@@ -1,5 +1,13 @@
 Logging
 =======
+
+The experience of developing a code that uses |poptus| logging is different from
+the experience of using a code that was implemented with |poptus| logging.
+While the first section might be useful for all users, the second is targeted
+just for developers.
+
+Using loggers in applications
+-----------------------------
 Codes that use the |poptus| logging functionality generally accept a logger
 object that has been configured as desired by an application or individual user.
 These objects are typically configured and created using the
@@ -62,7 +70,7 @@ filters out all warning messages.  The command
 filters out only those warning messages produced by the model code.
 
 Logging to Standard Output/Error
---------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The creation of a standard output/error logger requires only the specification
 of the logger's desired verbosity  ``Level``, which must be one of the above
 valid values.  The code
@@ -84,7 +92,7 @@ If logging of one or more levels of debug information is compatible with the
 logger's verbosity level, then such information is written to standard output.
 
 Logging to File
----------------
+^^^^^^^^^^^^^^^
 File loggers require the specification of ``Filename`` and ``Overwrite`` values
 in addition to ``Level``.  The code
 
@@ -105,7 +113,7 @@ overwrite if necessary.  Note that all error messages are also written to
 standard error.
 
 Mulitple Loggers
-----------------
+^^^^^^^^^^^^^^^^
 For applications comprised of two or more codes using |poptus| logging, it might
 be useful to configure a different logger for each code.  For example, the code
 
@@ -127,15 +135,15 @@ verbosity and model information written to standard output/error with low
 verbosity.
 
 Custom Loggers
---------------
+^^^^^^^^^^^^^^
 
 .. todo::
 
     Determine if customization is possible and desired.  If not desired,
     determine if the design can at least leave the door open to customization.
 
-Method, Model, & Application Developers
----------------------------------------
+Developers using |poptus|
+-------------------------
 .. _`xSDK requirement`: https://xsdk.info/policies
 
 The |poptus| logging facilities have been designed so that methods that restrict
