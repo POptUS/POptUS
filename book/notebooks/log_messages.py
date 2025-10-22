@@ -2,13 +2,14 @@ import poptus
 
 
 def log_messages(logger, source_name):
-    N_DEBUG_LEVELS = poptus.LOG_LEVEL_MAX - poptus.LOG_LEVEL_MIN_DEBUG + 1
-    
+    DEBUG_LEVELS_ALL = range(poptus.LOG_LEVEL_MIN_DEBUG,
+                             poptus.LOG_LEVEL_MAX + 1)
+
     log, log_debug, warn, log_and_abort = \
         poptus.create_log_functions(logger, source_name)
 
     log("General Message")
-    for debug_level in range(0, N_DEBUG_LEVELS):
+    for debug_level in DEBUG_LEVELS_ALL:
         log_debug(f"Debug Message Level {debug_level}", debug_level)
     warn("Something is not quite right")
     try:

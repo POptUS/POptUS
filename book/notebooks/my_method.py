@@ -5,6 +5,9 @@ import numpy as np
 
 def run_method(configuration, model, logger):
     # Setup logging
+    DEBUG_0 = poptus.LOG_LEVEL_MIN_DEBUG
+    DEBUG_2 = poptus.LOG_LEVEL_MIN_DEBUG + 2
+
     log, log_debug, warn, log_and_abort = \
         poptus.create_log_functions(logger, "Method")
 
@@ -20,8 +23,8 @@ def run_method(configuration, model, logger):
         log(f"\te_{i+1}\t{coordinate}")
     log(f"Iteration budget = {max_iters}")
     log(f"Stopping criteria = {threshold}")
-    log_debug("Expert configuration values", 0)
-    log_debug(f"\tFactor = {factor}", 0)
+    log_debug("Expert configuration values", DEBUG_0)
+    log_debug(f"\tFactor = {factor}", DEBUG_0)
     log("")
 
     if threshold >= 1.0e-4:
@@ -36,7 +39,7 @@ def run_method(configuration, model, logger):
             break
 
         x_i *= factor
-        log_debug(f"Scaling current point by {factor}", 2)
+        log_debug(f"Scaling current point by {factor}", DEBUG_2)
 
     if f_i > threshold:
         log_and_abort(RuntimeError, "Failed to converge within allotted budget")
