@@ -150,8 +150,8 @@ The |poptus| logging facilities have been designed so that methods that restrict
 all logging activities to using these facilities will satisfy a mandatory `xSDK
 requirement`_.  Therefore, all |poptus| methods should use these logging
 facilities so that |poptus| can qualify for inclusion in the xSDK community.
-This requirement has the side effect of providing for users a common Look & Feel
-in terms of logging configuration and use.  Importantly, a common Look & Feel
+This requirement has the side effect of providing for users a common look and feel
+in terms of logging configuration and use.  Importantly, a common look and feel
 should also simplify and aid |poptus| development and maintenance.
 
 Since |poptus| loggers automatically include the word "WARNING" in all warning
