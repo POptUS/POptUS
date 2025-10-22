@@ -145,12 +145,13 @@ Custom Loggers
 Developers using |poptus|
 -------------------------
 .. _`xSDK requirement`: https://xsdk.info/policies
+.. _`look and feel`: https://en.wikipedia.org/wiki/Look_and_feel
 
 The |poptus| logging facilities have been designed so that methods that restrict
 all logging activities to using these facilities will satisfy a mandatory `xSDK
 requirement`_.  Therefore, all |poptus| methods should use these logging
 facilities so that |poptus| can qualify for inclusion in the xSDK community.
-This requirement has the side effect of providing for users a common look and feel
+This requirement has the side effect of providing for users a common `look and feel`_ 
 in terms of logging configuration and use.  Importantly, a common look and feel
 should also simplify and aid |poptus| development and maintenance.
 
