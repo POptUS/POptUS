@@ -44,11 +44,7 @@ latex:
 repository:
   url          : https://github.com/POptUS/POptUS 
   path_to_book : book
-  # TODO: Reset to main once the work on this branch needs to be reset for
-  #       merging into main.  This just let's me temporarily run the
-  #       notebooks from the feature branch.
-  #branch       : main
-  branch       : 10JupyterBook
+  branch       : main
 
 launch_buttons:
   notebook_interface : "classic"
