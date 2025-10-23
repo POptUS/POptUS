@@ -1,5 +1,13 @@
 Logging
 =======
+
+The experience of developing a code that uses |poptus| logging is different from
+the experience of using a code that was implemented with |poptus| logging.
+While the first section might be useful for all users, the second is targeted
+just for developers.
+
+Using loggers in applications
+-----------------------------
 Codes that use the |poptus| logging functionality generally accept a logger
 object that has been configured as desired by an application or individual user.
 These objects are typically configured and created using the
@@ -8,7 +16,7 @@ logger configuration value is the logger's verbosity level.  Note that some
 codes might require that users only provide a configuration data structure and
 will create a logger object on the user's behalf.
 
-Each code passes to its logger individual messages for logging and a potentially
+Each code passes individual messages to its logger with a potentially
 different verbosity level for each message.  While warning and error log
 messages are always logged by |poptus|, the logger only logs those general and
 debug information messages whose verbosity level is compatible with the logger's
@@ -31,7 +39,7 @@ therefore, be able to use tools such as ``grep`` to filter out messages from
 just one source.
 
 Loggers always identically prepend the word "WARNING" to all warning messages
-and "ERROR" to all errors messages.  Therefore, users should be able to quickly
+and "ERROR" to all error messages.  Therefore, users should be able to quickly
 and effectively identify all warning or error messages in log output.
 
 Consider the example log output written to the file ``study.log``
@@ -46,7 +54,7 @@ Consider the example log output written to the file ``study.log``
     [Method] message 2
     [Model] ERROR - message e
 
-which we imagine was produced by a model and a method code each logging
+which we imagine was produced by a Model and a Method code, both logging
 different types of messages to the file.  The command
 
 .. code:: console
@@ -59,10 +67,10 @@ filters out all warning messages.  The command
 
     grep WARNING study.log | grep "\[Model\]"
 
-filters out only those warning messages produced by the model code.
+filters out only those warning messages produced by the Model code.
 
 Logging to Standard Output/Error
---------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The creation of a standard output/error logger requires only the specification
 of the logger's desired verbosity  ``Level``, which must be one of the above
 valid values.  The code
@@ -84,7 +92,7 @@ If logging of one or more levels of debug information is compatible with the
 logger's verbosity level, then such information is written to standard output.
 
 Logging to File
----------------
+^^^^^^^^^^^^^^^
 File loggers require the specification of ``Filename`` and ``Overwrite`` values
 in addition to ``Level``.  The code
 
@@ -105,7 +113,7 @@ overwrite if necessary.  Note that all error messages are also written to
 standard error.
 
 Mulitple Loggers
-----------------
+^^^^^^^^^^^^^^^^
 For applications comprised of two or more codes using |poptus| logging, it might
 be useful to configure a different logger for each code.  For example, the code
 
@@ -127,24 +135,25 @@ verbosity and model information written to standard output/error with low
 verbosity.
 
 Custom Loggers
---------------
+^^^^^^^^^^^^^^
 
 .. todo::
 
     Determine if customization is possible and desired.  If not desired,
     determine if the design can at least leave the door open to customization.
 
-Method, Model, & Application Developers
----------------------------------------
+Developers using |poptus|
+-------------------------
 .. _`xSDK requirement`: https://xsdk.info/policies
+.. _`look and feel`: https://en.wikipedia.org/wiki/Look_and_feel
 .. _`Jupyter book`: https://poptus.github.io/POptUS
 
 The |poptus| logging facilities have been designed so that methods that restrict
-all logging activities to using these facilities will satisy a mandatory `xSDK
+all logging activities to using these facilities will satisfy a mandatory `xSDK
 requirement`_.  Therefore, all |poptus| methods should use these logging
 facilities so that |poptus| can qualify for inclusion in the xSDK community.
-This requirement has the side effect of providing for users a common look & feel
-in terms of logging configuration and use.  Importantly, a common look & feel
+This requirement has the side effect of providing for users a common `look and feel`_ 
+in terms of logging configuration and use.  Importantly, a common look and feel
 should also simplify and aid |poptus| development and maintenance.
 
 Since |poptus| loggers automatically include the word "WARNING" in all warning
