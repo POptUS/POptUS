@@ -146,6 +146,7 @@ Developers using |poptus|
 -------------------------
 .. _`xSDK requirement`: https://xsdk.info/policies
 .. _`look and feel`: https://en.wikipedia.org/wiki/Look_and_feel
+.. _`Jupyter book`: https://poptus.github.io/POptUS
 
 The |poptus| logging facilities have been designed so that methods that restrict
 all logging activities to using these facilities will satisfy a mandatory `xSDK
@@ -169,6 +170,5 @@ conceivably and reasonably include that word in its log messages.  This
 suggestion should also decrease the likelihood of two different codes in a
 single application logging messags with the same log name.
 
-.. todo::
-
-    Include link to examples in Jupyter book once that exists.
+Examples that demonstrate the creation and use of different log functions are
+available in the |poptus| `Jupyter book`_.

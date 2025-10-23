@@ -3,6 +3,7 @@ import functools
 from ._constants import (
     LOG_LEVEL_DEFAULT,
     LOG_LEVEL_MIN_DEBUG,
+    LOG_LEVEL_MAX,
     POPTUS_LOG_TAG
 )
 from .AbstractLogger import AbstractLogger
@@ -17,12 +18,12 @@ def _log(msg, logger, caller):
     logger.log(caller, msg, LOG_LEVEL_DEFAULT)
 
 
-def _log_debug(msg, level, logger, caller):
+def _log_debug(msg, debug_level, logger, caller):
     # Since these functions are used by method developers rather than users, we
     # can keep the error checking minimal and light.  If method developers use a
     # bad level, they should find out immediately and easily.
-    assert level >= 0
-    logger.log(caller, msg, LOG_LEVEL_MIN_DEBUG + level)
+    assert LOG_LEVEL_MIN_DEBUG <= debug_level <= LOG_LEVEL_MAX
+    logger.log(caller, msg, debug_level)
 
 
 def _warn(msg, logger, caller):
@@ -50,7 +51,8 @@ def create_log_functions(logger, caller):
         * ``log(msg)`` logs the given general message at level
           ``LOG_LEVEL_DEFAULT``
         * ``log_debug(msg, level)`` logs the given debug message at the given
-          debug level, which is a 0-based level specification
+          debug level, which must be between ``LOG_LEVEL_MIN_DEBUG`` and
+          ``LOG_LEVEL_MAX`` inclusive
         * ``warn(msg)`` logs the given warning message
         * ``log_and_abort(*Error, msg)`` logs the given error message and then
           raises an exception of the given type (|eg| ``ValueError``,

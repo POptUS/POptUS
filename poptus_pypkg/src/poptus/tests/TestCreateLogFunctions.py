@@ -106,8 +106,7 @@ class TestCreateLogFunctions(unittest.TestCase):
     def testLogDebugFunction(self):
         MSG = "Apparently something has gone wrong..."
         EXPECTED_MSG = f"[{self.__tag}] {MSG}\n"
-        MAX_DEBUG_LEVEL = poptus.LOG_LEVEL_MAX - poptus.LOG_LEVEL_MIN_DEBUG
-        DEBUG_LEVELS = range(0, MAX_DEBUG_LEVEL + 1)
+        DEBUG_LEVELS = range(poptus.LOG_LEVEL_MIN_DEBUG, poptus.LOG_LEVEL_MAX+1)
 
         # Check no logging explicitly
         for level in {poptus.LOG_LEVEL_NONE, poptus.LOG_LEVEL_DEFAULT}:
@@ -116,9 +115,9 @@ class TestCreateLogFunctions(unittest.TestCase):
 
             self.assertTrue(callable(log_debug))
             with self.assertRaises(AssertionError):
-                log_debug(MSG, -1)
+                log_debug(MSG, min(DEBUG_LEVELS) - 1)
             with self.assertRaises(AssertionError):
-                log_debug(MSG, MAX_DEBUG_LEVEL + 1)
+                log_debug(MSG, max(DEBUG_LEVELS) + 1)
 
             for msg_level in DEBUG_LEVELS:
                 with redirect_stdout(io.StringIO()) as buffer:
@@ -126,15 +125,15 @@ class TestCreateLogFunctions(unittest.TestCase):
                 self.assertEqual("", buffer.getvalue())
 
         for level in DEBUG_LEVELS:
-            logger = poptus.StandardLogger(level + poptus.LOG_LEVEL_MIN_DEBUG)
+            logger = poptus.StandardLogger(level)
             _, log_debug, _, _ = \
                 poptus.create_log_functions(logger, self.__tag)
 
             self.assertTrue(callable(log_debug))
             with self.assertRaises(AssertionError):
-                log_debug(MSG, -1)
+                log_debug(MSG, min(DEBUG_LEVELS) - 1)
             with self.assertRaises(AssertionError):
-                log_debug(MSG, MAX_DEBUG_LEVEL + 1)
+                log_debug(MSG, max(DEBUG_LEVELS) + 1)
 
             to_stdout = [e for e in DEBUG_LEVELS if e <= level]
             for msg_level in to_stdout:
