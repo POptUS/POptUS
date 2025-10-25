@@ -20,6 +20,11 @@ env:
   DIST_PATH:  ${{ github.workspace }}/poptus_pypkg/dist
 
 on:
+  # This action is used only on main to produce release candidate distributions
+  # and test these thoroughly on a wide range of test setups.
+  #
+  # Significant but simpler testing is done on feature branches using the
+  # test_sdist action.
   # TODO: Temporarily run action on PR into main so that we can test this.
   push:
     branches: [main]
@@ -68,9 +73,11 @@ jobs:
     needs: [build]
     strategy:
       matrix:
-        # TODO: Use full test setup matrix
-        os:             [ubuntu-latest]
-        python-version: ["3.13", "3.14"]
+        # python-versions must be maintained consistent with associated
+        # pyproject.toml and tox.ini configuration.
+        matrix:
+          os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15]
+          python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
@@ -95,9 +102,11 @@ jobs:
     needs: [build]
     strategy:
       matrix:
-        # TODO: Use full test setup matrix
-        os:             [ubuntu-latest]
-        python-version: ["3.13", "3.14"]
+        # python-versions must be maintained consistent with associated
+        # pyproject.toml and tox.ini configuration.
+        matrix:
+          os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15]
+          python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
