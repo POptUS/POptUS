@@ -16,12 +16,13 @@
 
 name: Build & test release candidate
 env:
-  PKG_ROOT:   ${{ github.workspace }}/poptus_pypkg
-  DIST_PATH:  ${{ github.workspace }}/poptus_pypkg/dist
+  PKG_ROOT:  ${{ github.workspace }}/poptus_pypkg
+  DIST_PATH: ${{ github.workspace }}/poptus_pypkg/dist
 
 on:
-  # This action is used only on main to produce release candidate distributions
-  # and test these thoroughly on a wide range of test setups.
+  # This action is run only on main to produce release candidate distributions
+  # and test each of these independently and thoroughly on a full set of test
+  # setups.
   #
   # Significant but simpler testing is done on feature branches using the
   # test_sdist action.
@@ -51,18 +52,18 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Construct srcdist and wheel
+      - name: Construct sdist and wheel
         run: |
           # Install dependencies
           which python
           python -m pip install --upgrade pip
           python -m pip install build
           python -m pip list
-          # Build distributions
+          # Build both distributions
           pushd $PKG_ROOT
           python -m build
           popd
-      - name: Archive source distribution
+      - name: Archive both distributions
         uses: actions/upload-artifact@v4
         with:
           name: poptus-release-candidate
@@ -83,7 +84,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Access distributions
+      - name: Obtain release candidate
         uses: actions/download-artifact@v4
         with:
           name: poptus-release-candidate
@@ -111,7 +112,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Access distributions
+      - name: Obtain release candidate
         uses: actions/download-artifact@v4
         with:
           name: poptus-release-candidate
