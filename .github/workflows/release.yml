@@ -1,0 +1,62 @@
+#
+# This action could publish to the POptUS PyPI account the source distribution
+# and universal wheel that it produces.  For more information on potential
+# security issues associated with automatic publishing, please refer to
+#
+#        https://docs.pypi.org/trusted-publishers/security-model/
+#
+# In particular, there exists the possibility of breaking that page or allowing
+# nefarious actors to alter it.  Since POptUS will likely be released only a few
+# times a year, we presently prefer the conservative route of manually
+# publishing to PyPI the distributions built and tested by this action.
+#
+# ALL CHANGES TO THIS ACTION SHOULD BE REVIEWED VERY CAREFULLY TO ENSURE THAT
+#             THE CHANGES ARE AS INTENDED AND WELL UNDERSTOOD!
+#
+
+name: Build & test release candidate
+env:
+  PKG_ROOT:   ${{ github.workspace }}/poptus_pypkg
+  DIST_PATH:  ${{ github.workspace }}/poptus_pypkg/dist
+
+on:
+  push:
+    branches: [main]
+  release:
+    types:    [published]
+
+jobs:
+  build:
+    name: Build release candidate distributions
+    strategy:
+      matrix:
+        os:             [ubuntu-latest]
+        python-version: ["3.14"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      # Clone the repository with the full history since setuptools-scm needs
+      # the tags to set the correct version.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Construct srcdist and wheel
+        run: |
+          # Install dependencies
+          which python
+          python -m pip install --upgrade pip
+          python -m pip install build
+          python -m pip list
+          # Build distributions
+          pushd $PKG_ROOT
+          python -m build
+          popd
+
+      - name: Archive source distribution
+        uses: actions/upload-artifact@v4
+        with:
+          name: poptus-release-candidate
+          path: ${{ env.DIST_PATH }}/poptus-*.*
