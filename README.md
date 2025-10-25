@@ -7,7 +7,7 @@ __NOTE__: This package is presently in the alpha development phase.  It's conten
 [![Build & publish Jupyter book](https://github.com/POptUS/POptUS/actions/workflows/publish_book.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/publish_book.yml)
 [![Jupyter book](https://jupyterbook.org/badge.svg)](https://poptus.github.io/POptUS)
 
-[![Test POptUS Installation](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml)
+[![Build & test release candidate](https://github.com/POptUS/POptUS/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/release.yml)
 [![Measure Code Coverage](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml)
 [![codecov](https://codecov.io/github/poptus/poptus/graph/badge.svg?token=EP8KBI5O04)](https://codecov.io/github/poptus/poptus)
 
