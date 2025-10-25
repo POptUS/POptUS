@@ -75,9 +75,8 @@ jobs:
       matrix:
         # python-versions must be maintained consistent with associated
         # pyproject.toml and tox.ini configuration.
-        matrix:
-          os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15]
-          python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
@@ -104,9 +103,8 @@ jobs:
       matrix:
         # python-versions must be maintained consistent with associated
         # pyproject.toml and tox.ini configuration.
-        matrix:
-          os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15]
-          python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
