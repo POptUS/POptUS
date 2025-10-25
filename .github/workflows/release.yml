@@ -67,7 +67,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: poptus-release-candidate
-          path: ${{ env.DIST_PATH }}/poptus-*.*
+          path: |
+            ${{ env.DIST_PATH }}/poptus-*.tar.gz
+            ${{ env.DIST_PATH }}/poptus-*-py3-none-any.whl
 
   test_sdist:
     name: Test source distribution
