@@ -70,7 +70,7 @@ jobs:
       matrix:
         # TODO: Use full test setup matrix
         os:             [ubuntu-latest]
-        python-version: ["3.14"]
+        python-version: ["3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
@@ -87,6 +87,6 @@ jobs:
           ls -la
           which python
           python -m pip install --upgrade pip
-          python -m pip install ${{ env.CLONE_PATH }}/poptus-*.tar.gz
+          python -m pip install poptus-*.tar.gz
           python -m pip list
           python -c "import poptus ; exit(not poptus.test())"
