@@ -57,9 +57,36 @@ jobs:
           pushd $PKG_ROOT
           python -m build
           popd
-
       - name: Archive source distribution
         uses: actions/upload-artifact@v4
         with:
           name: poptus-release-candidate
           path: ${{ env.DIST_PATH }}/poptus-*.*
+
+  test_sdist:
+    name: Test source distribution
+    needs: [build]
+    strategy:
+      matrix:
+        # TODO: Use full test setup matrix
+        os:             [ubuntu-latest]
+        python-version: ["3.14"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Access distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: poptus-release-candidate
+          path: ${{ env.CLONE_PATH }}
+      - name: Setup Python, install, & test
+        run: |
+          ls -la
+          which python
+          python -m pip install --upgrade pip
+          python -m pip install ${{ env.CLONE_PATH }}/poptus-*.tar.gz
+          python -m pip list
+          python -c "import poptus ; exit(not poptus.test())"
