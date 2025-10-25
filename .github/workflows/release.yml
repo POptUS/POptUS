@@ -20,7 +20,10 @@ env:
   DIST_PATH:  ${{ github.workspace }}/poptus_pypkg/dist
 
 on:
+  # TODO: Temporarily run action on PR into main so that we can test this.
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   release:
     types:    [published]
