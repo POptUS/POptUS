@@ -12,3 +12,4 @@ class TestAbstractLogger(unittest.TestCase):
         # Confirm that class is abstract and cannot be instantiated
         with self.assertRaises(TypeError):
             poptus.AbstractLogger(poptus.LOG_LEVEL_DEFAULT)
+        self.assertTrue(False)
