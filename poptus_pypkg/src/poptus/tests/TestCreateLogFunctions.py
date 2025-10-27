@@ -178,9 +178,9 @@ class TestCreateLogFunctions(unittest.TestCase):
 
             self.assertTrue(callable(log_and_abort))
 
-            for excpt in EXCEPTIONS_ALL:
+            for my_exception in EXCEPTIONS_ALL:
                 with redirect_stderr(io.StringIO()) as buffer:
-                    with self.assertRaises(excpt):
-                        log_and_abort(excpt, MSG)
+                    with self.assertRaises(my_exception):
+                        log_and_abort(my_exception, MSG)
                 # print(level, buffer.getvalue())
                 self.assertEqual(EXPECTED_MSG, buffer.getvalue())

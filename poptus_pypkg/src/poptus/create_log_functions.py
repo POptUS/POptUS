@@ -30,9 +30,9 @@ def _warn(msg, logger, caller):
     logger.warn(caller, msg)
 
 
-def _log_and_abort(excpt, msg, logger, caller):
+def _log_and_abort(my_exception, msg, logger, caller):
     logger.error(caller, msg)
-    raise excpt(msg)
+    raise my_exception(msg)
 
 
 def create_log_functions(logger, caller):

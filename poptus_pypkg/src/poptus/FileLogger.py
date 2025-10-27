@@ -26,9 +26,9 @@ class FileLogger(AbstractLogger):
         def warn(msg):
             StandardLogger(LOG_LEVEL_NONE).warn(POPTUS_LOG_TAG, msg)
 
-        def log_and_abort(excpt, msg):
+        def log_and_abort(my_exception, msg):
             StandardLogger(LOG_LEVEL_NONE).error(POPTUS_LOG_TAG, msg)
-            raise excpt(msg)
+            raise my_exception(msg)
 
         # This error checks level
         super().__init__(level)
