@@ -25,11 +25,8 @@ on:
   # setups.
   #
   # Significant but simpler testing is done on feature branches using the
-  # test_sdist action.
-  # TODO: Temporarily run action on PR into main so that we can test this.
+  # test_sdist *action* (not the test_sdist job below).
   push:
-    branches: [main]
-  pull_request:
     branches: [main]
   release:
     types:    [published]
