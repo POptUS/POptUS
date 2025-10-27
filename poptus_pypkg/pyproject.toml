@@ -4,7 +4,7 @@
 
 [build-system]
 # Minimum setuptools* versions suggested by setuptools-scm v9.2.0 docs
-rquires = ["setuptools>=80", "setuptools-scm>=8"]
+requires = ["setuptools>=80", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
