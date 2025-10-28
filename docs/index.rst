@@ -42,6 +42,7 @@ indicates the target user.
 
    contributing
    tox_usage
+   documentation
    advanced_api
 
 Readers interested in studying examples should refer to the |poptus|
