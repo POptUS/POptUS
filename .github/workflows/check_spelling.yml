@@ -3,6 +3,7 @@ permissions:
   contents: read
 env:
   CLICOLOR: 1
+  TYPOS_CFG: ${{ github.workspace }}/typos.toml
 on:
   push:
     branches: [main]
@@ -18,3 +19,5 @@ jobs:
       uses: actions/checkout@v4
     - name: Spell Check Repo
       uses: crate-ci/typos@v1.38.1
+      with:
+        config: $TYPOS_CFG
