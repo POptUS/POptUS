@@ -34,7 +34,7 @@ jobs:
         run: $CLONE_PATH/.github/workflows/setup_tox_github_action.sh ${{ runner.os }}
 
       # -- Let's use some tox tasks!
-      - name: Meaure coverage & generate reports
+      - name: Measure coverage & generate reports
         run: |
           pushd $POPTUS_PKG
           COVERAGE_FILE=$COV_FILE COVERAGE_XML=$COV_XML_FILE COVERAGE_HTML=$COV_HTML_FILE tox -r -e coverage,report
