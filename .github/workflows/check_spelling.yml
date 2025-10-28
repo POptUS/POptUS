@@ -20,4 +20,4 @@ jobs:
     - name: Spell Check Repo
       uses: crate-ci/typos@v1.38.1
       with:
-        config: $TYPOS_CFG
+        config: ${{ env.TYPOS_CFG }}
