@@ -112,7 +112,7 @@ information, warnings, and errors to the file ``study.log``, which it will
 overwrite if necessary.  Note that all error messages are also written to
 standard error.
 
-Mulitple Loggers
+Multiple Loggers
 ^^^^^^^^^^^^^^^^
 For applications comprised of two or more codes using |poptus| logging, it might
 be useful to configure a different logger for each code.  For example, the code
@@ -168,7 +168,7 @@ messages to facilitate effective filtering of messages.  For example, a model
 code should avoid using "Model" as its logging name since a method could
 conceivably and reasonably include that word in its log messages.  This
 suggestion should also decrease the likelihood of two different codes in a
-single application logging messags with the same log name.
+single application logging messages with the same log name.
 
 Examples that demonstrate the creation and use of different log functions are
 available in the |poptus| `Jupyter book`_.

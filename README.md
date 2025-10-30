@@ -22,7 +22,7 @@ To
 
 * report potential problems with the POptUS package,
 * propose a change to its contents, or
-* request a new feauture,
+* request a new feature,
 
 please check if a related [Issue](https://github.com/POptUS/POptUS/issues)
 already exists before creating a new issue.  For all other communication, please
