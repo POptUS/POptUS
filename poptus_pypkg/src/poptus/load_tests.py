@@ -3,7 +3,7 @@ from pathlib import Path
 
 def load_tests(loader, *_):
     """
-    This function implments the ``load_tests`` protocol of the Python unittest
+    This function implements the ``load_tests`` protocol of the Python unittest
     package so that clients using the package don't need to know where the
     tests are or what patterns they need to look for to find all tests.
 
