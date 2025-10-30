@@ -4,8 +4,10 @@ __NOTE__: This package is presently in the alpha development phase.  Its content
 
 [![Check Standard Adherence](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/check_standards.yml)
 [![Build Guides](https://github.com/POptUS/POptUS/actions/workflows/build_docs.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/build_docs.yml)
+[![Build & publish Jupyter book](https://github.com/POptUS/POptUS/actions/workflows/publish_book.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/publish_book.yml)
+[![Jupyter book](https://jupyterbook.org/badge.svg)](https://poptus.github.io/POptUS)
 
-[![Test POptUS Installation](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/test_sdist.yml)
+[![Build & test release candidate](https://github.com/POptUS/POptUS/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/release.yml)
 [![Measure Code Coverage](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml/badge.svg?branch=main)](https://github.com/POptUS/POptUS/actions/workflows/measure_coverage.yml)
 [![codecov](https://codecov.io/github/poptus/poptus/graph/badge.svg?token=EP8KBI5O04)](https://codecov.io/github/poptus/poptus)
 
@@ -31,6 +33,13 @@ send an email to the POptUS development team at
 ## Documentation
 
 [User and Developer Guides](https://POptUS.readthedocs.io) are hosted on ReadTheDocs.
+
+Examples for
+
+* configuring and using POptUS infrastructure in applications as a user as well as for
+* integrating and using POptUS infrastructure in methods, models, & tools as a developer
+
+are available in the POptUS [Jupyter book](https://poptus.github.io/POptUS).
 
 ## Installation & Testing
 

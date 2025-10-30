@@ -1,0 +1,57 @@
+################################################################################
+# Book settings
+title     : POptUS
+author    : Jeffrey Larson, Matt Menickelly, Jared O'Neal, and Stefan M. Wild
+copyright : "2025, The Regents of the University of California, through Lawrence Berkeley National Laboratory and UChicago Argonne LLC through Argonne National Laboratory (subject to receipt of any required approvals from the U.S. Dept. of Energy).  All rights reserved"
+logo      : logo.png
+
+################################################################################
+# Execution settings
+execute:
+  execute_notebooks : force
+  timeout           : -1
+
+################################################################################
+# Parse and render settings
+#
+# All changes to Myst substitutions should be be made in the sphinx_macros.json
+# Sphinx configuration file as well.
+parse:
+  myst_enable_extensions:
+    - substitution
+  myst_substitutions:
+    ie:     "*i.e.,*"
+    eg:     "*e.g.,*"
+    via:    "*via*"
+    etc:    "*etc.*"
+    poptus: "POptUS"
+
+################################################################################
+# HTML-specific settings
+html:
+  use_repository_button : true
+  use_edit_page_button  : true
+  use_issues_button     : true
+
+################################################################################
+# LaTeX-specific settings
+latex:
+  latex_documents:
+    targetname : POptUS.tex
+
+################################################################################
+# Launch button settings
+repository:
+  url          : https://github.com/POptUS/POptUS 
+  path_to_book : book
+  branch       : main
+
+launch_buttons:
+  notebook_interface : "classic"
+  binderhub_url      : "https://mybinder.org"
+
+################################################################################
+# Advanced and power-user settings
+sphinx:
+  config:
+    nb_execution_show_tb : True
