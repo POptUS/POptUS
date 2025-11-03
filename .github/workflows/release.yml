@@ -14,7 +14,7 @@
 #             THE CHANGES ARE AS INTENDED AND WELL UNDERSTOOD!
 #
 
-name: Build & test release candidate
+name: Build & Test Release Candidate
 env:
   CLONE_PATH: ${{ github.workspace }}
   PKG_ROOT:   ${{ github.workspace }}/poptus_pypkg
