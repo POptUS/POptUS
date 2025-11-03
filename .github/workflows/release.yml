@@ -14,10 +14,11 @@
 #             THE CHANGES ARE AS INTENDED AND WELL UNDERSTOOD!
 #
 
-name: Build & test release candidate
+name: Build & Test Release Candidate
 env:
-  PKG_ROOT:  ${{ github.workspace }}/poptus_pypkg
-  DIST_PATH: ${{ github.workspace }}/poptus_pypkg/dist
+  CLONE_PATH: ${{ github.workspace }}
+  PKG_ROOT:   ${{ github.workspace }}/poptus_pypkg
+  DIST_PATH:  ${{ github.workspace }}/poptus_pypkg/dist
 
 on:
   # This action is run only on main to produce release candidate distributions
@@ -26,29 +27,30 @@ on:
   #
   # Significant but simpler testing is done on feature branches using the
   # test_sdist *action* (not the test_sdist job below).
+  # TODO: Remove this once the PR is ready for review.
+
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
   release:
     types:    [published]
 
 jobs:
+  # Prefer using the latest Python version supported by the package
   build:
     name: Build release candidate distributions
-    strategy:
-      matrix:
-        os:             [ubuntu-latest]
-        python-version: ["3.14"]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       # Clone the repository with the full history since setuptools-scm needs
       # the tags to set the correct version.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.14
       - name: Construct sdist and wheel
         run: |
           # Install dependencies
@@ -75,8 +77,8 @@ jobs:
       matrix:
         # python-versions must be maintained consistent with associated
         # pyproject.toml and tox.ini configuration.
-        os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15]
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        os: [ubuntu-22.04, ubuntu-24.04, macos-14, macos-15, macos-15-intel]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
@@ -92,7 +94,7 @@ jobs:
         run: |
           which python
           python -m pip install --upgrade pip
-          python -m pip install poptus-*.tar.gz
+          python -m pip install $CLONE_PATH/poptus-*.tar.gz
           python -m pip list
           python -c "import poptus ; exit(not poptus.test())"
 
@@ -103,8 +105,8 @@ jobs:
       matrix:
         # python-versions must be maintained consistent with associated
         # pyproject.toml and tox.ini configuration.
-        os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15]
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        os: [ubuntu-22.04, ubuntu-24.04, macos-14, macos-15, macos-15-intel]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
@@ -120,6 +122,6 @@ jobs:
         run: |
           which python
           python -m pip install --upgrade pip
-          python -m pip install poptus-*-py3-none-any.whl
+          python -m pip install $CLONE_PATH/poptus-*-py3-none-any.whl
           python -m pip list
           python -c "import poptus ; exit(not poptus.test())"

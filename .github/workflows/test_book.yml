@@ -1,7 +1,7 @@
-name: Jupyter book build as test suite
+name: Jupyter Book Build as Test Suite
 env:
-  CLONE_PATH:      ${{ github.workspace }}
   POPTUS_PKG:      ${{ github.workspace }}/poptus_pypkg
+  GH_ACTIONS_PATH: ${{ github.workspace }}/.github/workflows
   BOOK_HTML_BUILD: ${{ github.workspace }}/book/_build/html
 on:
   # Only execute on PRs into main under the assumption that the publish_book
@@ -10,24 +10,22 @@ on:
     branches: main
 
 jobs:
+  # Prefer using the latest Python version supported by the package
+  #
   # Since notebooks contain regular and sanity checks, this action not only
   # confirms that the book is building correctly, but also
   # * that notebooks are generating correct content and therefore
   # * that our "Jupyter book test suite" passed.
   build:
-    strategy:
-      matrix:
-        os:             [ubuntu-latest]
-        python-version: ["3.13"]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.14
     - name: Setup Python with tox
-      run: $CLONE_PATH/.github/workflows/setup_tox_github_action.sh ${{ runner.os }}
+      run: $GH_ACTIONS_PATH/setup_tox_github_action.sh ${{ runner.os }}
     - name: Build Jupyter book
       run: |
         pushd $POPTUS_PKG
