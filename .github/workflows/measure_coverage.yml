@@ -1,10 +1,11 @@
 name: Measure Code Coverage
 env:
-  CLONE_PATH:    ${{ github.workspace }}
-  POPTUS_PKG:    ${{ github.workspace }}/poptus_pypkg
-  COV_FILE:      coverage
-  COV_XML_FILE:  cobertura.xml
-  COV_HTML_FILE: htmlcov
+  CLONE_PATH:      ${{ github.workspace }}
+  POPTUS_PKG:      ${{ github.workspace }}/poptus_pypkg
+  GH_ACTIONS_PATH: ${{ github.workspace }}/.github/workflows
+  COV_FILE:        coverage
+  COV_XML_FILE:    cobertura.xml
+  COV_HTML_FILE:   htmlcov
 on:
   push:
     branches: [main]
@@ -12,28 +13,19 @@ on:
     branches: [main]
 
 jobs:
+  # Prefer using the latest Python version supported by the package
   coverage:
-    strategy:
-      # We only need to measure coverage with a single test setup.  Ideally
-      # this will be the latest version of python supported.
-      matrix:
-        os:             [ubuntu-latest]
-        python-version: ["3.13"]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
-      # -- General setup
       - name: Checkout POptUS repository
         uses: actions/checkout@v4
-
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-
+          python-version: 3.14
       - name: Setup Python with tox
-        run: $CLONE_PATH/.github/workflows/setup_tox_github_action.sh ${{ runner.os }}
+        run: $GH_ACTIONS_PATH/setup_tox_github_action.sh ${{ runner.os }}
 
-      # -- Let's use some tox tasks!
       - name: Measure coverage & generate reports
         run: |
           pushd $POPTUS_PKG
@@ -43,7 +35,6 @@ jobs:
           mv $COV_HTML_FILE $CLONE_PATH
           popd
 
-      # -- Publish as artifact for users and subsequent jobs
       - name: Archive coverage results
         uses: actions/upload-artifact@v4
         with:
@@ -53,22 +44,16 @@ jobs:
              ${{ env.COV_XML_FILE }}
              ${{ env.COV_HTML_FILE }}
 
-  # ----- PUBLISH FULL CODE COVERAGE REPORT
   publish:
     needs: [coverage]
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Access coverage reports
         uses: actions/download-artifact@v4
         with:
           name: poptus-coverage-results
           path: ${{ env.CLONE_PATH }}
-
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v4
         with:
