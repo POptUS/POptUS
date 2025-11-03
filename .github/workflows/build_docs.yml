@@ -18,7 +18,7 @@ jobs:
     # much time downloading/loading the image.
     runs-on: ubuntu-latest
     container:
-      image: texlive/texlive:latest-minimal
+      image: texlive/texlive:latest
     steps:
     ##-- General Setup Steps
     - uses: actions/checkout@v4
