@@ -17,7 +17,6 @@ from ._constants import (
 from .AbstractLogger import AbstractLogger
 from .StandardLogger import StandardLogger
 from .FileLogger import FileLogger
-from .MpiWorkerLogger import MpiWorkerLogger
 from .create_logger import create_logger
 from .create_log_functions import create_log_functions
 
