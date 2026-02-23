@@ -40,7 +40,6 @@ class StandardLogger(AbstractLogger):
 
         if self.level >= level:
             sys.stdout.write(f"[{caller}] {msg}\n")
-            sys.stdout.flush()
 
     def warn(self, caller, msg):
         """
@@ -53,7 +52,6 @@ class StandardLogger(AbstractLogger):
         :param msg: Warning message to log
         """
         sys.stdout.write(f"[{caller}] WARNING - {msg}\n")
-        sys.stdout.flush()
 
     def error(self, caller, msg):
         """

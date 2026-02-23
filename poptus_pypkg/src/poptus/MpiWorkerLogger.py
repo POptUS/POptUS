@@ -39,7 +39,6 @@ class MpiWorkerLogger(AbstractLogger):
         """
         if (level >= LOG_LEVEL_MIN_DEBUG) and (self.level >= level):
             sys.stdout.write(f"[{self.__tag}] {msg}\n")
-            sys.stdout.flush()
 
     def warn(self, _, msg):
         """
@@ -51,7 +50,6 @@ class MpiWorkerLogger(AbstractLogger):
         :param msg: Warning message to log
         """
         sys.stdout.write(f"[{self.__tag}] WARNING - {msg}\n")
-        sys.stdout.flush()
 
     def error(self, _, msg):
         """
