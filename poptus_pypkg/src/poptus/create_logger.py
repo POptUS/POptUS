@@ -5,20 +5,25 @@ from ._constants import (
 )
 from .StandardLogger import StandardLogger
 from .FileLogger import FileLogger
+from .MpiWorkerLogger import MpiWorkerLogger
 
 
-def create_logger(configuration=None):
+def create_logger(configuration=None, rank=None):
     """
     Please refer to the general logging documentation in the User Guide for
     information on configuring |poptus| loggers.
 
     :param configuration: ``None`` or the full logger configuration specified as
         a ``dict``.
+    :param rank: ``None`` or non-negative rank of MPI process requesting
+        logger.  A value of zero is understood to be the lead MPI process.
     :return: If ``configuration`` is ``None``, then a standard ouput/standard
         error logger with the ``LOG_LEVEL_DEFAULT`` verbosity level is
         returned.  Otherwise, a logger built with the provided configuration is
         returned.
     """
+    LEAD_PROCESSOR = 0
+
     STD_CFG_KEYS = {LOG_LEVEL_KEY}
     FILE_CFG_KEYS = {
         LOG_LEVEL_KEY,
@@ -27,7 +32,7 @@ def create_logger(configuration=None):
     }
 
     if configuration is None:
-        return StandardLogger(LOG_LEVEL_DEFAULT)
+        configuration = {LOG_LEVEL_KEY: LOG_LEVEL_DEFAULT}
     elif not isinstance(configuration, dict):
         msg = "Given logger configuration is not a dict"
         StandardLogger().error(POPTUS_LOG_TAG, msg)
@@ -40,6 +45,13 @@ def create_logger(configuration=None):
     # Assume that logger classes are error checking their arguments
     level = configuration[LOG_LEVEL_KEY]
 
+    # ----- MPI WORKER PROCESSES
+    # We need to treat MPI worker processes differently so that they aren't
+    # logging what only the lead process needs to.
+    if (rank is not None) and (rank != LEAD_PROCESSOR):
+        return MpiWorkerLogger(rank, level)
+
+    # ----- NON-MPI & MPI LEAD PROCESS
     if LOG_FILENAME_KEY in configuration:
         if LOG_OVERWRITE_KEY not in configuration:
             msg = f"{LOG_OVERWRITE_KEY} logger configuration not provided"
