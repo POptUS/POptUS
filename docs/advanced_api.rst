@@ -14,3 +14,5 @@ Archiving
 ---------
 .. autoclass:: poptus.AbstractArchiver
     :members:
+.. autoclass:: poptus.Hdf5Archiver
+    :members:

@@ -1,7 +1,7 @@
 """
 Automatic unittest of the AbstractArchiver class.
 
-Since there is only one concrete archiver class, most testing of the base classs
+Since there is only one concrete archiver class, most testing of the base class
 will be done through testing of Hdf5Archiver and create_archiver().  The general
 rule will be to test functionality in the layer closest to the user.  For
 instance, testing of argument types passed to this class will be tested on

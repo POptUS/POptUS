@@ -31,7 +31,7 @@ class AbstractArchiver(metaclass=abc.ABCMeta):
         Since this is more for internal use, this method isn't integrated into
         the error handling or logging scheme.  Rather, calling code is
         responsible for checking for an acceptable result, logging
-        warnings/errors if appropriate, and raising an execption if acceptable.
+        warnings/errors if appropriate, and raising an exception if acceptable.
 
         :return: ``None`` if an error was found; otherwise, Path as a
             PurePosixPath object
@@ -67,7 +67,7 @@ class AbstractArchiver(metaclass=abc.ABCMeta):
         Since this is more for internal use, this method isn't integrated into
         the error handling or logging scheme.  Rather, calling code is
         responsible for checking for an acceptable result, logging
-        warnings/errors if appropriate, and raising an execption if acceptable.
+        warnings/errors if appropriate, and raising an exception if acceptable.
 
         :return: (path, item_name) as posix-format strings for the given table
             or attribute.  (``None``, ``None``) indicates a failure.
@@ -228,6 +228,9 @@ class AbstractArchiver(metaclass=abc.ABCMeta):
     def __contains__(self, item):
         """
         This should only be called if the file is currently open.
+
+        :return: True if the file contains a group, table, or attribute
+            associated with the given item
         """
         return self._has_item(item)
 
@@ -237,10 +240,9 @@ class AbstractArchiver(metaclass=abc.ABCMeta):
         The only intended use of this is for the base class to use a concrete
         class's implementation in the base class's __contains__ member function.
 
-        :param path: Posix-format path of group or table to check for.  This
-            cannot be used to test for the existence of an attribute.
-
-        :return: True if present in file
+        :param path: Posix-format path of group or table to check for.
+        :return: True if the file contains a group, table, or attribute
+            associated with the given item
         """
         ...
 
