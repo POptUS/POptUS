@@ -11,14 +11,25 @@ __version__ = version("poptus")
 from ._constants import (
     LOG_LEVEL_NONE, LOG_LEVEL_DEFAULT,
     LOG_LEVEL_MIN_DEBUG, LOG_LEVEL_MAX,
-    LOG_LEVELS
+    LOG_LEVELS,
+    ARCHIVE_READONLY, ARCHIVE_CREATE, ARCHIVE_RESTART,
+    ARCHIVE_ROOT_GROUP,
+    ARCHIVE_MODEL_GROUP, ARCHIVE_DATASET_GROUP,
+    ARCHIVE_METHOD_GROUP, ARCHIVE_RESULTS_GROUP,
+    ARCHIVE_METHOD_NAME_ATTR, ARCHIVE_METHOD_VERSION_ATTR,
+    ARCHIVE_USERNAME_ATTR,
+    ARCHIVE_START_TIME_ATTR, ARCHIVE_END_TIME_ATTR
 )
+
+from .LogicError import LogicError
 
 from .AbstractLogger import AbstractLogger
 from .StandardLogger import StandardLogger
 from .FileLogger import FileLogger
 from .create_logger import create_logger
 from .create_log_functions import create_log_functions
+
+from .AbstractArchiver import AbstractArchiver
 
 # ----- Python unittest-based test framework
 # Used for automatic test discovery

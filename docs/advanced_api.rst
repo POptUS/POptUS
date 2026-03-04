@@ -9,3 +9,8 @@ Logging
     :members: level, log, warn, error
 .. autoclass:: poptus.FileLogger
     :members: level, filename, log, warn, error
+
+Archiving
+---------
+.. autoclass:: poptus.AbstractArchiver
+    :members:
