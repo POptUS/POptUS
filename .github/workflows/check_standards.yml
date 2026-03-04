@@ -1,7 +1,7 @@
 name: Check Standard Adherence
 env:
-  CLONE_PATH: ${{ github.workspace }}
-  POPTUS_PKG: ${{ github.workspace }}/poptus_pypkg
+  POPTUS_PKG:      ${{ github.workspace }}/poptus_pypkg
+  GH_ACTIONS_PATH: ${{ github.workspace }}/.github/workflows
 on:
   push:
     branches: [main]
@@ -9,24 +9,18 @@ on:
     branches: [main]
 
 jobs:
+  # Prefer using the latest Python version supported by the package
   check_standards:
-    strategy:
-      matrix:
-        os:             [ubuntu-latest]
-        python-version: ["3.13"]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout POptUS repository
         uses: actions/checkout@v4
-
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-
+          python-version: 3.14
       - name: Setup Python with tox
-        run: $CLONE_PATH/.github/workflows/setup_tox_github_action.sh ${{ runner.os }}
-
+        run: $GH_ACTIONS_PATH/setup_tox_github_action.sh ${{ runner.os }}
       - name: Check coding standards
         run: |
           pushd $POPTUS_PKG
