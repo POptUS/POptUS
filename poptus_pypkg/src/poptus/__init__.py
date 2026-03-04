@@ -33,6 +33,7 @@ from .AbstractArchiver import AbstractArchiver
 from .Hdf5Archiver import Hdf5Archiver
 from .create_archiver import create_archiver
 
+from .get_username import get_username
 from .now_utc import now_utc
 
 # ----- Python unittest-based test framework

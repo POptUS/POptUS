@@ -16,4 +16,5 @@ Archiving
     :members:
 .. autoclass:: poptus.Hdf5Archiver
     :members:
+.. autofunction:: poptus.get_username
 .. autofunction:: poptus.now_utc
