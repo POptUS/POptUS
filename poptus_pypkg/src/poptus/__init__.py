@@ -31,6 +31,7 @@ from .create_log_functions import create_log_functions
 
 from .AbstractArchiver import AbstractArchiver
 from .Hdf5Archiver import Hdf5Archiver
+from .create_archiver import create_archiver
 
 # ----- Python unittest-based test framework
 # Used for automatic test discovery
