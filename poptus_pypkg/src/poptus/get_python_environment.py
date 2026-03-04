@@ -17,9 +17,7 @@ def get_python_environment():
         useful for recording along with data created with this environment
     """
     # ----- CREATE STRUCTURE & SET PYTHON INFO
-    branch, build_date = platform.python_build()
-    if branch != "main":
-        raise RuntimeError(f"Unexpected Python build value ({branch})")
+    _, build_date = platform.python_build()
 
     env = {}
     env["Python"] = {

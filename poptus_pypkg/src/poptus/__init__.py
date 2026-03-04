@@ -33,6 +33,8 @@ from .AbstractArchiver import AbstractArchiver
 from .Hdf5Archiver import Hdf5Archiver
 from .create_archiver import create_archiver
 
+from .now_utc import now_utc
+
 # ----- Python unittest-based test framework
 # Used for automatic test discovery
 from .load_tests import load_tests
