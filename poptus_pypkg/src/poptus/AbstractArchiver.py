@@ -106,9 +106,9 @@ class AbstractArchiver(metaclass=abc.ABCMeta):
         :param filename: Name and path of the file to archive to
         :param mode: File access mode
 
-            * ARCHIVE_READONLY - open pre-existing file in readonly mode
-            * ARCHIVE_CREATE - create the file from scratch
-            * ARCHIVE_RESTART - open pre-existing file for appending data
+            * ``ARCHIVE_READONLY`` - open pre-existing file in readonly mode
+            * ``ARCHIVE_CREATE`` - create the file from scratch
+            * ``ARCHIVE_RESTART`` - open pre-existing file for appending data
 
         :param overwrite: If ``mode`` is ``ARCHIVE_CREATE`` and a file with the
             given filename already exists, then overwrite the file if ``True``.
