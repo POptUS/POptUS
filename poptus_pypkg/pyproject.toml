@@ -52,7 +52,7 @@ classifiers=[
 # The use of MPI for MPI-aware logging is outside of this package.  Therefore,
 # mpi4py is only an explicit external dependence of this package if users want
 # to test this functionality through the package.
-mpi = ["mpi4py", "coverage"]
+mpi = ["mpi4py"]
 # Install Open-MPI or MPICH wheels prepared by mpi4py
 mpich   = ["mpich"]
 openmpi = ["openmpi"]

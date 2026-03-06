@@ -215,11 +215,15 @@ class TestMpiLoggers(unittest.TestCase):
             if verbosity >= poptus.LOG_LEVEL_MIN_DEBUG:
                 n_debug_levels = verbosity - poptus.LOG_LEVEL_MIN_DEBUG + 1
                 n_msgs += (n_procs * n_debug_levels)
+            # if len(stdout) != n_msgs:
+            #     print(stdout)
             self.assertEqual(len(stdout), n_msgs)
 
             # -- stderr
             # All verbosity levels
             # - All processes should write same error message to stderr
+            # if len(stderr) != len(self.__ALL_RANKS):
+            #     print(stderr)
             self.assertEqual(len(stderr), len(self.__ALL_RANKS))
 
             n_stdout = 0
@@ -258,11 +262,16 @@ class TestMpiLoggers(unittest.TestCase):
             self.assertEqual(n_stderr, n_procs)
 
     def _call_mpi_exe(self, n_mpi_processes, verbosity):
-        CMD = ["mpirun", "-np", str(n_mpi_processes),
-               "coverage", "run",
-               "--parallel-mode",
-               "--data-file=.coverage_poptus",
-               "-m", "mpi4py", str(_MPI_EXE)]
+        try:
+            import coverage
+            CMD = ["mpirun", "-np", str(n_mpi_processes),
+                   "coverage", "run",
+                   "--parallel-mode",
+                   "--data-file=.coverage_poptus",
+                   "-m", "mpi4py", str(_MPI_EXE)]
+        except Exception:
+            CMD = ["mpirun", "-np", str(n_mpi_processes),
+                   "python", "-m", "mpi4py", str(_MPI_EXE)]
 
         # try:
         result = sbp.run(CMD + [str(verbosity)],
