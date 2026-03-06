@@ -134,6 +134,38 @@ creates two distinct loggers with method information written to file with high
 verbosity and model information written to standard output/error with low
 verbosity.
 
+MPI-aware Logging
+^^^^^^^^^^^^^^^^^
+.. _`Issue 9`: https://github.com/POptUS/POptUS/issues/9
+
+.. note::
+
+    This functionality is being offered in an immature, prototype form.  In
+    particular, the implementation is potentially a naive implementation.
+    Ideally a final, professional implementation would be implemented as part of
+    `Issue 9`_.
+
+By creating loggers with ``rank`` and ``is_lead`` arguments, MPI-based codes can
+provide a lead logging MPI process with a dedicated logger that functions
+analogously to the aforementioned standard output/error logger.  This same
+functionality provides all other MPI processes with a logger than only logs
+debug information, warnings, and errors.  For instance, the code
+
+.. code:: python
+
+    # Assume that we are given an mpi4py MPI communicator and would like the
+    # rank 0 MPI process to serve as the lead process for logging.
+    rank = mpi_comm.Get_rank()
+    is_lead = (rank == 0)
+
+    configuration = {"Level": poptus.LOG_LEVEL_MIN_DEBUG}
+    logger = poptus.create_logger(configuration, rank=rank, is_lead=is_lead)
+
+would allow only the lead logging process to log all general information and all
+MPI processes to log their first level of debug information.  This design has
+the benefit that logger objects can be passed around and used without having to
+run logging commands within rank-based conditionals.
+
 Custom Loggers
 ^^^^^^^^^^^^^^
 
