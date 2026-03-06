@@ -258,36 +258,36 @@ class TestMpiLoggers(unittest.TestCase):
             self.assertEqual(n_stderr, n_procs)
 
     def _call_mpi_exe(self, n_mpi_processes, verbosity):
-        # TODO: Can we run this with coverage so that the report generated here
-        # could be merged into the coverage report for the larger, non-MPI test
-        # suite?
         CMD = ["mpirun", "-np", str(n_mpi_processes),
-               "python", "-m", "mpi4py", str(_MPI_EXE)]
+               "coverage", "run",
+               "--parallel-mode",
+               "--data-file=.coverage_poptus",
+               "-m", "mpi4py", str(_MPI_EXE)]
 
-        try:
-            result = sbp.run(CMD + [str(verbosity)],
-                             stdin=sbp.DEVNULL,
-                             capture_output=True, check=True)
-        except sbp.CalledProcessError as err:
-            stdout = err.stdout.decode()
-            stderr = err.stderr.decode()
+        #try:
+        result = sbp.run(CMD + [str(verbosity)],
+                         stdin=sbp.DEVNULL,
+                         capture_output=True, check=True)
+        #except sbp.CalledProcessError as err:
+        #    stdout = err.stdout.decode()
+        #    stderr = err.stderr.decode()
 
-            # Log useful information before reraising
-            msg = "Unable to run MPI test executable - Return code {}\n"
-            msg = msg.format(err.returncode)
-            msg += "\t" + " ".join(err.cmd) + "\n"
-            if stdout != "":
-                msg += "\n\tstdout logs\n"
-                msg += "\t" + "-"*60 + "\n"
-                for line in stdout.split("\n"):
-                    msg += f"\t{line}\n"
-            if stderr != "":
-                msg += "\n\tstderr logs\n"
-                msg += "\t" + "-"*60 + "\n"
-                for line in stderr.split("\n"):
-                    msg += f"\t{line}\n"
-            print(msg)
-            raise
+        #    # Log useful information before reraising
+        #    msg = "Unable to run MPI test executable - Return code {}\n"
+        #    msg = msg.format(err.returncode)
+        #    msg += "\t" + " ".join(err.cmd) + "\n"
+        #    if stdout != "":
+        #        msg += "\n\tstdout logs\n"
+        #        msg += "\t" + "-"*60 + "\n"
+        #        for line in stdout.split("\n"):
+        #            msg += f"\t{line}\n"
+        #    if stderr != "":
+        #        msg += "\n\tstderr logs\n"
+        #        msg += "\t" + "-"*60 + "\n"
+        #        for line in stderr.split("\n"):
+        #            msg += f"\t{line}\n"
+        #    print(msg)
+        #    raise
 
         stdout = [line for line in result.stdout.decode().split("\n")
                   if line != ""]
