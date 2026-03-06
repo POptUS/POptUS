@@ -28,8 +28,10 @@ jobs:
 
       - name: Measure coverage & generate reports
         run: |
+          # Prefer MPICH over Open-MPI since the latter can often impose a limit
+          # of at most two MPI processes on GH action runners.
           pushd $POPTUS_PKG
-          COVERAGE_FILE=$COV_FILE COVERAGE_XML=$COV_XML_FILE COVERAGE_HTML=$COV_HTML_FILE tox -r -e coverage,report
+          POPTUS_MPI_IMPL=mpich COVERAGE_FILE=$COV_FILE COVERAGE_XML=$COV_XML_FILE COVERAGE_HTML=$COV_HTML_FILE tox -r -e coverage,report
           mv $COV_FILE $CLONE_PATH
           mv $COV_XML_FILE $CLONE_PATH
           mv $COV_HTML_FILE $CLONE_PATH
