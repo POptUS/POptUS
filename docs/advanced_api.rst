@@ -9,3 +9,7 @@ Logging
     :members: level, log, warn, error
 .. autoclass:: poptus.FileLogger
     :members: level, filename, log, warn, error
+.. autoclass:: poptus.MpiLeadLogger
+    :members: level, log, warn, error
+.. autoclass:: poptus.MpiWorkerLogger
+    :members: level, log, warn, error
