@@ -148,7 +148,7 @@ MPI-aware Logging
 By creating loggers with ``rank`` and ``is_lead`` arguments, MPI-based codes can
 provide a lead logging MPI process with a dedicated logger that functions
 analogously to the aforementioned standard output/error logger.  This same
-functionality provides all other MPI processes with a logger than only logs
+functionality provides all other MPI processes with a logger that only logs
 debug information, warnings, and errors.  For instance, the code
 
 .. code:: python
