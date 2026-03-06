@@ -34,8 +34,9 @@ jobs:
 
     - name: Build, install, & test POptUS
       run: |
+        # Preinstall mpi4py so that tests include MPI-aware functionality
         python -m pip install --upgrade pip
-        python -m pip install build
+        python -m pip install build openmpi mpi4py
         # Build source distribution & install
         pushd $POPTUS_PKG
         python -m build --sdist
