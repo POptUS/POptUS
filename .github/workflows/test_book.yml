@@ -28,8 +28,10 @@ jobs:
       run: $GH_ACTIONS_PATH/setup_tox_github_action.sh ${{ runner.os }}
     - name: Build Jupyter book
       run: |
+        # Prefer MPICH over Open-MPI since the latter can often impose a limit
+        # of at most two MPI processes on GH action runners.
         pushd $POPTUS_PKG
-        tox -r -e book
+        POPTUS_MPI_IMPL=mpich tox -r -e book
         popd
     - name: Archive examples Jupyter book 
       uses: actions/upload-pages-artifact@v3

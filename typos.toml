@@ -8,3 +8,7 @@ check-file = true
 binary = false
 locale = "en"
 unicode = true
+
+[type.ipynb]
+extend-glob = ["*.ipynb"]
+extend-ignore-identifiers-re = ["ges", "nd"]

@@ -28,7 +28,7 @@ maintainers = [
 license       = "MIT"
 license-files = ["LICENSE"]
 
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = []
 
 keywords = ["POptUS"]
@@ -36,17 +36,26 @@ classifiers=[
     "Natural Language :: English",
     "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Operating System :: MacOS :: MacOS X",
     "Operating System :: POSIX :: Linux",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Mathematics"
 ]
+
+[project.optional-dependencies]
+# The use of MPI for MPI-aware logging is outside of this package.  Therefore,
+# mpi4py is only an explicit external dependence of this package if users want
+# to test this functionality through the package.
+mpi = ["mpi4py"]
+# Install Open-MPI or MPICH wheels prepared by mpi4py
+mpich   = ["mpich"]
+openmpi = ["openmpi"]
 
 [project.urls]
 Repository    = "https://github.com/POptUS/POptUS"
