@@ -18,16 +18,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout POptUS repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.14
+      - name: Install MPICH
+        run: |
+          # Prefer MPICH over Open MPI since the latter can often impose a limit
+          # of at most two MPI processes on GH action runners.
+          sudo apt-get update
+          sudo apt-get -y install mpich libmpich-dev
       - name: Setup Python with tox
         run: $GH_ACTIONS_PATH/setup_tox_github_action.sh ${{ runner.os }}
 
       - name: Measure coverage & generate reports
         run: |
+          # Prefer MPICH over Open-MPI since the latter can often impose a limit
+          # of at most two MPI processes on GH action runners.
           pushd $POPTUS_PKG
           COVERAGE_FILE=$COV_FILE COVERAGE_XML=$COV_XML_FILE COVERAGE_HTML=$COV_HTML_FILE tox -r -e coverage,report
           mv $COV_FILE $CLONE_PATH
@@ -36,7 +44,7 @@ jobs:
           popd
 
       - name: Archive coverage results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: poptus-coverage-results
           path: |
@@ -48,14 +56,14 @@ jobs:
     needs: [coverage]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Access coverage reports
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: poptus-coverage-results
           path: ${{ env.CLONE_PATH }}
       - name: Upload coverage report to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: |

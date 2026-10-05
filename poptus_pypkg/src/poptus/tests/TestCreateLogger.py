@@ -12,6 +12,9 @@ import poptus
 
 
 class TestCreateLogger(unittest.TestCase):
+    # This class tests only non-MPI logger creation.  TestMpiLoggers tests for
+    # the cases when rank is not None.
+    #
     # All tests should suppress writing to stdout/err, but check content of
     # suppressed messages where useful.
     #

@@ -34,8 +34,12 @@ jobs:
 
     - name: Build, install, & test POptUS
       run: |
+        # Preinstall mpi4py so that tests include MPI-aware functionality.
+        #
+        # Prefer MPICH over Open-MPI since the latter can often impose a limit
+        # of at most two MPI processes on GH action runners.
         python -m pip install --upgrade pip
-        python -m pip install build
+        python -m pip install build mpich mpi4py
         # Build source distribution & install
         pushd $POPTUS_PKG
         python -m build --sdist

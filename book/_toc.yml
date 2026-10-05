@@ -13,3 +13,4 @@ parts:
     numbered: 2
     chapters:
     - file: notebooks/FullDevExample.ipynb
+    - file: notebooks/MpiLoggerExample.ipynb

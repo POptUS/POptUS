@@ -19,11 +19,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: 3.14
+    - name: Install MPICH
+      run: |
+        # Prefer MPICH over Open MPI since the latter can often impose a limit
+        # of at most two MPI processes on GH action runners.
+        sudo apt-get update
+        sudo apt-get -y install mpich libmpich-dev
     - name: Setup Python with tox
       run: $GH_ACTIONS_PATH/setup_tox_github_action.sh ${{ runner.os }}
     - name: Build Jupyter book

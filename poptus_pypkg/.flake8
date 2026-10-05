@@ -6,4 +6,6 @@ exclude =
 per-file-ignores =
     # Do not apply PEP8 to __init__.py files
     src/poptus/__init__.py:F401
+    # mpi4py is imported just to test availability & determine what to test
+    src/poptus/tests/TestMpiLoggers.py:F401
 max-line-length = 80
