@@ -40,11 +40,11 @@ jobs:
     steps:
       # Clone the repository with the full history since setuptools-scm needs
       # the tags to set the correct version.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.14
       - name: Construct sdist and wheel
@@ -59,7 +59,7 @@ jobs:
           python -m build
           popd
       - name: Archive both distributions
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: poptus-release-candidate
           path: |
@@ -73,16 +73,16 @@ jobs:
       matrix:
         # python-versions must be maintained consistent with associated
         # pyproject.toml and tox.ini configuration.
-        os: [ubuntu-22.04, ubuntu-24.04, macos-14, macos-15, macos-26, macos-26-intel]
+        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
       - name: Obtain release candidate
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: poptus-release-candidate
           path: ${{ env.CLONE_PATH }}
@@ -101,16 +101,16 @@ jobs:
       matrix:
         # python-versions must be maintained consistent with associated
         # pyproject.toml and tox.ini configuration.
-        os: [ubuntu-22.04, ubuntu-24.04, macos-14, macos-15, macos-26, macos-26-intel]
+        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
       - name: Obtain release candidate
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: poptus-release-candidate
           path: ${{ env.CLONE_PATH }}
