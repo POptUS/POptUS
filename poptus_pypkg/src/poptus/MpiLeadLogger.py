@@ -23,6 +23,13 @@ class MpiLeadLogger(AbstractLogger):
         # as per the documentation in AbstractLogger.
         self.__valid = set(LOG_LEVELS).difference({LOG_LEVEL_NONE})
 
+    @property
+    def is_lead_logger(self):
+        """
+        :return: ``True``
+        """
+        return True
+
     def log(self, caller, msg, level):
         """
         Print the given message to ``stdout`` if the logger's verbosity level

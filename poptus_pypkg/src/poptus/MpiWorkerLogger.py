@@ -50,6 +50,13 @@ class MpiWorkerLogger(AbstractLogger):
         # as per the documentation in AbstractLogger.
         self.__valid = set(LOG_LEVELS).difference({LOG_LEVEL_NONE})
 
+    @property
+    def is_lead_logger(self):
+        """
+        :return: ``False``
+        """
+        return False
+
     def log(self, _, msg, level):
         """
         Print the given message to ``stdout`` if the message's level is greater

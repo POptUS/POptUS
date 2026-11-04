@@ -39,6 +39,17 @@ class AbstractLogger(metaclass=abc.ABCMeta):
         """
         return self.__level
 
+    @property
+    def is_lead_logger(self):
+        """
+        Derived classes that define loggers that work in MPI environments should
+        override this so that ``True`` is returned if the logger object is owned
+        by the lead logger process; ``False``, otherwise.  All other derived
+        classes can use the abstract base class's implementation, which raises
+        an error.
+        """
+        raise NotImplementedError("A lead logger only exists for MPI-aware logging")
+
     @abc.abstractmethod
     def log(self, caller, msg, level):
         """

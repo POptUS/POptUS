@@ -9,8 +9,9 @@ parts:
     - file: notebooks/StdLoggerExample.ipynb
     - file: notebooks/FileLoggerExample.ipynb
     - file: notebooks/TwoLoggersExample.ipynb
+    - file: notebooks/MpiLoggerExample.ipynb
   - caption: Developer Examples
     numbered: 2
     chapters:
     - file: notebooks/FullDevExample.ipynb
-    - file: notebooks/MpiLoggerExample.ipynb
+    - file: notebooks/MpiLoggerDevExample.ipynb
