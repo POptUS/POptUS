@@ -46,7 +46,9 @@ jobs:
         python -m pip install dist/poptus-*.tar.gz
         popd
         # Log info
+        which mpirun
+        mpirun -show
         which python
         python -m pip list
         # Run tests through package
-        python -c "import poptus ; exit(not poptus.test())"
+        python -c "import poptus[mpi] ; exit(not poptus.test())"
