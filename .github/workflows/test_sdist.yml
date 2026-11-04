@@ -47,7 +47,8 @@ jobs:
         popd
         # Log info
         which mpirun
-        mpirun -show
+        which mpicxx
+        mpicxx -show
         which python
         python -m pip list
         # Run tests through package

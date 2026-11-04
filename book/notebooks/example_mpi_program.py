@@ -18,6 +18,8 @@ comm_size = mpi_comm.Get_size()
 rank = mpi_comm.Get_rank()
 is_lead = (rank == LEAD_PROCESS)
 
+assert comm_size > 1
+
 # Create MPI-aware log functions
 logger = poptus.create_logger({"Level": verbosity}, rank=rank, is_lead=is_lead)
 

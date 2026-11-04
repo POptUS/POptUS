@@ -31,6 +31,8 @@ def my_mpi_method_hack(logger, mpi_comm, lead_process):
 
     verbosity = logger.level
 
-    CMD = ["mpirun", "-np", str(N_MPI_PROCESSES), MPI_EXEC, str(verbosity)]
+    CMD = ["mpirun", "-np", str(N_MPI_PROCESSES),
+           "python", "-m", "mpi4py",
+           MPI_EXEC, str(verbosity)]
     result = sbp.run(CMD, check=True)
     assert result.returncode == 0
