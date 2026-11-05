@@ -1,6 +1,10 @@
 name: Test POptUS Installation
 env:
   POPTUS_PKG: ${{ github.workspace }}/poptus_pypkg
+  # MPICH usage can fail due to UCX issues:
+  #   https://github.com/underworldcode/underworld3/issues/461
+  UCX_TLS: tcp,self,sm
+  UCX_NET_DEVICES: lo
 on:
   # This action is used only to run a significant but smallish set of test
   # setups on feature branches.

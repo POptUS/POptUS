@@ -25,6 +25,11 @@ def main(verbosity):
     # present_vars = {var: os.environ.get(var) for var in mpi_env_vars if var in os.environ}
     # print(f"Detected Launch Variables: {present_vars}")
 
+    # There is no point running this unless we have at least two processes.
+    # This will help identify issues during book building if, for example, the
+    # MPI/mpi4py installations are at odds with the execution with MPI.
+    assert comm_size > 1
+
     # Create MPI-aware log functions
     logger = poptus.create_logger({"Level": verbosity}, rank=rank, is_lead=is_lead)
 
