@@ -28,7 +28,8 @@ jobs:
       # Prefer MPICH over Open-MPI since the latter can often impose a limit
       # of at most two MPI processes on GH action runners.
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
+        #os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
+        os: [ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
