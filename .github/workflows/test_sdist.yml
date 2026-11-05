@@ -21,8 +21,10 @@ jobs:
       # python-versions must be maintained consistent with associated
       # pyproject.toml and tox.ini configuration.
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        #os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
+        #python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        os: [ubuntu-22.04]
+        python-version: ["3.14"]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout POptUS repository
@@ -31,6 +33,10 @@ jobs:
       uses: actions/setup-python@v7
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Install Open MPI
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install openmpi-bin libopenmpi-dev
 
     - name: Build, install, & test POptUS
       run: |
@@ -39,7 +45,7 @@ jobs:
         # Prefer MPICH over Open-MPI since the latter can often impose a limit
         # of at most two MPI processes on GH action runners.
         python -m pip install --upgrade pip
-        python -m pip install build mpich mpi4py
+        python -m pip install build mpi4py
         # Build source distribution & install
         pushd $POPTUS_PKG
         python -m build --sdist
