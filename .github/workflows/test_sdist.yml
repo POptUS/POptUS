@@ -39,11 +39,11 @@ jobs:
         # Prefer MPICH over Open-MPI since the latter can often impose a limit
         # of at most two MPI processes on GH action runners.
         python -m pip install --upgrade pip
-        python -m pip install build mpich mpi4py
+        python -m pip install build mpich
         # Build source distribution & install
         pushd $POPTUS_PKG
         python -m build --sdist
-        python -m pip install dist/poptus-*.tar.gz
+        python -m pip install dist/poptus-*.tar.gz[mpi]
         popd
         # Log info
         which mpirun
@@ -52,4 +52,4 @@ jobs:
         which python
         python -m pip list
         # Run tests through package
-        python -c "import poptus[mpi] ; exit(not poptus.test())"
+        python -c "import poptus ; exit(not poptus.test())"
