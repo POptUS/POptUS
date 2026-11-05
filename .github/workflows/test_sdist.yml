@@ -43,7 +43,7 @@ jobs:
         # Build source distribution & install
         pushd $POPTUS_PKG
         python -m build --sdist
-        python -m pip install dist/poptus-*.tar.gz[mpi]
+        python -m pip install dist/poptus-0.0.0.tar.gz[mpi]
         popd
         # Log info
         which mpirun
