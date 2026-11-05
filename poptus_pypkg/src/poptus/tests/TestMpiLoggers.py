@@ -192,7 +192,7 @@ class TestMpiLoggers(unittest.TestCase):
         try:
             import mpi4py
         except Exception:
-            return
+            self.skipTest("mpi4py is not installed")
 
         n_procs = len(self.__ALL_RANKS)
         for verbosity in poptus.LOG_LEVELS:

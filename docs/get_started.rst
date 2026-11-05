@@ -2,9 +2,9 @@ Getting Started
 ===============
 .. _`mpi4py`: https://mpi4py.readthedocs.io
 
-If users will make use of MPI-aware logging and would like to test this
-functionality after installing the |poptus| package, then before installing
-|poptus| they should follow `mpi4py`_ documentation to install that package in
+Users that will make use of MPI-aware logging and that would like to test this
+functionality through the package's test suite should follow `mpi4py`_
+documentation before installing |poptus| to install the ``mpi4py`` package in
 conjunction with a compatible MPI implementation.  Note that that ``mpi4py``
 does **not** need to be installed to simply use the |poptus| package.
 

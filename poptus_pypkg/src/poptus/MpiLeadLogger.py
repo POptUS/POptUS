@@ -35,8 +35,8 @@ class MpiLeadLogger(AbstractLogger):
         Print the given message to ``stdout`` if the logger's verbosity level
         is greater than or equal to the given message's level.
 
-        Presently, this implementation flushes stdout on each message to ensure
-        reasonably good chronological ordering of MPI messages.
+        Presently, this implementation flushes ``stdout`` on each message to
+        ensure reasonably good chronological ordering of MPI messages.
 
         :param caller: Name of calling code for inclusion in actual logged
             message
@@ -59,8 +59,8 @@ class MpiLeadLogger(AbstractLogger):
         that it is transmitting a warning message to users.  This is printed
         regardless of the logger's verbosity level.
 
-        Presently, this implementation flushes stdout on each message to ensure
-        reasonably good chronological ordering of MPI messages.
+        Presently, this implementation flushes ``stdout`` on each message to
+        ensure reasonably good chronological ordering of MPI messages.
 
         :param caller: Name of calling code for inclusion in actual logged
             warning
@@ -74,6 +74,9 @@ class MpiLeadLogger(AbstractLogger):
         Print the given message to ``stderr`` in such a way that it is clear
         that it is transmitting an error message to users.  This is printed
         regardless of the logger's verbosity level.
+
+        Presently, this implementation flushes ``stderr`` on each message to
+        ensure reasonably good chronological ordering of MPI messages.
 
         :param caller: Name of calling code for inclusion in actual logged
             error

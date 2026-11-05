@@ -60,8 +60,11 @@ class MpiWorkerLogger(AbstractLogger):
     def log(self, _, msg, level):
         """
         Print the given message to ``stdout`` if the message's level is greater
-        than ``LOG_LEVEL_MIN_DEBUG`` and the logger's verbosity level is greater
-        than or equal to the given message's level.
+        than or equal to ``LOG_LEVEL_MIN_DEBUG`` and the logger's verbosity
+        level is greater than or equal to the given message's level.
+
+        Presently, this implementation flushes ``stdout`` on each message to
+        ensure reasonably good chronological ordering of MPI messages.
 
         :param caller: Ignored
         :param msg: Debug message to potentially log
@@ -83,6 +86,9 @@ class MpiWorkerLogger(AbstractLogger):
         that it is transmitting a warning message to users.  This is printed
         regardless of the logger's verbosity level.
 
+        Presently, this implementation flushes ``stdout`` on each message to
+        ensure reasonably good chronological ordering of MPI messages.
+
         :param caller: Ignored
         :param msg: Warning message to log
         """
@@ -94,6 +100,9 @@ class MpiWorkerLogger(AbstractLogger):
         Print the given message to ``stderr`` in such a way that it is clear
         that it is transmitting an error message to users.  This is printed
         regardless of the logger's verbosity level.
+
+        Presently, this implementation flushes ``stderr`` on each message to
+        ensure reasonably good chronological ordering of MPI messages.
 
         :param caller: Ignored
         :param msg: Error message to log
