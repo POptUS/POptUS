@@ -27,8 +27,10 @@ jobs:
       #
       # Prefer MPICH over Open-MPI since the latter can often impose a limit
       # of at most two MPI processes on GH action runners.
+      #
+      # This action fails on ubuntu-22.04 due to an inability to find the
+      # libmpi.so.12 library.  We exclude that runner.
       matrix:
-        #os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
         os: [ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
@@ -43,7 +45,6 @@ jobs:
       uses: mpi4py/setup-mpi@v1
       with:
         mpi: 'mpich'
-
     - name: Build, install, & test POptUS
       run: |
         # Preinstall mpi4py so that tests include MPI-aware functionality.

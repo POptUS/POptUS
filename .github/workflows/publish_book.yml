@@ -11,13 +11,16 @@ on:
     branches: main
 
 jobs:
-  # Prefer using the latest Python version supported by the package
-  #
   # Since notebooks contain regular and sanity checks, this action not only
   # confirms that the book is building correctly, but also
   # * that notebooks are generating correct content and therefore
   # * that our "Jupyter book test suite" passed.
   build:
+    # Prefer using the latest Python version supported by the package
+    #
+    # Prefer MPICH over Open-MPI since the latter can often impose a limit of at
+    # most two MPI processes on GH action runners.
+    #
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
       pages:    write # to deploy to Pages
@@ -33,12 +36,10 @@ jobs:
       uses: actions/setup-python@v7
       with:
         python-version: 3.14
-    - name: Install MPICH
-      run: |
-        # Prefer MPICH over Open MPI since the latter can often impose a limit
-        # of at most two MPI processes on GH action runners.
-        sudo apt-get update
-        sudo apt-get -y install mpich libmpich-dev
+    - name: Setup MPI
+      uses: mpi4py/setup-mpi@v1
+      with:
+        mpi: 'mpich'
     - name: Setup Python with tox
       run: $GH_ACTIONS_PATH/setup_tox_github_action.sh ${{ runner.os }}
     - name: Build Jupyter book
