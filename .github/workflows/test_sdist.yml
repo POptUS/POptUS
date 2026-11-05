@@ -39,7 +39,7 @@ jobs:
         # Prefer MPICH over Open-MPI since the latter can often impose a limit
         # of at most two MPI processes on GH action runners.
         python -m pip install --upgrade pip
-        python -m pip install build mpich
+        python -m pip install build
         # Build source distribution & install
         pushd $POPTUS_PKG
         python -m build --sdist
