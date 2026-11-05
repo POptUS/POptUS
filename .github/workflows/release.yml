@@ -102,7 +102,11 @@ jobs:
           path: ${{ env.CLONE_PATH }}
       - name: Setup Python, install, & test
         run: |
+          # Preinstall mpi4py so that tests include MPI-aware functionality.
           which python
+          which mpirun
+          which mpicxx
+          mpicxx -show
           python -m pip install --upgrade pip
           python -m pip install mpi4py
           python -m pip install $CLONE_PATH/poptus-*.tar.gz
@@ -141,7 +145,11 @@ jobs:
           path: ${{ env.CLONE_PATH }}
       - name: Setup Python, install, & test
         run: |
+          # Preinstall mpi4py so that tests include MPI-aware functionality.
           which python
+          which mpirun
+          which mpicxx
+          mpicxx -show
           python -m pip install --upgrade pip
           python -m pip install mpi4py
           python -m pip install $CLONE_PATH/poptus-*-py3-none-any.whl

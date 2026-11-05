@@ -48,6 +48,10 @@ jobs:
     - name: Build, install, & test POptUS
       run: |
         # Preinstall mpi4py so that tests include MPI-aware functionality.
+        which python
+        which mpirun
+        which mpicxx
+        mpicxx -show
         python -m pip install --upgrade pip
         python -m pip install build mpi4py
         # Build source distribution & install
@@ -56,10 +60,6 @@ jobs:
         python -m pip install dist/poptus-*.tar.gz
         popd
         # Log info
-        which mpirun
-        which mpicxx
-        mpicxx -show
-        which python
         python -m pip list
         # Run tests through package
         python -c "import poptus ; exit(not poptus.test())"
