@@ -32,7 +32,7 @@ class TestMpiLoggers(unittest.TestCase):
 
     def setUp(self):
         self.__SUCCESS = 0
-        self.__N_MPI_PROCESSES = 2
+        self.__N_MPI_PROCESSES = 4
 
         # From Mpi*Logger classes
         self.__RANK_TAG = "Rank {}"

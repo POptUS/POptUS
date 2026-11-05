@@ -1,4 +1,3 @@
-import os
 import sys
 
 from mpi4py import MPI
@@ -24,10 +23,18 @@ def main(verbosity):
     rank = MPI_COMM.Get_rank()
     is_lead = (rank == LEAD_MPI_PROCESS)
 
-    print(f"MPI Vendor: {MPI.get_vendor()}")
-    mpi_env_vars = ['OMPI_COMM_WORLD_SIZE', 'PMI_SIZE', 'MV2_COMM_WORLD_SIZE', 'MPI_LOCALNRANKS']
-    present_vars = {var: os.environ.get(var) for var in mpi_env_vars if var in os.environ}
-    print(f"Detected Launch Variables: {present_vars}")
+    # import os
+    # print(f"MPI Vendor: {MPI.get_vendor()}")
+    # mpi_env_vars = [
+    #    'OMPI_COMM_WORLD_SIZE',
+    #    'PMI_SIZE',
+    #    'MV2_COMM_WORLD_SIZE',
+    #    'MPI_LOCALNRANKS'
+    # ]
+    # present_vars = {
+    #    var: os.environ.get(var) for var in mpi_env_vars if var in os.environ
+    # }
+    # print(f"Detected Launch Variables: {present_vars}")
 
     # ----- CREATE MPI-AWARE LOGGERS
     logger = poptus.create_logger({"Level": verbosity},

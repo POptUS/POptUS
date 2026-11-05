@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import os
 import sys
 import poptus
 
@@ -20,10 +19,11 @@ def main(verbosity):
     rank = mpi_comm.Get_rank()
     is_lead = (rank == LEAD_PROCESS)
 
-    print(f"MPI Vendor: {MPI.get_vendor()}")
-    mpi_env_vars = ['OMPI_COMM_WORLD_SIZE', 'PMI_SIZE', 'MV2_COMM_WORLD_SIZE', 'MPI_LOCALNRANKS']
-    present_vars = {var: os.environ.get(var) for var in mpi_env_vars if var in os.environ}
-    print(f"Detected Launch Variables: {present_vars}")
+    # import os
+    # print(f"MPI Vendor: {MPI.get_vendor()}")
+    # mpi_env_vars = ['OMPI_COMM_WORLD_SIZE', 'PMI_SIZE', 'MV2_COMM_WORLD_SIZE', 'MPI_LOCALNRANKS']
+    # present_vars = {var: os.environ.get(var) for var in mpi_env_vars if var in os.environ}
+    # print(f"Detected Launch Variables: {present_vars}")
 
     # Create MPI-aware log functions
     logger = poptus.create_logger({"Level": verbosity}, rank=rank, is_lead=is_lead)
