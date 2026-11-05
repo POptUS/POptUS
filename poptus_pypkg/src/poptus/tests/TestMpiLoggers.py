@@ -215,8 +215,8 @@ class TestMpiLoggers(unittest.TestCase):
             if verbosity >= poptus.LOG_LEVEL_MIN_DEBUG:
                 n_debug_levels = verbosity - poptus.LOG_LEVEL_MIN_DEBUG + 1
                 n_msgs += (n_procs * n_debug_levels)
-            # if len(stdout) != n_msgs:
-            #     print(stdout)
+            if len(stdout) != n_msgs:
+                print(stdout)
             self.assertEqual(len(stdout), n_msgs)
 
             # -- stderr

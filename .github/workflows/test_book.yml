@@ -17,7 +17,7 @@ jobs:
   # * that notebooks are generating correct content and therefore
   # * that our "Jupyter book test suite" passed.
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v7
     - name: Set up Python
