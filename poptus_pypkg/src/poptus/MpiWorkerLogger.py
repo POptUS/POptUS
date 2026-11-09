@@ -2,14 +2,14 @@ import sys
 import numbers
 
 from ._constants import (
-    LOG_LEVELS, LOG_LEVEL_NONE, LOG_LEVEL_MIN_DEBUG,
+    LOG_LEVELS, LOG_LEVEL_NONE, LOG_LEVEL_MIN_DEBUG, LOG_LEVEL_DEFAULT,
     POPTUS_LOG_TAG
 )
 from .AbstractLogger import AbstractLogger
 
 
 class MpiWorkerLogger(AbstractLogger):
-    def __init__(self, rank, level):
+    def __init__(self, rank, level=LOG_LEVEL_DEFAULT):
         """
         A concrete |poptus| logger class that implements an MPI-aware variant of
         the :py:class:`poptus.StandardLogger` for limited logging in MPI-based
@@ -34,7 +34,9 @@ class MpiWorkerLogger(AbstractLogger):
         # To avoid requiring mpi4py as an explicit dependence of this package,
         # we don't get the COMM size here to error check the rank further.
         # Rather, we perform these sanity checks and expect users to supply
-        # ranks correctly otherwise.
+        # ranks correctly otherwise.  If they make a mistake, execution will
+        # continue with wrong log tags.  This is reasonable since users would
+        # likely obtain the rank information directly from mpi4py.
         self.__tag = POPTUS_LOG_TAG
         if isinstance(rank, bool) or (not isinstance(rank, numbers.Integral)):
             msg = f"MPI process rank is not an integer ({rank})"
@@ -63,8 +65,9 @@ class MpiWorkerLogger(AbstractLogger):
         than or equal to ``LOG_LEVEL_MIN_DEBUG`` and the logger's verbosity
         level is greater than or equal to the given message's level.
 
-        Presently, this implementation flushes ``stdout`` on each message to
-        ensure reasonably good chronological ordering of MPI messages.
+        Presently, this implementation flushes ``stdout`` after logging each
+        message to ensure reasonably good chronological ordering of MPI
+        messages.
 
         :param caller: Ignored
         :param msg: Debug message to potentially log
@@ -86,8 +89,9 @@ class MpiWorkerLogger(AbstractLogger):
         that it is transmitting a warning message to users.  This is printed
         regardless of the logger's verbosity level.
 
-        Presently, this implementation flushes ``stdout`` on each message to
-        ensure reasonably good chronological ordering of MPI messages.
+        Presently, this implementation flushes ``stdout`` after logging each
+        warning to ensure reasonably good chronological ordering of MPI
+        messages.
 
         :param caller: Ignored
         :param msg: Warning message to log
@@ -101,8 +105,8 @@ class MpiWorkerLogger(AbstractLogger):
         that it is transmitting an error message to users.  This is printed
         regardless of the logger's verbosity level.
 
-        Presently, this implementation flushes ``stderr`` on each message to
-        ensure reasonably good chronological ordering of MPI messages.
+        Presently, this implementation flushes ``stderr`` after logging each
+        error to ensure reasonably good chronological ordering of MPI messages.
 
         :param caller: Ignored
         :param msg: Error message to log

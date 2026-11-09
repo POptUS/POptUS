@@ -8,6 +8,7 @@ def my_mpi_method(logger, mpi_comm, lead_process):
     # Standard MPI information
     comm_size = mpi_comm.Get_size()
     rank = mpi_comm.Get_rank()
+    assert 0 <= lead_process < comm_size
 
     # Log general example information.  These will only be logged by the lead
     # logger.

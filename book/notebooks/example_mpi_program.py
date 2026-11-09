@@ -11,6 +11,7 @@ FAILURE = 1
 
 
 def main(verbosity):
+    # Lead logger should be owned by the application's MPI lead process.
     LEAD_PROCESS = 0
     
     # Standard MPI setup
@@ -30,7 +31,7 @@ def main(verbosity):
     # MPI/mpi4py installations are at odds with the execution with MPI.
     assert comm_size > 1
 
-    # Create MPI-aware log functions
+    # Create MPI-aware logger
     logger = poptus.create_logger({"Level": verbosity}, rank=rank, is_lead=is_lead)
 
     my_mpi_method(logger, mpi_comm, LEAD_PROCESS)

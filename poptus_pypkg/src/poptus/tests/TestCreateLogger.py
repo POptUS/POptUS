@@ -130,6 +130,15 @@ class TestCreateLogger(unittest.TestCase):
 
     def testBadFileConfigurations(self):
         # Invalid level types for standard logger
+        for level in self.__NOT_INT:
+            bad = self.__good_file_config.copy()
+            bad[poptus._constants.LOG_LEVEL_KEY] = level
+            with redirect_stderr(io.StringIO()) as buffer:
+                with self.assertRaises(TypeError):
+                    poptus.create_logger(bad)
+            # print(buffer.getvalue())
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
+
         for level in self.__bad_levels:
             bad = self.__good_file_config.copy()
             bad[poptus._constants.LOG_LEVEL_KEY] = level
