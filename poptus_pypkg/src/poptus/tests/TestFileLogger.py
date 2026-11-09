@@ -42,13 +42,14 @@ class TestFileLogger(unittest.TestCase):
                           self.__good_level)
 
         # Include valid arguments in containers
-        self.__bad_levels = [
-            None,
-            1.1, float(self.__good_level),
-            "", str(self.__good_level),
-            [], [self.__good_level],
+        self.__NOT_INT = (
+            None, "", True, False, 1.0, 1.1,
+            float(self.__good_level), str(self.__good_level),
             set(), {self.__good_level},
-            {}, {"Level": self.__good_level},
+            {}, {poptus._constants.LOG_LEVEL_KEY: self.__good_level},
+            [], [self.__good_level]
+        )
+        self.__bad_levels = [
             min(poptus.LOG_LEVELS) - 1,
             max(poptus.LOG_LEVELS) + 1
         ]
@@ -108,6 +109,19 @@ class TestFileLogger(unittest.TestCase):
             self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testBadLevel(self):
+        for bad in self.__NOT_INT:
+            self.assertFalse(self.__good_filename.exists())
+            with redirect_stderr(io.StringIO()) as buffer:
+                with self.assertRaises(TypeError):
+                    poptus.FileLogger(self.__good_filename,
+                                      self.__good_overwrite,
+                                      bad)
+            # print(buffer.getvalue())
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
+            # Error message not written to file because a bad level prevents the
+            # creation of the file logger.
+            self.assertFalse(self.__good_filename.exists())
+
         for bad in self.__bad_levels:
             self.assertFalse(self.__good_filename.exists())
             with redirect_stderr(io.StringIO()) as buffer:
@@ -181,6 +195,16 @@ class TestFileLogger(unittest.TestCase):
         logger = poptus.FileLogger(self.__good_filename,
                                    self.__good_overwrite)
         self.assertEqual(poptus.LOG_LEVEL_DEFAULT, logger.level)
+
+    def testIsLeadLogger(self):
+        logger = poptus.FileLogger(self.__good_filename,
+                                   self.__good_overwrite,
+                                   self.__good_level)
+        with redirect_stderr(io.StringIO()) as buffer:
+            with self.assertRaises(NotImplementedError):
+                logger.is_lead_logger
+        # print(buffer.getvalue())
+        self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testFilename(self):
         logger = poptus.FileLogger(self.__good_filename,

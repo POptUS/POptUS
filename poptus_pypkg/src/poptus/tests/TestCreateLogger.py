@@ -46,12 +46,14 @@ class TestCreateLogger(unittest.TestCase):
         self.assertTrue(isinstance(logger, poptus.FileLogger))
 
         # Include valid levels in containers
-        self.__bad_levels = [
-            None,
-            1.1, float(good_level),
-            "", str(good_level),
-            [], [good_level],
+        self.__NOT_INT = (
+            None, "", True, False, 1.0, 1.1,
+            float(good_level), str(good_level),
             set(), {good_level},
+            {}, {poptus._constants.LOG_LEVEL_KEY: good_level},
+            [], [good_level]
+        )
+        self.__bad_levels = [
             min(poptus.LOG_LEVELS) - 1,
             max(poptus.LOG_LEVELS) + 1
         ]
@@ -83,6 +85,15 @@ class TestCreateLogger(unittest.TestCase):
 
     def testBadStdConfigurations(self):
         # Invalid level types
+        for level in self.__NOT_INT:
+            bad = self.__good_std_config.copy()
+            bad[poptus._constants.LOG_LEVEL_KEY] = level
+            with redirect_stderr(io.StringIO()) as buffer:
+                with self.assertRaises(TypeError):
+                    poptus.create_logger(bad)
+            # print(buffer.getvalue())
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
+
         for level in self.__bad_levels:
             bad = self.__good_std_config.copy()
             bad[poptus._constants.LOG_LEVEL_KEY] = level

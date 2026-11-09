@@ -37,8 +37,15 @@ def main(verbosity):
     # print(f"Detected Launch Variables: {present_vars}")
 
     # ----- CREATE MPI-AWARE LOGGERS
-    logger = poptus.create_logger({"Level": verbosity},
+    logger = poptus.create_logger({poptus._constants.LOG_LEVEL_KEY: verbosity},
                                   rank=rank, is_lead=is_lead)
+    if is_lead:
+        assert isinstance(logger, poptus.MpiLeadLogger)
+        assert logger.is_lead_logger
+    else:
+        assert isinstance(logger, poptus.MpiWorkerLogger)
+        assert not logger.is_lead_logger
+
     log, debug, warn, error = poptus.create_log_functions(logger, LEAD_TAG)
 
     # Based on design of these loggers, there is no need for application codes

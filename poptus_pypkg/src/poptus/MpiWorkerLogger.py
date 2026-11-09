@@ -36,7 +36,7 @@ class MpiWorkerLogger(AbstractLogger):
         # Rather, we perform these sanity checks and expect users to supply
         # ranks correctly otherwise.
         self.__tag = POPTUS_LOG_TAG
-        if not isinstance(rank, numbers.Integral):
+        if isinstance(rank, bool) or (not isinstance(rank, numbers.Integral)):
             msg = f"MPI process rank is not an integer ({rank})"
             self.error(None, msg)
             raise TypeError(msg)

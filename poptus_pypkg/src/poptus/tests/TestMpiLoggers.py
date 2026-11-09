@@ -61,13 +61,26 @@ class TestMpiLoggers(unittest.TestCase):
 
         # Confirm good configurations
         self.__good_level = poptus.LOG_LEVEL_DEFAULT
-        self.__good_cfg = {"Level": self.__good_level}
+        self.__good_cfg = {poptus._constants.LOG_LEVEL_KEY: self.__good_level}
         self.__good_rank = self.__LEAD_MPI_PROCESS
         poptus.create_logger(self.__good_cfg,
                              rank=self.__good_rank, is_lead=True)
         for rank in self.__ALL_RANKS:
             is_lead = (rank == self.__LEAD_MPI_PROCESS)
             poptus.create_logger(self.__good_cfg, rank=rank, is_lead=is_lead)
+
+        # Include valid levels in containers
+        self.__NOT_INT = (
+            None, "", True, False, 1.0, 1.1,
+            float(self.__good_level), str(self.__good_level),
+            set(), {self.__good_level},
+            {}, {poptus._constants.LOG_LEVEL_KEY: self.__good_level},
+            [], [self.__good_level]
+        )
+        self.__bad_levels = [
+            min(poptus.LOG_LEVELS) - 1,
+            max(poptus.LOG_LEVELS) + 1
+        ]
 
     def testBadMpiConfigurations(self):
         # Bad level and rank arguments handled separately below.
@@ -138,18 +151,23 @@ class TestMpiLoggers(unittest.TestCase):
             self.assertTrue(buffer.getvalue().startswith(self.__ERR_START))
 
     def testBadLevels(self):
-        bad_levels = [
-            None,
-            1.1, float(self.__good_level),
-            "", str(self.__good_level),
-            [], [self.__good_level],
-            set(), {self.__good_level},
-            min(poptus.LOG_LEVELS) - 1,
-            max(poptus.LOG_LEVELS) + 1
-        ]
-        for bad in bad_levels:
+        for bad in self.__NOT_INT:
             bad_cfg = copy.deepcopy(self.__good_cfg)
-            bad_cfg["Level"] = bad
+            bad_cfg[poptus._constants.LOG_LEVEL_KEY] = bad
+
+            # We can fake an MPI application by choosing different ranks
+            for rank in self.__ALL_RANKS:
+                is_lead = (rank == self.__LEAD_MPI_PROCESS)
+                with redirect_stderr(io.StringIO()) as buffer:
+                    with self.assertRaises(TypeError):
+                        poptus.create_logger(bad_cfg,
+                                             rank=rank, is_lead=is_lead)
+                # print(buffer.getvalue())
+                self.assertTrue(buffer.getvalue().startswith(self.__ERR_START))
+
+        for bad in self.__bad_levels:
+            bad_cfg = copy.deepcopy(self.__good_cfg)
+            bad_cfg[poptus._constants.LOG_LEVEL_KEY] = bad
 
             # We can fake an MPI application by choosing different ranks
             for rank in self.__ALL_RANKS:
@@ -166,7 +184,7 @@ class TestMpiLoggers(unittest.TestCase):
             is_lead = (rank == self.__LEAD_MPI_PROCESS)
             for level in poptus.LOG_LEVELS:
                 cfg = copy.deepcopy(self.__good_cfg)
-                cfg["Level"] = level
+                cfg[poptus._constants.LOG_LEVEL_KEY] = level
                 logger = poptus.create_logger(cfg,
                                               rank=rank,
                                               is_lead=is_lead)
@@ -182,6 +200,22 @@ class TestMpiLoggers(unittest.TestCase):
                                           is_lead=is_lead)
             with self.assertRaises(AssertionError):
                 logger.log(None, MSG, poptus.LOG_LEVEL_NONE)
+
+    def testLoggerCreation(self):
+        # While testLoggingAtAllLevels() should be testing much of this when MPI
+        # will be used, we include this testing explicitly here as well since
+        # it's direct, clear, and will be tested always.
+        for rank in self.__ALL_RANKS:
+            is_lead = (rank == self.__LEAD_MPI_PROCESS)
+            logger = poptus.create_logger(self.__good_cfg,
+                                          rank=rank,
+                                          is_lead=is_lead)
+            if is_lead:
+                self.assertTrue(isinstance(logger, poptus.MpiLeadLogger))
+                self.assertTrue(logger.is_lead_logger)
+            else:
+                self.assertTrue(isinstance(logger, poptus.MpiWorkerLogger))
+                self.assertFalse(logger.is_lead_logger)
 
     def testLoggingAtAllLevels(self):
         # While we could test MPI-aware logging by simulating an MPI

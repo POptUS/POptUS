@@ -22,9 +22,14 @@ class AbstractLogger(metaclass=abc.ABCMeta):
         """
         super().__init__()
 
-        if (not isinstance(level, Integral)) or (level not in LOG_LEVELS):
-            # Do not assume that we can use derived class logging functions yet.
-            # Mimic error logging of StandardLogger.
+        # Do not assume that we can use derived class logging functions yet.
+        # Mimic error logging of StandardLogger.
+        if isinstance(level, bool) or (not isinstance(level, Integral)):
+            msg = f"Logging verbosity level is not an int ({level})"
+            sys.stderr.write(f"[{POPTUS_LOG_TAG}] ERROR - {msg}\n")
+            sys.stderr.flush()
+            raise TypeError(msg)
+        elif level not in LOG_LEVELS:
             msg = f"Invalid logging verbosity level ({level})"
             sys.stderr.write(f"[{POPTUS_LOG_TAG}] ERROR - {msg}\n")
             sys.stderr.flush()
@@ -48,7 +53,9 @@ class AbstractLogger(metaclass=abc.ABCMeta):
         classes can use the abstract base class's implementation, which raises
         an error.
         """
-        raise NotImplementedError("A lead logger only exists for MPI-aware logging")
+        msg = "A lead logger only exists for MPI-aware logging"
+        self.error(POPTUS_LOG_TAG, msg)
+        raise NotImplementedError(msg)
 
     @abc.abstractmethod
     def log(self, caller, msg, level):
