@@ -6,6 +6,10 @@ env:
   COV_FILE:        coverage
   COV_XML_FILE:    cobertura.xml
   COV_HTML_FILE:   htmlcov
+  # MPICH usage can fail due to UCX issues:
+  #   https://github.com/underworldcode/underworld3/issues/461
+  UCX_TLS: tcp,self,sm
+  UCX_NET_DEVICES: lo
 on:
   push:
     branches: [main]
