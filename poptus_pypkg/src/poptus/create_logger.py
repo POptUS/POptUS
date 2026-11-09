@@ -35,7 +35,8 @@ def create_logger(configuration=None, rank=None, is_lead=False):
 
     if configuration is None:
         configuration = {LOG_LEVEL_KEY: LOG_LEVEL_DEFAULT}
-    elif not isinstance(configuration, dict):
+
+    if not isinstance(configuration, dict):
         msg = "Given logger configuration is not a dict"
         StandardLogger().error(POPTUS_LOG_TAG, msg)
         raise TypeError(msg)
@@ -59,25 +60,22 @@ def create_logger(configuration=None, rank=None, is_lead=False):
             StandardLogger().error(POPTUS_LOG_TAG, msg)
             raise NotImplementedError(msg)
         elif set(configuration) != STD_CFG_KEYS:
-            msg = "Extra logger configuration values for MPI loggers ({})"
-            msg = msg.format(set(configuration).difference(STD_CFG_KEYS))
+            msg = "Invalid configuration keys for MPI loggers ({})"
+            msg = msg.format(set(configuration))
             StandardLogger().error(POPTUS_LOG_TAG, msg)
             raise ValueError(msg)
 
         if is_lead:
             return MpiLeadLogger(level)
-        else:
-            return MpiWorkerLogger(rank, level)
+
+        return MpiWorkerLogger(rank, level)
 
     # ----- NON-MPI APPLICATIONS
+    assert rank is None
     if LOG_FILENAME_KEY in configuration:
-        if LOG_OVERWRITE_KEY not in configuration:
-            msg = f"{LOG_OVERWRITE_KEY} logger configuration not provided"
-            StandardLogger().error(POPTUS_LOG_TAG, msg)
-            raise ValueError(msg)
-        elif set(configuration) != FILE_CFG_KEYS:
-            msg = "Extra logger configuration values for file logger ({})"
-            msg = msg.format(set(configuration).difference(FILE_CFG_KEYS))
+        if set(configuration) != FILE_CFG_KEYS:
+            msg = "Invalid configuration keys for file logger ({})"
+            msg = msg.format(set(configuration))
             StandardLogger().error(POPTUS_LOG_TAG, msg)
             raise ValueError(msg)
 
@@ -87,8 +85,8 @@ def create_logger(configuration=None, rank=None, is_lead=False):
             level
         )
     elif set(configuration) != STD_CFG_KEYS:
-        msg = "Extra logger configuration values for std out/err logger ({})"
-        msg = msg.format(set(configuration).difference(STD_CFG_KEYS))
+        msg = "Invalid configuration keys for standard out/err  logger ({})"
+        msg = msg.format(set(configuration))
         StandardLogger().error(POPTUS_LOG_TAG, msg)
         raise ValueError(msg)
 
