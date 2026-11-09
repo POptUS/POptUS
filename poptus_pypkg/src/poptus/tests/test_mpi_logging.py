@@ -46,6 +46,8 @@ def main(verbosity):
         assert isinstance(logger, poptus.MpiWorkerLogger)
         assert not logger.is_lead_logger
 
+    # Log functions in worker processes use their own, internally-defined log
+    # tags.  The value passed here to worker processes is ignored.
     log, debug, warn, error = poptus.create_log_functions(logger, LEAD_TAG)
 
     # Based on design of these loggers, there is no need for application codes
