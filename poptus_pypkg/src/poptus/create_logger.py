@@ -16,11 +16,12 @@ def create_logger(configuration=None, rank=None, is_lead=False):
 
     :param configuration: ``None`` or the full logger configuration specified as
         a ``dict``.
-    :param rank: ``None`` or nonnegative rank of MPI process requesting
-        logger.
+    :param rank: Nonnegative rank of MPI process requesting logger; ``None``, if
+        the logger will not be used in an MPI application.
     :param is_lead: Set to ``True`` if the process creating the logger should be
-        considered as the lead MPI process in terms of logging.  This is ignored
-        if ``rank`` is ``None``.
+        considered as the lead MPI process in terms of logging.  Typically one
+        and only one MPI process is declared the lead logger process.  This is
+        ignored if ``rank`` is ``None``.
     :return: If ``configuration`` is ``None``, then a standard ouput/standard
         error logger with the ``LOG_LEVEL_DEFAULT`` verbosity level is
         returned.  Otherwise, a logger built with the provided configuration is
@@ -45,21 +46,22 @@ def create_logger(configuration=None, rank=None, is_lead=False):
         StandardLogger().error(POPTUS_LOG_TAG, msg)
         raise ValueError(msg)
 
+    if not isinstance(is_lead, bool):
+        msg = f"is_lead is not a boolean ({is_lead})"
+        StandardLogger().error(POPTUS_LOG_TAG, msg)
+        raise TypeError(msg)
+
     # Assume that logger classes are error checking their arguments
     level = configuration[LOG_LEVEL_KEY]
 
     # ----- MPI-AWARE LOGGING
     if rank is not None:
-        if not isinstance(is_lead, bool):
-            msg = f"is_lead is not a boolean ({is_lead})"
-            StandardLogger().error(POPTUS_LOG_TAG, msg)
-            raise TypeError(msg)
-
         if LOG_FILENAME_KEY in configuration:
             msg = "No logging to files in MPI-based applications"
             StandardLogger().error(POPTUS_LOG_TAG, msg)
             raise NotImplementedError(msg)
-        elif set(configuration) != STD_CFG_KEYS:
+
+        if set(configuration) != STD_CFG_KEYS:
             msg = "Invalid configuration keys for MPI loggers ({})"
             msg = msg.format(set(configuration))
             StandardLogger().error(POPTUS_LOG_TAG, msg)
