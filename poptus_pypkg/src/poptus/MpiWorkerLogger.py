@@ -43,7 +43,7 @@ class MpiWorkerLogger(AbstractLogger):
             self.error(None, msg)
             raise TypeError(msg)
         elif rank < 0:
-            msg = f"Negative MPI process rank ({rank})"
+            msg = f"Negative MPI rank ({rank})"
             self.error(None, msg)
             raise ValueError(msg)
         self.__tag = f"Rank {rank}"
