@@ -353,7 +353,7 @@ class AbstractArchiver(metaclass=abc.ABCMeta):
 
     def write_model_spaces(self, parameter_order, inner_order):
         """
-        Write the given paraemter and inner function element orders to the
+        Write the given parameter and inner function element orders to the
         model's portion of the archive.
 
         This should only be called if the file is currently open.
