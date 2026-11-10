@@ -13,10 +13,11 @@ class MpiWorkerLogger(AbstractLogger):
         """
         A concrete |poptus| logger class that implements an MPI-aware variant of
         the :py:class:`poptus.StandardLogger` for limited logging in MPI-based
-        applications |via| MPI processes that calling code designates as
-        worker processes (See :py:func:`poptus.create_logger`).  This class
-        ignores all requests to log general information at ``LOG_LEVEL_DEFAULT``
-        regardless of the level given at instantiation.
+        applications |via| MPI processes that calling code designates as worker
+        processes.  This class ignores all requests to log general information
+        at ``LOG_LEVEL_DEFAULT`` regardless of the level given at instantiation.
+        Please refer to the general logging documentation in the User Guide for
+        more information on MPI-aware logging.
 
         This design allows for writing log commands in MPI-based code without
         having to wrap each log command in a check of rank so that only the lead

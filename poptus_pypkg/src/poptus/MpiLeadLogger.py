@@ -13,7 +13,8 @@ class MpiLeadLogger(AbstractLogger):
         A concrete |poptus| logger class that implements an MPI-aware variant of
         the :py:class:`poptus.StandardLogger` for general logging in MPI-based
         applications |via| the MPI process that calling code designates as the
-        lead logging process (See :py:func:`poptus.create_logger`).
+        lead logging process.  Please refer to the general logging documentation
+        in the User Guide for more information on MPI-aware logging.
 
         :param level: Verbosity level of the logger
         """
