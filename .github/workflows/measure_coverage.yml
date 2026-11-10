@@ -6,6 +6,10 @@ env:
   COV_FILE:        coverage
   COV_XML_FILE:    cobertura.xml
   COV_HTML_FILE:   htmlcov
+  # MPICH usage can fail due to UCX issues:
+  #   https://github.com/underworldcode/underworld3/issues/461
+  UCX_TLS: tcp,self,sm
+  UCX_NET_DEVICES: lo
 on:
   push:
     branches: [main]
@@ -14,15 +18,22 @@ on:
 
 jobs:
   # Prefer using the latest Python version supported by the package
+  #
+  # Prefer MPICH over Open MPI since the latter can often impose a limit
+  # of at most two MPI processes on GH action runners.
   coverage:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout POptUS repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.14
+      - name: Setup MPI
+        uses: mpi4py/setup-mpi@v1
+        with:
+          mpi: 'mpich'
       - name: Setup Python with tox
         run: $GH_ACTIONS_PATH/setup_tox_github_action.sh ${{ runner.os }}
 
@@ -36,7 +47,7 @@ jobs:
           popd
 
       - name: Archive coverage results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: poptus-coverage-results
           path: |
@@ -48,14 +59,14 @@ jobs:
     needs: [coverage]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Access coverage reports
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: poptus-coverage-results
           path: ${{ env.CLONE_PATH }}
       - name: Upload coverage report to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: |

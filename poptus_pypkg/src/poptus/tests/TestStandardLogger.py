@@ -29,17 +29,26 @@ class TestStandardLogger(unittest.TestCase):
         poptus.StandardLogger(self.__good_level)
 
         # Include valid levels in containers
-        self.__bad_levels = [
-            None,
-            1.1, float(self.__good_level),
-            "", str(self.__good_level),
-            [], [self.__good_level],
+        self.__NOT_INT = (
+            None, "", True, False, 1.0, 1.1,
+            float(self.__good_level), str(self.__good_level),
             set(), {self.__good_level},
+            {}, {poptus._constants.LOG_LEVEL_KEY: self.__good_level},
+            [], [self.__good_level]
+        )
+        self.__bad_levels = [
             min(poptus.LOG_LEVELS) - 1,
             max(poptus.LOG_LEVELS) + 1
         ]
 
     def testBadLevels(self):
+        for bad in self.__NOT_INT:
+            with redirect_stderr(io.StringIO()) as buffer:
+                with self.assertRaises(TypeError):
+                    poptus.StandardLogger(bad)
+            # print(buffer.getvalue())
+            self.assertTrue(buffer.getvalue().startswith(self.__error_start))
+
         for bad in self.__bad_levels:
             with redirect_stderr(io.StringIO()) as buffer:
                 with self.assertRaises(ValueError):
@@ -55,6 +64,14 @@ class TestStandardLogger(unittest.TestCase):
     def testDefaultLevel(self):
         logger = poptus.StandardLogger()
         self.assertEqual(poptus.LOG_LEVEL_DEFAULT, logger.level)
+
+    def testIsLeadLogger(self):
+        logger = poptus.StandardLogger()
+        with redirect_stderr(io.StringIO()) as buffer:
+            with self.assertRaises(NotImplementedError):
+                logger.is_lead_logger
+        # print(buffer.getvalue())
+        self.assertTrue(buffer.getvalue().startswith(self.__error_start))
 
     def testLogErrors(self):
         MSG = "Pointless message that we don't actually want to log"

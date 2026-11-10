@@ -19,6 +19,10 @@ env:
   CLONE_PATH: ${{ github.workspace }}
   PKG_ROOT:   ${{ github.workspace }}/poptus_pypkg
   DIST_PATH:  ${{ github.workspace }}/poptus_pypkg/dist
+  # MPICH usage can fail due to UCX issues:
+  #   https://github.com/underworldcode/underworld3/issues/461
+  UCX_TLS: tcp,self,sm
+  UCX_NET_DEVICES: lo
 
 on:
   # This action is run only on main to produce release candidate distributions
@@ -40,11 +44,11 @@ jobs:
     steps:
       # Clone the repository with the full history since setuptools-scm needs
       # the tags to set the correct version.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.14
       - name: Construct sdist and wheel
@@ -59,7 +63,7 @@ jobs:
           python -m build
           popd
       - name: Archive both distributions
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: poptus-release-candidate
           path: |
@@ -70,26 +74,41 @@ jobs:
     name: Test source distribution
     needs: [build]
     strategy:
+      # python-versions must be maintained consistent with associated
+      # pyproject.toml and tox.ini configuration.
+      #
+      # Prefer MPICH over Open-MPI since the latter can often impose a limit
+      # of at most two MPI processes on GH action runners.
+      #
+      # This action fails on ubuntu-22.04 due to an inability to find the
+      # libmpi.so.12 library.  We exclude that runner.
       matrix:
-        # python-versions must be maintained consistent with associated
-        # pyproject.toml and tox.ini configuration.
-        os: [ubuntu-22.04, ubuntu-24.04, macos-14, macos-15, macos-26, macos-26-intel]
+        os: [ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Setup MPI
+        uses: mpi4py/setup-mpi@v1
+        with:
+          mpi: 'mpich'
       - name: Obtain release candidate
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: poptus-release-candidate
           path: ${{ env.CLONE_PATH }}
       - name: Setup Python, install, & test
         run: |
+          # Preinstall mpi4py so that tests include MPI-aware functionality.
           which python
+          which mpirun
+          which mpicxx
+          mpicxx -show
           python -m pip install --upgrade pip
+          python -m pip install mpi4py
           python -m pip install $CLONE_PATH/poptus-*.tar.gz
           python -m pip list
           python -c "import poptus ; exit(not poptus.test())"
@@ -98,26 +117,41 @@ jobs:
     name: Test universal wheel
     needs: [build]
     strategy:
+      # python-versions must be maintained consistent with associated
+      # pyproject.toml and tox.ini configuration.
+      #
+      # Prefer MPICH over Open-MPI since the latter can often impose a limit
+      # of at most two MPI processes on GH action runners.
+      #
+      # This action fails on ubuntu-22.04 due to an inability to find the
+      # libmpi.so.12 library.  We exclude that runner.
       matrix:
-        # python-versions must be maintained consistent with associated
-        # pyproject.toml and tox.ini configuration.
-        os: [ubuntu-22.04, ubuntu-24.04, macos-14, macos-15, macos-26, macos-26-intel]
+        os: [ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Setup MPI
+        uses: mpi4py/setup-mpi@v1
+        with:
+          mpi: 'mpich'
       - name: Obtain release candidate
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: poptus-release-candidate
           path: ${{ env.CLONE_PATH }}
       - name: Setup Python, install, & test
         run: |
+          # Preinstall mpi4py so that tests include MPI-aware functionality.
           which python
+          which mpirun
+          which mpicxx
+          mpicxx -show
           python -m pip install --upgrade pip
+          python -m pip install mpi4py
           python -m pip install $CLONE_PATH/poptus-*-py3-none-any.whl
           python -m pip list
           python -c "import poptus ; exit(not poptus.test())"

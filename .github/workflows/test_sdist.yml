@@ -1,6 +1,10 @@
 name: Test POptUS Installation
 env:
   POPTUS_PKG: ${{ github.workspace }}/poptus_pypkg
+  # MPICH usage can fail due to UCX issues:
+  #   https://github.com/underworldcode/underworld3/issues/461
+  UCX_TLS: tcp,self,sm
+  UCX_NET_DEVICES: lo
 on:
   # This action is used only to run a significant but smallish set of test
   # setups on feature branches.
@@ -20,29 +24,42 @@ jobs:
     strategy:
       # python-versions must be maintained consistent with associated
       # pyproject.toml and tox.ini configuration.
+      #
+      # Prefer MPICH over Open-MPI since the latter can often impose a limit
+      # of at most two MPI processes on GH action runners.
+      #
+      # This action fails on ubuntu-22.04 due to an inability to find the
+      # libmpi.so.12 library.  We exclude that runner.
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04, macos-14, macos-15, macos-26, macos-26-intel]
+        os: [ubuntu-24.04, ubuntu-26.04, macos-15, macos-26, macos-26-intel]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout POptUS repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: ${{ matrix.python-version }}
-
+    - name: Setup MPI
+      uses: mpi4py/setup-mpi@v1
+      with:
+        mpi: 'mpich'
     - name: Build, install, & test POptUS
       run: |
+        # Preinstall mpi4py so that tests include MPI-aware functionality.
+        which python
+        which mpirun
+        which mpicxx
+        mpicxx -show
         python -m pip install --upgrade pip
-        python -m pip install build
+        python -m pip install build mpi4py
         # Build source distribution & install
         pushd $POPTUS_PKG
         python -m build --sdist
         python -m pip install dist/poptus-*.tar.gz
         popd
         # Log info
-        which python
         python -m pip list
         # Run tests through package
         python -c "import poptus ; exit(not poptus.test())"
