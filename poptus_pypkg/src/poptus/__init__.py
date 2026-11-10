@@ -26,6 +26,8 @@ from .LogicError import LogicError
 from .AbstractLogger import AbstractLogger
 from .StandardLogger import StandardLogger
 from .FileLogger import FileLogger
+from .MpiLeadLogger import MpiLeadLogger
+from .MpiWorkerLogger import MpiWorkerLogger
 from .create_logger import create_logger
 from .create_log_functions import create_log_functions
 
