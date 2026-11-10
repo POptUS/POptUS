@@ -77,7 +77,9 @@ class MpiWorkerLogger(AbstractLogger):
         # users, we can keep the error checking minimal and light.  If
         # developers use a bad level, they should find out immediately and
         # easily.
-        assert level in self.__valid
+        assert (not isinstance(level, bool)) and \
+            isinstance(level, numbers.Integral) and \
+            level in self.__valid
 
         if (level >= LOG_LEVEL_MIN_DEBUG) and (self.level >= level):
             sys.stdout.write(f"[{self.__tag}] {msg}\n")

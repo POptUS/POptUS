@@ -1,4 +1,5 @@
 import sys
+import numbers
 
 from ._constants import (
     LOG_LEVELS, LOG_LEVEL_NONE, LOG_LEVEL_DEFAULT
@@ -48,7 +49,9 @@ class MpiLeadLogger(AbstractLogger):
         # users, we can keep the error checking minimal and light.  If
         # developers use a bad level, they should find out immediately and
         # easily.
-        assert level in self.__valid
+        assert (not isinstance(level, bool)) and \
+            isinstance(level, numbers.Integral) and \
+            level in self.__valid
 
         if self.level >= level:
             sys.stdout.write(f"[{caller}] {msg}\n")
