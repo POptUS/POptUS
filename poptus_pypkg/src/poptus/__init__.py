@@ -9,6 +9,9 @@ __version__ = version("poptus")
 
 # Constant module data attributes
 from ._constants import (
+    STATUS_VALID, STATUS_MARGINAL,
+    STATUS_INVALID, STATUS_CANCELED, STATUS_FAILED,
+    STATUS_CODE_NAMES,
     LOG_LEVEL_NONE, LOG_LEVEL_DEFAULT,
     LOG_LEVEL_MIN_DEBUG, LOG_LEVEL_MAX,
     LOG_LEVELS,
