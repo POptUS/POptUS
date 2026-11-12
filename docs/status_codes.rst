@@ -59,24 +59,24 @@ smaller values.
 
 To help clarify the definitions of the different status codes, we will consider
 the example of a simulation code that computes theoretical values for a
-particular physical quantity using an iterative solver programmed with a
-stopping criteria and limited to approximate the theoretical value within a
-given number of iterations.
+particular physical quantity using an iterative solver provided with a stopping
+criterion and a maximum number of iterations it can use to approximate the
+theoretical value.
 
 A computational result is **valid** if its computation successfully ran to
 completion with no indication of error.  If our iterative solver approximates
-the desired theoretical result within its stopping criteria and its iteration
+the desired theoretical result within its stopping criterion and its iteration
 budget (|ie| the computation successfully converged), then the result's status
 code should be ``poptus.STATUS_VALID``.
 
 A computational result is **marginal** if its computation yielded a value that
-cannot be marked as ``poptus.STATUS_VALID``, but that is believed to be
-reasonably close to what would be a "valid" result.  If the iterative solver
-does not converge within its stopping criteria and its iteration budget, then
-the solver's developers might decide that the result is marginal if
+cannot be marked as ``poptus.STATUS_VALID``, but is believed to be reasonably
+close to what would be a "valid" result.  If the iterative solver does not
+converge within its stopping criterion and its iteration budget, then the
+solver's developers might decide that the result is marginal if
 
-* the last :math:`N` iterations were just above the stopping criteria and slowly
-  marching toward the criteria and
+* the last :math:`N` iterations were just above the stopping criterion and slowly
+  marching toward the criterion and
 * the solver's approximation to the physical quantity did not changing
   appreciably over the last :math:`N` iterations.
 
@@ -87,20 +87,20 @@ if
 * the iterative solver failed to converge within its allotted budget and
   analysis of the last :math:`N` iterations do not indicate a nearly convergent
   process,
-* an anamolous event occurred during an otherwise successful, convergent
+* an anomalous event occurred during an otherwise successful, convergent
   computation that casts doubt on the validity of the result, or
 * the result is nonsensical (|eg| a negative radius) or not physically sensible
   (|eg| a radius that is unreasonably large even within the limitations of the
   underlying model).
 
-A computational result is marked as **canceled** if its computation did not
-terminate because it was canceled by some entity.  This could be due to, for
+A computational result is marked as **canceled** if its computation was canceled
+outside of normal model execution by some entity.  This could be due to, for
 example,
 
-* a user manually terminated the computation or
-* the method or model automatically terminated the computation to save
-  resources because the concurrent computation of a related result was
-  found to be unacceptable for some reason.
+* a user manually terminating the computation or
+* the method or model automatically terminating the computation to save
+  resources because the computation was deemed useless due to the concurrent
+  computation of a related quantity yielding an unacceptable result.
 
 A computational result is marked as **failed** if its computation terminated due
 to a failure in the solver itself rather than |via| a normal execution path.
@@ -118,11 +118,12 @@ indicated an algorithmic failure.
     offline analysis to classify results at a finer level, which could aid error
     analysis and result verification.  One difficulty with this is how methods
     would use these.  For instance, they would likely treat nonsensical as they
-    do invalid.  But what about unphysical.  In some circumstances an unphysical
+    do invalid.  But what about unphysical?  In some circumstances an unphysical
     result does not mean an invalid computation.  For instance an optimization
     could wander into a region where correct, valid computations yield
     unphysical results.  That doesn't mean the optimization should terminate
-    since it might eventually wander back into a region with physical results.
+    since it might eventually wander back into a region that yields physical
+    results.
 
 Examples
 --------
@@ -136,8 +137,8 @@ assigned to the approximation if all three evaluations were valid but the
 computation of the approximation yielded :math:`\pm \infty`.
 
 To help explain the potential utility of marking some results as marginal,
-consider a method that wants to increase the likelihood of obtaining a valid
-solution even when used with a model that often produces invalid results.
+consider a method that would like to increase the likelihood of obtaining a
+valid solution even when used with a model that often produces invalid results.
 Suppose further, that the developer of one such model is willing and able to
 reclassify some invalid results as marginal.  The method could be developed so
 that marginal results can be tolerated when collected for certain noncritical
@@ -165,6 +166,5 @@ element in that vector.
 .. todo::
     Write a separate section in the User Guide the presents :math:`\mathbf{F}`
     mathematically as well as its expected programmatic interface.  This would
-    likely appear in a discussion of the |poptus| Model abstract base class
-    interface.  We could link to that here to provide concrete standard
-    information.
+    likely appear in a discussion of the |poptus| Model abstract base class.  We
+    could link to that here to provide concrete standard information.
