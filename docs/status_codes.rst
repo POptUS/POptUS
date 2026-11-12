@@ -77,7 +77,7 @@ solver's developers might decide that the result is marginal if
 
 * the last :math:`N` iterations were just above the stopping criterion and slowly
   marching toward the criterion and
-* the solver's approximation to the physical quantity did not changing
+* the solver's approximation to the physical quantity did not change
   appreciably over the last :math:`N` iterations.
 
 A computational result is **invalid** if its computation terminated but yielded
@@ -133,8 +133,8 @@ point, then it would be sensible to set the status code of the approximation to
 the maximum value of the status codes for the three model evaluations.  However,
 this rule should also consider the possibility that the computation of the
 approximation could fail.  A status code of ``poptus.STATUS_INVALID`` might be
-assigned to the approximation if all three evaluations were valid but the
-computation of the approximation yielded :math:`\pm \infty`.
+assigned to the approximation if all three evaluations were valid or marginal
+but the computation of the approximation yielded :math:`\pm \infty`.
 
 To help explain the potential utility of marking some results as marginal,
 consider a method that would like to increase the likelihood of obtaining a
