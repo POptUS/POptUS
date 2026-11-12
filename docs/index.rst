@@ -32,6 +32,7 @@ indicates the target user.
    :caption: User Guide:
 
    get_started
+   status_codes
    logging
    api
 

@@ -16,3 +16,20 @@ POPTUS_LOG_TAG = "POptUS"
 LOG_LEVEL_KEY = "Level"
 LOG_FILENAME_KEY = "Filename"
 LOG_OVERWRITE_KEY = "Overwrite"
+
+# ----- COMPUTATION STATUS CODES
+# As per requirements
+#       Valid < Marginal < Invalid < Canceled < Failed
+STATUS_VALID = 0
+STATUS_MARGINAL = 1
+STATUS_INVALID = 2
+STATUS_CANCELED = 3
+STATUS_FAILED = 4
+
+STATUS_CODE_NAMES = {
+    STATUS_VALID: "Valid",
+    STATUS_MARGINAL: "Marginal",
+    STATUS_INVALID: "Invalid",
+    STATUS_CANCELED: "Canceled",
+    STATUS_FAILED: "Failed"
+}
