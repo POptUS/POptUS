@@ -52,7 +52,8 @@ def is_finite_real_numpy_vector(x):
     # I don't believe that isreal() is needed since we check that dtype of the
     # array is floating, but not complex.
     x_1d = np.atleast_1d(np.squeeze(x))
-    return isinstance(x, np.ndarray) and (x.ndim in {1, 2}) and (x_1d.ndim == 1) and \
+    return isinstance(x, np.ndarray) and (x.ndim in {1, 2}) and \
+        (x_1d.ndim == 1) and (len(x_1d) > 0) and \
         np.issubdtype(x.dtype, np.floating) and (not np.iscomplexobj(x)) and \
         np.isfinite(x).all()
 

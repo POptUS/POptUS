@@ -34,3 +34,9 @@ NOT_EXTENDED_REAL = (
     1j, (0.0 * 1j), np.nan,
     (), [], set(), {}, object
 )
+
+NOT_NUMPY_ARRAY = (
+    None, "", "not_array", True, False, 1, 1.1,
+    np.nan, np.inf, -np.inf, 1j, (0.0 * 1j),
+    {}, (), [], set()
+)
