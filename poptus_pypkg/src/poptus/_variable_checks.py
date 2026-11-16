@@ -83,14 +83,14 @@ def is_extended_real_numpy_vector(x):
 
 def is_finite_real_numpy_array(x, ndim):
     """
-    :param: A positive integer greater than one that indicates the required
+    :param ndim: A positive integer greater than one that indicates the required
         dimension of **x**.
     :return: ``True`` if **x** is a NumPy array of dimension **ndim** whose
         elements are all finite real.  Aside from the obvious cases, ``False``
         is returned if any of the elements are ``NaN``, ``+/-Inf``, or complex
         variables with or without imaginary parts.  It also returns ``False`` if
-        the array is the wrong dimension even though it could be correctly
-        squeezed or extended to **ndim**.
+        the array is the wrong dimension even if it could be correctly squeezed
+        or extended to **ndim**.
     """
     # issubdtype is required because, for example,
     #                     np.isreal(np.full(5, None))
@@ -110,14 +110,14 @@ def is_finite_real_numpy_array(x, ndim):
 
 def is_extended_real_numpy_array(x, ndim):
     """
-    :param: A positive integer greater than one that indicates the required
+    :param ndim: A positive integer greater than one that indicates the required
         dimension of **x**.
     :return: ``True`` if **x** is a NumPy array of dimension **ndim** whose
         elements are all in the extended reals.  Aside from the obvious cases,
         ``False`` is returned if any of the elements are ``NaN`` or complex
         variables with or without imaginary parts.  It also returns ``False`` if
-        the array is the wrong dimension even though it could be correctly
-        squeezed or extended to **ndim**.
+        the array is the wrong dimension even if it could be correctly squeezed
+        or extended to **ndim**.
     """
     # issubdtype is required because, for example,
     #                     np.isreal(np.full(5, None))
