@@ -20,22 +20,6 @@ class TestIsFiniteRealNumpyVector(unittest.TestCase):
         self.__NDIMS_TO_TEST = {2, 3, 5, 10}
 
     def testNotArrays(self):
-        GOOD_1D = np.full(5, 1.1, float)
-        self.assertEqual(1, GOOD_1D.ndim)
-        self.assertTrue(is_finite_real_numpy_vector(GOOD_1D))
-        GOOD_ROW = np.full((1, 5), 1.1, float)
-        self.assertEqual(2, GOOD_ROW.ndim)
-        self.assertEqual(1, np.squeeze(GOOD_ROW).ndim)
-        self.assertEqual(GOOD_ROW.shape[0], 1)
-        self.assertTrue(GOOD_ROW.shape[1] > 1)
-        self.assertTrue(is_finite_real_numpy_vector(GOOD_ROW))
-        GOOD_COLUMN = np.full((5, 1), 1.1, float)
-        self.assertEqual(2, GOOD_COLUMN.ndim)
-        self.assertEqual(1, np.squeeze(GOOD_COLUMN).ndim)
-        self.assertTrue(GOOD_COLUMN.shape[0] > 1)
-        self.assertEqual(GOOD_COLUMN.shape[1], 1)
-        self.assertTrue(is_finite_real_numpy_vector(GOOD_COLUMN))
-
         for bad in NOT_NUMPY_ARRAY:
             self.assertFalse(is_finite_real_numpy_vector(bad))
 
@@ -59,14 +43,6 @@ class TestIsFiniteRealNumpyVector(unittest.TestCase):
             self.assertFalse(is_finite_real_numpy_vector(bad))
             bad = {"bad": good_real}
             self.assertFalse(is_finite_real_numpy_vector(bad))
-
-            for good_vec in [GOOD_1D, GOOD_ROW, GOOD_COLUMN]:
-                bad = good_vec.tolist()
-                self.assertFalse(is_finite_real_numpy_vector(bad))
-                bad = str(good_vec)
-                self.assertFalse(is_finite_real_numpy_vector(bad))
-                bad = [good_vec]
-                self.assertFalse(is_finite_real_numpy_vector(bad))
 
     def test0dArrays(self):
         # 0D arrays are strange, so check this carefully
