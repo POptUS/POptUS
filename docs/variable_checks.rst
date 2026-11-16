@@ -60,70 +60,73 @@ since, as stated in the Python `typing`_ documentation,
 Effectively, the inclusion of type hints in Python is to enable the Python
 interpreter to ignore them.  Therefore, type hints might not be a good option
 for codes that need to produce correct results but that cannot presume that
-users will always run their program with third party confirmation of type
+users can or will always run their program with third party confirmation of type
 adherence.
 
-The official Python documentation for `type hints`_ includes the statment
+The official Python documentation for `type hints`_ includes the statement
 
     It should also be emphasized that **Python will remain a dynamically typed
     language, and there is no desire to ever make type hints mandatory, even by
     convention**.
 
-as a non-goal (emphasis by bold typeface is copied directly from the Python
-documentation).  One interpretation of this text is that the use of type hints
-is outside the spirit of Python.  In that sense, heavy reliance on type hints to
-ensure correctness might suggest a search for a better solution or, perhaps,
-choosing a different language.
+(emphasis by bold typeface is copied directly from the Python documentation).
+One interpretation of this text is that the use of type hints is outside the
+spirit of Python.  In that sense, heavy reliance on type hints to ensure
+correctness might suggest the need to search for a better solution or, perhaps,
+to choose a different language.
 
 The helper functions enforce explicit type and value checking at runtime with no
 extra effort required by users.  It does so within the spirit of the language,
-but by following an approach that is sometime criticized as being unfortunately
-rooted in the programming styles of languages such as C and C++.
+but by following an approach that is sometime criticized as being rooted in the
+programming styles of languages such as C and C++.
 
 NumPy
 ^^^^^
 While NumPy is often used for performing linear algebra computations, it's
 design is not always natural for working with linear algebra objects.  For
-example, NumPy arrays are understandably more closely related to basic computer
-science-based data structures than vectors and matrices.  One common difficulty
-in programs that use NumPy heavily is the ability to represent in NumPy a linear
-algebra vector as an
+example, NumPy arrays are understandably more closely related to basic,
+general-use data structures than vectors and matrices.  This resulted in the
+ability to represent in NumPy a linear algebra vector as an
 
 * :math:`n`-element 1D array implementing a vector as a 1D object,
 * :math:`1 \times n` 2D array implementing a row vector, or
-* :math:`n \times 1` 2D array implementing a column vector.
+* :math:`n \times 1` 2D array implementing a column vector,
 
-This is another example of programmatic flexibility that can potentially cause
-issues as a program grows or becomes more complex.  For example, some programs
-adopt mathematical purity and insist that calling code always pass in a row or
-column vector, whichever is appropriate for the code being called.  However,
-this burdens developers with needing to know if a row or a column is required
-and occasionally adapting variables.  These difficulties are significant when a
-code combines third party codes that each has their own rigid scheme for
-"vector" management.
+which is another example of potentially-problematic programmatic flexibility.
+For example, some programs adopt mathematical purity and insist that calling
+code always pass in a row or column vector, whichever is mathematically correct
+for the functionality being called.  However, this burdens developers with
+needing to know if a row or a column is required and adapting variables to
+match.  These difficulties are significant when a code combines third party
+codes that each has their own rigid but different scheme for "vector"
+management.
 
 Another option is to allow for calling code to accept a "vector" argument in any
 of those three representations and to determine how best to handle that
-variability.  One reason for this is the observation that in many situations the
-three representations are practically interchangeable when used to perform
-linear algebra computations.
+variability.  One justification for this is the observation that in many
+situations the three representations are practically interchangeable when used
+to perform linear algebra computations.
 
 The design of these helper functions adopts this latter approach.  To make this
 flexibility manageable, it is intended that code also adopt the design rule that
 **all** code that accept "vectors" must accept all three representations but
 immediately convert those arguments to 1D NumPy arrays so that developers only
 have to think in 1D arrays when writing and reviewing code.  This also has the
-benefit of not having to worry about transpositions.
+benefit of not having to worry about transpositions and that all functions and
+classes written for only internal use can operate under the assumption that all
+actual "vector" arguments are always 1D NumPy arrays.
 
 Intentions
 ----------
 The helper functions are designed with computational math, science, and
-engineering programs in mind.  Emphasis has been placed on constraining Python
-and NumPy's inherent flexibility as much as possible without unduly burdening
-developers or increasing the risk of errors.  One goal of these restrictions is
-to aid in the development of code that is not "brittle" -- if anything slightly
-different from what is expected happens during execution the code will let you
-know in a clear, unambiguous way.
+engineering programs in mind.  Emphasis has been placed on constraining Python's
+and NumPy's inherent flexibility as much as possible without unduly restricting
+developer freedom or increasing the risk of errors.  One goal is to avoid
+developing code that no developer wants to touch because it's too easy to
+introduce undetected bugs (|ie| brittle code).  Rather, the use of the helper
+functions and the adoption of its design philosophy should result in clear,
+unambiguous failures if anything slightly different from what is expected happens
+during execution.
 
 They are also designed as a set so that each implements a similar, simple
 interface that is rooted in the mathematical objects that it checks rather in
@@ -137,17 +140,17 @@ likelihood that their interface will change in the future, each helper function
 simply performs the check referred to in its name and returns a ``bool``.  This
 implies that these functions assist in error checking but do not perform any
 error checking.  In particular, they should not raise any errors and do not need
-to be adapted to a paricular error handling scheme.  Instead, calling code must
+to be adapted to a particular error handling scheme.  Instead, calling code must
 determine how to communicate to users issues uncovered by the helper functions
 as well as how to raise an error if necessary.
 
 Similarly, these functions do not try to "sanitize" the arguments.  For example,
 functions like :py:func:`poptus.is_finite_real_numpy_vector` do not convert 2D
 NumPy arrays representing row or column vectors into a 1D NumPy array.  Rather,
-if ``poptus.is_finite_real_numpy_vector(x)`` is ``True``, then calling code can
-choose to explicitly squeeze ``x`` down to a 1D NumPy array and simultaneously
-decide if their code should prefer to work with a view or a copy of the original
-``x`` argument.
+if it returns ``True`` for a given vector ``x``, then calling code can choose to
+explicitly squeeze ``x`` down to a 1D NumPy array and simultaneously decide if
+their code should prefer to work with a view or a copy of the original ``x``
+argument.
 
 Guidance
 --------
@@ -168,7 +171,7 @@ dimension.
 Some examples of constraining types are:
 
 * If code requests that an argument be an integer, then it is an error to pass
-  any variety of ``float`` even if its contents correponds to an integer (|eg|
+  any variety of ``float`` even if its contents correspond to an integer (|eg|
   1.0).
 * If code requests that an argument be a real vector, then a NumPy vector of
   type ``int`` would not be accepted.  However, any qualifying float type (|eg|
