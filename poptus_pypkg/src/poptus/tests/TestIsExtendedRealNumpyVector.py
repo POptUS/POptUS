@@ -14,7 +14,7 @@ from poptus._variable_checks import (
 )
 
 
-class TestIsFiniteRealNumpyVector(unittest.TestCase):
+class TestIsExtendedRealNumpyVector(unittest.TestCase):
 
     def setUp(self):
         self.__N_TO_TEST = {2, 3, 5, 10}
