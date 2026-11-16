@@ -17,7 +17,7 @@ from poptus._variable_checks import (
 class TestIsFiniteRealNumpyVector(unittest.TestCase):
 
     def setUp(self):
-        self.__NDIMS_TO_TEST = {2, 3, 5, 10}
+        self.__N_TO_TEST = {2, 3, 5, 10}
 
     def testNotArrays(self):
         for bad in NOT_NUMPY_ARRAY:
@@ -46,13 +46,13 @@ class TestIsFiniteRealNumpyVector(unittest.TestCase):
 
     def test0dArrays(self):
         # 0D arrays are strange, so check this carefully
-        for good in EXTENDED_REALS:
-            good_0d = np.array(good)
+        for good_real in EXTENDED_REALS:
+            good_0d = np.array(good_real)
             self.assertTrue(isinstance(good_0d, np.ndarray))
             self.assertEqual(good_0d.ndim, 0)
             self.assertTrue(np.isreal(good_0d))
             self.assertFalse(np.isnan(good_0d))
-            self.assertEqual(np.squeeze(good_0d), good)
+            self.assertEqual(np.squeeze(good_0d), good_real)
 
             self.assertFalse(is_extended_real_numpy_vector(good_0d))
 
@@ -60,7 +60,7 @@ class TestIsFiniteRealNumpyVector(unittest.TestCase):
         self.__testVector((1,))
         self.__testVector((1, 1))
 
-        for N in self.__NDIMS_TO_TEST:
+        for N in self.__N_TO_TEST:
             self.__testVector((N,))
             self.__testVector((N, 1))
             self.__testVector((1, N))
@@ -141,7 +141,7 @@ class TestIsFiniteRealNumpyVector(unittest.TestCase):
             self.assertFalse(is_extended_real_numpy_vector(bad))
 
     def test2dArrays(self):
-        for N in self.__NDIMS_TO_TEST:
+        for N in self.__N_TO_TEST:
             for good_real in EXTENDED_REALS:
                 bad = np.full((N, 2), good_real)
                 self.assertEqual(bad.ndim, 2)
@@ -149,7 +149,7 @@ class TestIsFiniteRealNumpyVector(unittest.TestCase):
                 self.assertFalse(is_extended_real_numpy_vector(bad))
 
     def test3dArrays(self):
-        for N in self.__NDIMS_TO_TEST:
+        for N in self.__N_TO_TEST:
             for good_real in EXTENDED_REALS:
                 # Single-element 3D arrays
                 bad = np.array([[[good_real]]])
