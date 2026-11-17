@@ -24,25 +24,14 @@ class TestIsFiniteRealNumpyVector(unittest.TestCase):
             self.assertFalse(is_finite_real_numpy_vector(bad))
 
         for good_real in FINITE_REALS:
-            self.assertFalse(is_finite_real_numpy_vector(good_real))
-            bad = str(good_real)
-            self.assertFalse(is_finite_real_numpy_vector(bad))
-            bad = good_real + 1j
-            self.assertFalse(is_finite_real_numpy_vector(bad))
-            bad = good_real + 0.0 * 1j
-            self.assertFalse(is_finite_real_numpy_vector(bad))
-            bad = (good_real)
-            self.assertFalse(is_finite_real_numpy_vector(bad))
-            bad = (good_real,)
-            self.assertFalse(is_finite_real_numpy_vector(bad))
-            bad = [good_real]
-            self.assertFalse(is_finite_real_numpy_vector(bad))
-            bad = [[good_real]]
-            self.assertFalse(is_finite_real_numpy_vector(bad))
-            bad = {good_real}
-            self.assertFalse(is_finite_real_numpy_vector(bad))
-            bad = {"bad": good_real}
-            self.assertFalse(is_finite_real_numpy_vector(bad))
+            bad_types = [
+                good_real, str(good_real),
+                good_real + 1j, good_real + 0.0 * 1j,
+                (good_real), (good_real,),
+                [good_real], [[good_real]], {good_real}, {"bad": good_real}
+            ]
+            for bad in bad_types:
+                self.assertFalse(is_finite_real_numpy_vector(bad))
 
     def test0dArrays(self):
         # 0D arrays are strange, so check this carefully
@@ -52,6 +41,7 @@ class TestIsFiniteRealNumpyVector(unittest.TestCase):
             self.assertEqual(good_0d.ndim, 0)
             self.assertTrue(np.isreal(good_0d))
             self.assertTrue(np.isfinite(good_0d))
+            self.assertEqual(good_0d, good_real)
             self.assertEqual(np.squeeze(good_0d), good_real)
 
             self.assertFalse(is_finite_real_numpy_vector(good_0d))
@@ -80,13 +70,13 @@ class TestIsFiniteRealNumpyVector(unittest.TestCase):
                 self.assertEqual(len(np.squeeze(good)), N)
             else:
                 self.assertEqual(good.ndim, ndim)
-                self.assertEqual(len(good), 1)
+                self.assertEqual(np.max(good.shape), 1)
             self.assertTrue(is_finite_real_numpy_vector(good))
 
             good = np.full(vec_shape, -good_real)
             self.assertTrue(is_finite_real_numpy_vector(good))
 
-            # Confirm that the helpers accepts different float types
+            # Confirm that the helpers accept different float types
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore", "overflow encountered in cast")
 
@@ -165,30 +155,16 @@ class TestIsFiniteRealNumpyVector(unittest.TestCase):
                 self.assertFalse(is_finite_real_numpy_vector(bad))
 
                 # 3D row and column vectors
-                bad = np.full((N, 1, 1), good_real)
-                self.assertTrue(is_finite_real_numpy_array(bad, 3))
-                self.assertFalse(is_finite_real_numpy_vector(bad))
-
-                bad = np.full((1, N, 1), good_real)
-                self.assertTrue(is_finite_real_numpy_array(bad, 3))
-                self.assertFalse(is_finite_real_numpy_vector(bad))
-
-                bad = np.full((1, 1, N), good_real)
-                self.assertTrue(is_finite_real_numpy_array(bad, 3))
-                self.assertFalse(is_finite_real_numpy_vector(bad))
+                for vec_shape in [(N, 1, 1), (1, N, 1), (1, 1, N)]:
+                    bad = np.full(vec_shape, good_real)
+                    self.assertTrue(is_finite_real_numpy_array(bad, 3))
+                    self.assertFalse(is_finite_real_numpy_vector(bad))
 
                 # 3D matrices
-                bad = np.full((N, 2, 1), good_real)
-                self.assertTrue(is_finite_real_numpy_array(bad, 3))
-                self.assertFalse(is_finite_real_numpy_vector(bad))
-
-                bad = np.full((N, 1, 2), good_real)
-                self.assertTrue(is_finite_real_numpy_array(bad, 3))
-                self.assertFalse(is_finite_real_numpy_vector(bad))
-
-                bad = np.full((1, N, 2), good_real)
-                self.assertTrue(is_finite_real_numpy_array(bad, 3))
-                self.assertFalse(is_finite_real_numpy_vector(bad))
+                for vec_shape in [(N, 2, 1), (N, 1, 2), (1, N, 2)]:
+                    bad = np.full(vec_shape, good_real)
+                    self.assertTrue(is_finite_real_numpy_array(bad, 3))
+                    self.assertFalse(is_finite_real_numpy_vector(bad))
 
                 # 3D array
                 bad = np.full((N, 2, 2), good_real)
