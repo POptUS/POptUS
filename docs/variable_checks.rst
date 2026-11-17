@@ -92,7 +92,7 @@ ability to represent in NumPy a linear algebra vector as an
 * :math:`1 \times n` 2D array implementing a row vector, or
 * :math:`n \times 1` 2D array implementing a column vector,
 
-which is another example of potentially-problematic programmatic flexibility.
+which is another example of potentially problematic programmatic flexibility.
 For example, some programs adopt mathematical purity and insist that calling
 code always pass in a row or column vector, whichever is mathematically correct
 for the functionality being called.  However, this burdens developers with
