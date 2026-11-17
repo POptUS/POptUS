@@ -64,5 +64,5 @@ class TestIsFiniteReal(unittest.TestCase):
             self.assertTrue(is_finite_real(float(good)))
             self.assertTrue(is_finite_real(np.float32(good)))
 
-        for bad in NOT_FINITE_REAL:
+        for bad in NOT_FINITE_REAL + [0, 1]:
             self.assertFalse(is_finite_real(bad))

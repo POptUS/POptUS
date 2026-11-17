@@ -20,8 +20,8 @@ def is_finite_real(x):
         without an imaginay part, or, for example, any container containing one
         or more finite reals.
     """
-    return isinstance(x, numbers.Real) and (not isinstance(x, bool)) and \
-        (not np.iscomplexobj(x)) and np.isfinite(x)
+    return isinstance(x, numbers.Real) and (not isinstance(x, numbers.Integral)) and \
+        np.isfinite(x)
 
 
 def is_extended_real(x):
@@ -31,8 +31,8 @@ def is_extended_real(x):
         **x** is ``NaN``, a complex variable with or without an imaginay part,
         or, for example, any container containing one or more extended reals.
     """
-    return isinstance(x, numbers.Real) and (not isinstance(x, bool)) and \
-        (not np.iscomplexobj(x)) and (not np.isnan(x))
+    return isinstance(x, numbers.Real) and (not isinstance(x, numbers.Integral)) and \
+        (not np.isnan(x))
 
 
 def is_finite_real_numpy_vector(x):

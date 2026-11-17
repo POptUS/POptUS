@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 
 from poptus.tests._constants import (
-    GOOD_INTS, NOT_INT
+    GOOD_INTEGERS, NOT_INTEGER
 )
 from poptus._variable_checks import is_integer
 
@@ -11,7 +11,7 @@ from poptus._variable_checks import is_integer
 class TestIsInteger(unittest.TestCase):
 
     def testFunction(self):
-        for good in GOOD_INTS:
+        for good in GOOD_INTEGERS:
             self.assertTrue(isinstance(good, int))
             self.assertTrue(is_integer(good))
 
@@ -51,5 +51,5 @@ class TestIsInteger(unittest.TestCase):
             self.assertTrue(is_integer((good)))
             self.assertFalse(is_integer((good,)))
 
-        for bad in NOT_INT:
+        for bad in NOT_INTEGER + [0.0, 1.0]:
             self.assertFalse(is_integer(bad))

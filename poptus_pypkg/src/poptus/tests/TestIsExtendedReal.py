@@ -59,5 +59,5 @@ class TestIsExtendedReal(unittest.TestCase):
             self.assertTrue(is_extended_real(np.float32(good)))
             self.assertTrue(is_extended_real(np.float16(good)))
 
-        for bad in NOT_EXTENDED_REAL:
+        for bad in NOT_EXTENDED_REAL + [0, 1]:
             self.assertFalse(is_extended_real(bad))
