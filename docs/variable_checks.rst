@@ -27,7 +27,7 @@ Some possible best practices to choose from are to
 We briefly discuss the advantages and disadvantages of these possibilities as
 well as other examples of flexibility to motivate the design of a set of
 variable checking helper functions provided in ``poptus``, which method and
-model developers can choose to use to help limit the negative impacts of
+model developers can choose to use to help limit any negative impacts of
 programmatic flexibility.
 
 Discussion
@@ -82,7 +82,7 @@ programming styles of languages such as C and C++.
 
 NumPy
 ^^^^^
-While NumPy is often used for performing linear algebra computations, it's
+While NumPy is often used for performing linear algebra computations, its
 design is not always natural for working with linear algebra objects.  For
 example, NumPy arrays are understandably more closely related to basic,
 general-use data structures than vectors and matrices.  This resulted in the
@@ -113,7 +113,7 @@ flexibility manageable, it is intended that code also adopt the design rule that
 immediately convert those arguments to 1D NumPy arrays so that developers only
 have to think in 1D arrays when writing and reviewing code.  This also has the
 benefit of not having to worry about transpositions and that all functions and
-classes written for only internal use can operate under the assumption that all
+classes written for internal use only can operate under the assumption that all
 actual "vector" arguments are always 1D NumPy arrays.
 
 Intentions
@@ -164,7 +164,7 @@ philosophy are those that
 * can write their computational code such that all "vector" variables are always
   1D NumPy arrays.
 
-In particular, these helpers impose the least effort on developers of programs
+In particular, these helpers impose the least burden on developers of programs
 that can insist that all actual array arguments be NumPy arrays of a specific
 dimension.
 
