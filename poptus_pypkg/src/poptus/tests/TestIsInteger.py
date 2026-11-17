@@ -11,6 +11,9 @@ from poptus._variable_checks import is_integer
 class TestIsInteger(unittest.TestCase):
 
     def testFunction(self):
+        for bad in NOT_INTEGER + [-1.0, 0.0, 1.0]:
+            self.assertFalse(is_integer(bad))
+
         for good in GOOD_INTEGERS:
             self.assertTrue(isinstance(good, int))
             self.assertTrue(is_integer(good))
@@ -37,19 +40,9 @@ class TestIsInteger(unittest.TestCase):
                     pass
 
             # Dress up good values in unacceptable ways
-            bad = str(good)
-            self.assertFalse(is_integer(bad))
-            bad = [good]
-            self.assertFalse(is_integer(bad))
-            bad = {good}
-            self.assertFalse(is_integer(bad))
-            bad = np.array(good)
-            self.assertFalse(is_integer(bad))
-            bad = np.array([good])
-            self.assertFalse(is_integer(bad))
-
             self.assertTrue(is_integer((good)))
-            self.assertFalse(is_integer((good,)))
-
-        for bad in NOT_INTEGER + [0.0, 1.0]:
-            self.assertFalse(is_integer(bad))
+            bad_types = (
+                str(good), [good], {good}, (good,), np.array(good), np.array([good])
+            )
+            for bad in bad_types:
+                self.assertFalse(is_integer(bad))
