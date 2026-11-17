@@ -179,6 +179,9 @@ Some examples of constraining types are:
 
 Interface
 ---------
+Since these functions are not directly exposed to users of codes implemented
+with |poptus|, we only include their programmatic interface here.
+
 .. autofunction:: poptus.is_integer
 .. autofunction:: poptus.is_finite_real
 .. autofunction:: poptus.is_extended_real

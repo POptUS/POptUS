@@ -41,21 +41,18 @@ def is_finite_real_numpy_vector(x):
         :math:`1 \times n` 2D NumPy array, or a :math:`n \times 1` 2D NumPy
         array whose elements are all finite real.  Aside from the obvious cases,
         ``False`` is returned if any of the elements are ``NaN``, ``+/-Inf``, or
-        complex variables with or without imaginary parts.  Note that while
-        :math:`n = 1` is acceptable, **x** must still be an appropriately-shaped
-        1D or 2D NumPy array.
+        complex variables with or without imaginary parts.  ``False`` is also
+        returned if the array is of integer type.  Note that while :math:`n = 1`
+        is acceptable, **x** must still be an appropriately-shaped 1D or 2D
+        NumPy array.
     """
     # issubdtype is required because, for example,
     #                     np.isreal(np.full(5, None))
-    # returns all True.
-    #
-    # I don't believe that isreal() is needed since we check that dtype of the
-    # array is floating, but not complex.
+    # returns all True.  This also rules out complex types.
     x_1d = np.atleast_1d(np.squeeze(x))
     return isinstance(x, np.ndarray) and (x.ndim in {1, 2}) and \
         (x_1d.ndim == 1) and (len(x_1d) > 0) and \
-        np.issubdtype(x.dtype, np.floating) and (not np.iscomplexobj(x)) and \
-        np.isfinite(x).all()
+        np.issubdtype(x.dtype, np.floating) and np.isfinite(x).all()
 
 
 def is_extended_real_numpy_vector(x):
@@ -64,21 +61,18 @@ def is_extended_real_numpy_vector(x):
         :math:`1 \times n` 2D NumPy array, or a :math:`n \times 1` 2D NumPy
         array whose elements are all extended real.  Aside from the obvious
         cases, ``False`` is returned if any of the elements are ``NaN`` or
-        complex variables with or without imaginary parts.  Note that while
-        :math:`n = 1` is acceptable, **x** must still be an appropriately-shaped
-        1D or 2D NumPy array.
+        complex variables with or without imaginary parts.  ``False`` is also
+        returned if the array is of integer type.  Note that while :math:`n = 1`
+        is acceptable, **x** must still be an appropriately-shaped 1D or 2D
+        NumPy array.
     """
     # issubdtype is required because, for example,
     #                     np.isreal(np.full(5, None))
-    # returns all True.
-    #
-    # I don't believe that isreal() is needed since we check that dtype of the
-    # array is floating, but not complex.
+    # returns all True.  This also rules out complex types.
     x_1d = np.atleast_1d(np.squeeze(x))
     return isinstance(x, np.ndarray) and (x.ndim in {1, 2}) and \
         (x_1d.ndim == 1) and (len(x_1d) > 0) and \
-        np.issubdtype(x.dtype, np.floating) and (not np.iscomplexobj(x)) and \
-        (not np.isnan(x).any())
+        np.issubdtype(x.dtype, np.floating) and (not np.isnan(x).any())
 
 
 def is_finite_real_numpy_array(x, ndim):
@@ -89,23 +83,19 @@ def is_finite_real_numpy_array(x, ndim):
         elements are all finite real.  Aside from the obvious cases, ``False``
         is returned if any of the elements are ``NaN``, ``+/-Inf``, or complex
         variables with or without imaginary parts.  It also returns ``False`` if
-        the array is the wrong dimension even if it could be correctly squeezed
-        or extended to **ndim**.
+        the array is of integer type or is the wrong dimension even if it could
+        be correctly squeezed or extended to **ndim**.
     """
     # issubdtype is required because, for example,
     #                     np.isreal(np.full(5, None))
-    # returns all True.
-    #
-    # I don't believe that isreal() is needed since we check that dtype of the
-    # array is floating, but not complex.
+    # returns all True.  This also rules out complex types.
 
     # Assert rather than error check/raise error since only developers should be
     # calling this.  In other words, with the help of this assert developers
     # should quickly settle on code that calls this check correctly.
     assert ndim > 1
     return isinstance(x, np.ndarray) and (x.ndim == ndim) and \
-        np.issubdtype(x.dtype, np.floating) and (not np.iscomplexobj(x)) and \
-        np.isfinite(x).all()
+        np.issubdtype(x.dtype, np.floating) and np.isfinite(x).all()
 
 
 def is_extended_real_numpy_array(x, ndim):
@@ -116,20 +106,16 @@ def is_extended_real_numpy_array(x, ndim):
         elements are all in the extended reals.  Aside from the obvious cases,
         ``False`` is returned if any of the elements are ``NaN`` or complex
         variables with or without imaginary parts.  It also returns ``False`` if
-        the array is the wrong dimension even if it could be correctly squeezed
-        or extended to **ndim**.
+        the array is of integer type or is the wrong dimension even if it could
+        be correctly squeezed or extended to **ndim**.
     """
     # issubdtype is required because, for example,
     #                     np.isreal(np.full(5, None))
-    # returns all True.
-    #
-    # I don't believe that isreal() is needed since we check that dtype of the
-    # array is floating, but not complex.
+    # returns all True.  This also rules out complex types.
 
     # Assert rather than error check/raise error since only developers should be
     # calling this.  In other words, with the help of this assert developers
     # should quickly settle on code that calls this check correctly.
     assert ndim > 1
     return isinstance(x, np.ndarray) and (x.ndim == ndim) and \
-        np.issubdtype(x.dtype, np.floating) and (not np.iscomplexobj(x)) and \
-        (not np.isnan(x).any())
+        np.issubdtype(x.dtype, np.floating) and (not np.isnan(x).any())
