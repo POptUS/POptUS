@@ -34,6 +34,7 @@ indicates the target user.
    get_started
    status_codes
    logging
+   variable_checks
    api
 
 .. toctree::
