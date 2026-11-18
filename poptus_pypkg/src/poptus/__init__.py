@@ -24,6 +24,13 @@ from ._constants import (
     ARCHIVE_START_TIME_ATTR, ARCHIVE_END_TIME_ATTR
 )
 
+from ._variable_checks import (
+    is_integer,
+    is_finite_real, is_extended_real,
+    is_finite_real_numpy_vector, is_extended_real_numpy_vector,
+    is_finite_real_numpy_array, is_extended_real_numpy_array
+)
+
 from .LogicError import LogicError
 
 from .AbstractLogger import AbstractLogger
