@@ -28,54 +28,48 @@ class TestIsFiniteRealNumpyArray(unittest.TestCase):
                 self.assertFalse(is_finite_real_numpy_array(bad, ndim))
 
             for good_real in FINITE_REALS:
-                self.assertFalse(is_finite_real_numpy_array(good_real, ndim))
-                bad = str(good_real)
-                self.assertFalse(is_finite_real_numpy_array(bad, ndim))
-                bad = good_real + 1j
-                self.assertFalse(is_finite_real_numpy_array(bad, ndim))
-                bad = good_real + 0.0 * 1j
-                self.assertFalse(is_finite_real_numpy_array(bad, ndim))
-                bad = (good_real)
-                self.assertFalse(is_finite_real_numpy_array(bad, ndim))
-                bad = (good_real,)
-                self.assertFalse(is_finite_real_numpy_array(bad, ndim))
-                bad = [good_real]
-                self.assertFalse(is_finite_real_numpy_array(bad, ndim))
-                bad = [[good_real]]
-                self.assertFalse(is_finite_real_numpy_array(bad, ndim))
-                bad = {good_real}
-                self.assertFalse(is_finite_real_numpy_array(bad, ndim))
-                bad = {"bad": good_real}
-                self.assertFalse(is_finite_real_numpy_array(bad, ndim))
+                bad_types = [
+                    good_real, str(good_real),
+                    good_real + 1j, good_real + 0.0 * 1j,
+                    (good_real), (good_real,),
+                    [good_real], [[good_real]], {good_real}, {"bad": good_real}
+                ]
+                for bad in bad_types:
+                    self.assertFalse(is_finite_real_numpy_array(bad, ndim))
 
     def test0dArrays(self):
+        NDIM = 0
+
         # 0D arrays are strange, so check this carefully
         for good_real in FINITE_REALS:
             good_0d = np.array(good_real)
             self.assertTrue(isinstance(good_0d, np.ndarray))
-            self.assertEqual(good_0d.ndim, 0)
+            self.assertEqual(good_0d.ndim, NDIM)
             self.assertTrue(np.isreal(good_0d))
             self.assertTrue(np.isfinite(good_0d))
+            self.assertEqual(good_0d, good_real)
             self.assertEqual(np.squeeze(good_0d), good_real)
 
             with self.assertRaises(AssertionError):
-                self.assertFalse(is_finite_real_numpy_array(good_0d, 0))
+                self.assertFalse(is_finite_real_numpy_array(good_0d, NDIM))
 
     def test1dArrays(self):
+        NDIM = 1
+
         for good_real in FINITE_REALS:
             bad = np.array([good_real])
-            self.assertEqual(bad.ndim, 1)
+            self.assertEqual(bad.ndim, NDIM)
             self.assertTrue(is_finite_real_numpy_vector(bad))
 
             with self.assertRaises(AssertionError):
-                self.assertFalse(is_finite_real_numpy_array(bad, 1))
+                self.assertFalse(is_finite_real_numpy_array(bad, NDIM))
 
             bad = np.full(5, good_real)
-            self.assertEqual(bad.ndim, 1)
+            self.assertEqual(bad.ndim, NDIM)
             self.assertTrue(is_finite_real_numpy_vector(bad))
 
             with self.assertRaises(AssertionError):
-                self.assertFalse(is_finite_real_numpy_array(bad, 1))
+                self.assertFalse(is_finite_real_numpy_array(bad, NDIM))
 
     def testAllArrays(self):
         self.__testArray((1, 1))
@@ -91,6 +85,7 @@ class TestIsFiniteRealNumpyArray(unittest.TestCase):
             self.__testArray((1, 1, N))
             self.__testArray((N, 2, 1))
             self.__testArray((N, 1, 2))
+            self.__testArray((1, N, 2))
             self.__testArray((N, 2, 2))
 
             # Don't check all possible "2D" combinations
@@ -119,7 +114,7 @@ class TestIsFiniteRealNumpyArray(unittest.TestCase):
             for bad in self.__NDIMS_TO_TEST.difference({ndim}):
                 self.assertFalse(is_finite_real_numpy_array(good, bad))
 
-            # Confirm that the helpers accepts different float types
+            # Confirm that the helpers accept different float types
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore", "overflow encountered in cast")
 
@@ -160,7 +155,7 @@ class TestIsFiniteRealNumpyArray(unittest.TestCase):
             self.assertFalse(is_finite_real_numpy_array(bad, ndim))
 
             # Inject bad elements
-            good_flat = copy.deepcopy(good.ravel())
+            good_flat = good.ravel()
             for i in range(len(good_flat)):
                 for bad_real in {np.nan, np.inf, -np.inf}:
                     bad = copy.deepcopy(good_flat)
