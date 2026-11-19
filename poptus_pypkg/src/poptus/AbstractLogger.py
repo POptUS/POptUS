@@ -1,12 +1,11 @@
 import sys
 import abc
 
-from numbers import Integral
-
 from ._constants import (
     LOG_LEVELS,
     POPTUS_LOG_TAG
 )
+from ._variable_checks import is_integer
 
 
 class AbstractLogger(metaclass=abc.ABCMeta):
@@ -24,7 +23,7 @@ class AbstractLogger(metaclass=abc.ABCMeta):
 
         # Do not assume that we can use derived class logging functions yet.
         # Mimic error logging of StandardLogger.
-        if isinstance(level, bool) or (not isinstance(level, Integral)):
+        if not is_integer(level):
             msg = f"Logging verbosity level is not an int ({level})"
             sys.stderr.write(f"[{POPTUS_LOG_TAG}] ERROR - {msg}\n")
             sys.stderr.flush()

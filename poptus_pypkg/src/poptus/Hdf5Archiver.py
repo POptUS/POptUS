@@ -3,12 +3,11 @@ import contextlib
 
 import numpy as np
 
-from numbers import Integral
-
 from ._constants import (
     LOG_LEVEL_MIN_DEBUG,
     ARCHIVE_READONLY, ARCHIVE_CREATE, ARCHIVE_RESTART
 )
+from ._variable_checks import is_integer
 from .LogicError import LogicError
 from .AbstractArchiver import AbstractArchiver
 
@@ -199,7 +198,7 @@ class Hdf5Archiver(AbstractArchiver):
         if self.__h5 is None:
             msg = f"Open file before creating table {table_name}"
             self._log_and_abort(LogicError, msg)
-        elif not isinstance(n_rows, Integral):
+        elif not is_integer(n_rows):
             msg = f"n_rows ({n_rows}) is not an integer"
             self._log_and_abort(TypeError, msg)
         elif n_rows <= 0:
@@ -248,7 +247,7 @@ class Hdf5Archiver(AbstractArchiver):
             msg = f"Open file before appending to {table_name}"
             self._log_and_abort(LogicError, msg)
 
-        if not isinstance(index, Integral):
+        if not is_integer(index):
             msg = f"index ({index}) is not an integer"
             self._log_and_abort(TypeError, msg)
         elif index <= 0:
