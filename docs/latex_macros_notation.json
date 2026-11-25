@@ -1,0 +1,7 @@
+{
+    "newcommand": {
+        "np":         "n",
+        "nd":         "d",
+        "Ffun":       "\\Fvec"
+    }
+}

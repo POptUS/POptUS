@@ -14,10 +14,13 @@ author    = "Jeffrey Larson, Matt Menickelly, Jared O'Neal, and Stefan M. Wild"
 version   = __version__
 release   = version
 
+latex_macro_files = ['base', 'notation']
+
 # -- General configuration ---------------------------------------------------
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.autosectionlabel',
-              'sphinx.ext.todo']
+              'sphinx.ext.todo',
+              'sphinx.ext.mathjax']
 numfig = True
 
 # https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#substitutions
@@ -34,6 +37,20 @@ autosectionlabel_prefix_document = True
 
 todo_include_todos = True
 
+mathjax3_config = {
+    'loader': {},
+    'tex': {
+        'macros': {}
+    }
+}
+for each in latex_macro_files:
+    with open(f"latex_macros_{each}.json", "r") as fptr:
+        macro_configs = json.load(fptr)
+    for _, macros_all in macro_configs.items():
+        for command, value in macros_all.items():
+            assert command not in mathjax3_config['tex']['macros']
+            mathjax3_config['tex']['macros'][command] = value
+
 # -- Options for HTML output -------------------------------------------------
 html_theme = 'sphinx_rtd_theme'
 
@@ -44,3 +61,18 @@ latex_elements = {
     "pointsize": "10pt",
     "preamble": ""
 }
+
+# Configure LaTeX with macros
+for each in latex_macro_files:
+    with open(f"latex_macros_{each}.json", "r") as fptr:
+        macro_configs = json.load(fptr)
+    for cmd_type, macros_all in macro_configs.items():
+        for command, value in macros_all.items():
+            if isinstance(value, str):
+                macro = rf"\{cmd_type}{{\{command}}} {{{value}}}"
+            elif len(value) == 2:
+                value, n_args = value
+                macro = rf"\{cmd_type}{{\{command}}}[{n_args}] {{{value}}}"
+            else:
+                raise NotImplementedError("No use case yet")
+            latex_elements['preamble'] += (macro + "\n")

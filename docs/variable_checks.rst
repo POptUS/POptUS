@@ -1,3 +1,5 @@
+.. _var_check_section:
+
 Variable Check Helpers
 ======================
 .. note::

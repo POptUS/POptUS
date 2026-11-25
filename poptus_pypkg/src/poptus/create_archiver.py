@@ -21,7 +21,7 @@ def create_archiver(filename, mode, logger=None, force=False):
     :param logger: ``None`` or logger derived from
         :py:class:`poptus.AbstractLogger`.  If ``None``, then |poptus| default
         logger is used.
-    :param force: If ``mode`` is ``ARCHIVE_CREATE`` and a file with the given
+    :param force: If **mode** is ``ARCHIVE_CREATE`` and a file with the given
         filename already exists, then overwrite the file if True.  This argument
         is ignored otherwise.
     """
