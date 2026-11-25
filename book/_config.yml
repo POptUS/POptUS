@@ -18,6 +18,8 @@ execute:
 # Sphinx configuration file as well.
 parse:
   myst_enable_extensions:
+    - dollarmath
+    - amsmath
     - substitution
   myst_substitutions:
     ie:     "*i.e.,*"
@@ -52,6 +54,21 @@ launch_buttons:
 
 ################################################################################
 # Advanced and power-user settings
+#
+# Match LaTeX macros used here to those used in the Sphinx/RTD configuration
+# files
+# * latex_macros_base.json
+# * latex_macros_notation.json
 sphinx:
   config:
-    nb_execution_show_tb : True
+    nb_execution_show_tb   : True
+    mathjax3_config:
+      tex:
+        macros:
+          "R":          "\\mathbb{R}"   # Real numbers
+          "vec":       ["{\\mathbf{#1}}", 1]
+          "xvec":       "\\vec{x}"
+          "Fvec":       "\\vec{F}"
+          "np":         "n"  # Number of parameters / parameter space's dimension
+          "nd":         "d"  # Number of data points in dataset
+          "Ffun":       "\\Fvec"     # User-provided inner function
