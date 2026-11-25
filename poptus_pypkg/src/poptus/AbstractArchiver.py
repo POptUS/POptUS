@@ -11,7 +11,7 @@ from ._constants import (
     ARCHIVE_VALID_MODES, ARCHIVE_READONLY, ARCHIVE_CREATE, ARCHIVE_RESTART,
     ARCHIVE_ROOT_GROUP,
     ARCHIVE_METHOD_GROUP, ARCHIVE_RESULTS_GROUP,
-    ARCHIVE_MODEL_GROUP, ARCHIVE_DATASET_GROUP
+    ARCHIVE_MODEL_GROUP
 )
 from .LogicError import LogicError
 from .get_python_environment import get_python_environment
@@ -37,7 +37,6 @@ class AbstractArchiver(metaclass=abc.ABCMeta):
             PurePosixPath object
         """
         ROOT_STR = str(ARCHIVE_ROOT_GROUP)
-        DATASET_STR = str(ARCHIVE_DATASET_GROUP)
         MODEL_STR = str(ARCHIVE_MODEL_GROUP)
         METHOD_STR = str(ARCHIVE_METHOD_GROUP)
 
@@ -52,7 +51,6 @@ class AbstractArchiver(metaclass=abc.ABCMeta):
 
         if  \
                 (not path_str.startswith(ROOT_STR)) and \
-                (not path_str.startswith(DATASET_STR)) and \
                 (not path_str.startswith(MODEL_STR)) and \
                 (not path_str.startswith(METHOD_STR)):
             return None

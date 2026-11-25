@@ -17,7 +17,7 @@ from ._constants import (
     LOG_LEVELS,
     ARCHIVE_READONLY, ARCHIVE_CREATE, ARCHIVE_RESTART,
     ARCHIVE_ROOT_GROUP,
-    ARCHIVE_MODEL_GROUP, ARCHIVE_DATASET_GROUP,
+    ARCHIVE_MODEL_GROUP,
     ARCHIVE_METHOD_GROUP, ARCHIVE_RESULTS_GROUP,
     ARCHIVE_METHOD_NAME_ATTR, ARCHIVE_METHOD_VERSION_ATTR,
     ARCHIVE_USERNAME_ATTR,
@@ -45,8 +45,11 @@ from .AbstractArchiver import AbstractArchiver
 from .Hdf5Archiver import Hdf5Archiver
 from .create_archiver import create_archiver
 
-from .get_username import get_username
 from .now_utc import now_utc
+from .get_platform_information import get_platform_information
+from .get_git_clone_information import get_git_clone_information
+from .get_python_environment import get_python_environment
+from .get_username import get_username
 
 # ----- Python unittest-based test framework
 # Used for automatic test discovery

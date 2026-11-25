@@ -18,7 +18,11 @@ Archiving
 ---------
 .. autoclass:: poptus.AbstractArchiver
     :members:
-.. autoclass:: poptus.Hdf5Archiver
-    :members:
-.. autofunction:: poptus.get_username
+
+Provenance Helper Functions
+---------------------------
 .. autofunction:: poptus.now_utc
+.. autofunction:: poptus.get_username
+.. autofunction:: poptus.get_platform_information
+.. autofunction:: poptus.get_git_clone_information
+.. autofunction:: poptus.get_python_environment
