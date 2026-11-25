@@ -15,3 +15,4 @@ parts:
     chapters:
     - file: notebooks/FullDevExample.ipynb
     - file: notebooks/MpiLoggerDevExample.ipynb
+    - file: notebooks/ArchiverExample.ipynb

@@ -12,3 +12,11 @@ unicode = true
 [type.ipynb]
 extend-glob = ["*.ipynb"]
 extend-ignore-identifiers-re = ["ges", "nd"]
+
+[type.sphinx_macros]
+extend-glob = ["latex_macros_notation.json"]
+extend-ignore-identifiers-re = ["nd"]
+
+[type.book_macros]
+extend-glob = ["_config.yml"]
+extend-ignore-identifiers-re = ["nd"]

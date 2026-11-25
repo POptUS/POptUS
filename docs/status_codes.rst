@@ -159,12 +159,12 @@ code in a function) to provide a |poptus|-compatible interface that will
 work with all methods in the |poptus| universe.
 
 Practically speaking this means that their programmatic implementation of their
-:math:`\mathbf{F} : \mathbb{R}^n \to \mathbb{R}^d` black box function must
+:math:`\Ffun : \R^{\np} \to \R^{\nd}` black box function must
 return both the vector result as well as an individual status code for each
 element in that vector.
 
 .. todo::
-    Write a separate section in the User Guide the presents :math:`\mathbf{F}`
+    Write a separate section in the User Guide the presents :math:`\Ffun`
     mathematically as well as its expected programmatic interface.  This would
     likely appear in a discussion of the |poptus| Model abstract base class.  We
     could link to that here to provide concrete standard information.

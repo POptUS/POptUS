@@ -1,10 +1,10 @@
 import sys
-import numbers
 
 from ._constants import (
     LOG_LEVELS, LOG_LEVEL_NONE, LOG_LEVEL_MIN_DEBUG, LOG_LEVEL_DEFAULT,
     POPTUS_LOG_TAG
 )
+from ._variable_checks import is_integer
 from .AbstractLogger import AbstractLogger
 
 
@@ -39,7 +39,7 @@ class MpiWorkerLogger(AbstractLogger):
         # continue with wrong log tags.  This is reasonable since users would
         # likely obtain the rank information directly from mpi4py.
         self.__tag = POPTUS_LOG_TAG
-        if isinstance(rank, bool) or (not isinstance(rank, numbers.Integral)):
+        if not is_integer(rank):
             msg = f"MPI process rank is not an integer ({rank})"
             self.error(None, msg)
             raise TypeError(msg)
@@ -78,9 +78,7 @@ class MpiWorkerLogger(AbstractLogger):
         # users, we can keep the error checking minimal and light.  If
         # developers use a bad level, they should find out immediately and
         # easily.
-        assert (not isinstance(level, bool)) and \
-            isinstance(level, numbers.Integral) and \
-            level in self.__valid
+        assert is_integer(level) and level in self.__valid
 
         if (level >= LOG_LEVEL_MIN_DEBUG) and (self.level >= level):
             sys.stdout.write(f"[{self.__tag}] {msg}\n")
